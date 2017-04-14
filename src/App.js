@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Card from './components/Card.js';
 import Betting from './components/Betting.js';
 import Opponent from './components/Opponent.js';
+import Player from './components/Player.js';
 
 import './App.css';
 
@@ -33,6 +34,20 @@ class App extends Component {
     testCard['suit'] = 'Diamonds';
     testCard['value'] = '2';
 
+    let testCardB = {};
+    testCardB['suit'] = 'Diamonds';
+    testCardB['value'] = '3';
+
+    let testCardC = {};
+    testCardC['suit'] = 'Clubs';
+    testCardC['value'] = 'A';
+
+    let testCardD = {};
+    testCardD['suit'] = 'Hearts';
+    testCardD['value'] = '10';
+
+    let testHand = [testCardB, testCardC, testCardD];
+
     let sampleCard = (
       <div id='card-sample'>
       <Card card={testCard} onClick={()=>{console.log('Clicked', testCard.value, 'of', testCard.suit)}}/>
@@ -53,7 +68,7 @@ class App extends Component {
     let sampleBetting;
 
     if (this.state.mode === 'bet'){
-    sampleBetting =(<Betting maxBet={5} onSubmit={(number)=>{console.log('Player bet', number)}} trumpCard={trumpCard} disable={false} dealerBet={-1}/>)
+      sampleBetting =(<Betting maxBet={5} onSubmit={(number)=>{console.log('Player bet', number)}} trumpCard={trumpCard} disable={false} dealerBet={-1}/>)
     }
 
     //testing Opponent.js
@@ -61,7 +76,7 @@ class App extends Component {
     let sampleOpponent = (
       <div id='player-4'>
       <Opponent
-        dealer={true}
+        dealer={false}
         tricksWon={0}
         bet={1}
         cardPlayed={opponentCard}
@@ -69,16 +84,30 @@ class App extends Component {
       </div>
     );
 
+    //testing Player.js
+    let samplePlayer = (
+      <Player
+        dealer={true}
+        hand={testHand}
+        onClick={(suit, value)=>console.log(value, suit)}
+        playerName={'Player 2'}
+        tricksWon={0}
+        bet={1} />
+    )
+
     //-------------
 
 
     return (
       <div>
+      <div id='float'>
       {testBet}
+      </div>
       {trumpCard}
       {sampleCard}
       {sampleOpponent}
       {sampleBetting}
+      {samplePlayer}
       </div>
     );
   }

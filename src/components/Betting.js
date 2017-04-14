@@ -91,7 +91,7 @@ Betting.propTypes = {
   maxBet: PropTypes.number.isRequired,
   onSubmit: PropTypes.func.isRequired,
   trumpCard: PropTypes.element.isRequired,
-  disable: PropTypes.element.isRequired,
+  disable: PropTypes.bool.isRequired,
   dealerBet: PropTypes.number,
 }
 
