@@ -1,24 +1,119 @@
-.App {
+/*This is all just sample stuff*/
+/*Sorry it's messy*/
+/* css for desktop*/
+
+/* Sample card */
+#card-sample {
+  width: 100px;
+  height: 120px;
+  margin: 0px 2px 0px 2px;
+}
+
+/* temp cards*/
+#Diamonds2 {
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 90%;
+  height: 10%;
+  padding-top: 100%;
+  background-color: inherit;
+  background-size: 100% 100%;
+  background-image: url("../images/2Diamonds.png");
+}
+#back {
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 90%;
+  height: 10%;
+  padding-top: 100%;
+  background-color: inherit;
+  background-size: 100% 100%;
+  background-image: url("../images/back.png");
+}
+
+/* positioning of the trump card*/
+#trump {
+  position: fixed;
+  left: 40%;
+  top: 45%;
+}
+
+/*Opponent stuff*/
+#opponent {
+  position: relative;
   text-align: center;
+  font-size: .9em;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+#dealer-token {
+  width: 100%;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  background-color: red;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+#player-4 {
+  position:fixed;
+  top: 2%;
+  left: 40%;
+  height: 100%;
+  width: 100px;
 }
 
-.App-intro {
-  font-size: large;
+/* This is also just sample stuff*/
+/* Betting window CSS */
+#up-arrow{
+  position: absolute;
+  font-size: 1.3em;
+  top: 25%;
+  left: 40%;
+  height: 1em;
+  width: 1em;
+  background-color: white;
+  border-radius: 50px 50px;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+#down-arrow{
+  position: absolute;
+  font-size: 1.3em;
+  top: 35%;
+  left: 40%;
+  height: 1em;
+  width: 1em;
+  background-color: white;
+  border-radius: 50px 50px;
+}
+
+#bet-box{
+  font-size: 1.3em;
+  position: absolute;
+  left: 30%;
+  top: 30%;
+}
+
+#bet-button{
+  position: absolute;
+  top: 30%;
+  left: 60%;
+}
+
+#bet-bar{
+  height: 90px;
+  padding-left: 20%;
+  padding-right: 20%;
+  margin-bottom: 5px;
+  background-color: yellow;
+}
+
+#bet-window{
+  width: 50%;
+  height: 300px;
+  border: 1px solid;
+  border-radius: 15px 50px;
+  padding: 1% 2% 1% 2%;
+  background-color: dodgerblue;
+  position: absolute;
+  top: 15%;
+  left: 20%;
+  text-align: center;
 }
