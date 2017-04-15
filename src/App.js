@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import GameContainer from './components/GameContainer.js';
 
+import './App.css'
 
 class App extends Component {
-  constructor(){
-    super();
+   constructor(){
+     super();
 
   }
 
-  render() {
+  render(){
 
     return (
-      <div>
-      <GameContainer />
+      <div className="App">
+        <h1>Oh Hell!</h1>
+        <GameContainer />
       </div>
     );
   }

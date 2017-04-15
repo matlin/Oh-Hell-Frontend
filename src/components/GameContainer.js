@@ -4,7 +4,7 @@ import Card from './Card.js';
 import Betting from './Betting.js';
 import Opponent from './Opponent.js';
 import Player from './Player.js';
-//import ScoreBoard from './components/Player.js';
+//import Scoreboard from './components/Player.js';
 
 import '../App.css';
 
@@ -13,8 +13,6 @@ import '../App.css';
 class GameContainer extends Component{
   constructor(){
     super();
-
-    //get Game state
 
     //following is sample state
     let testCardA = {};
@@ -53,9 +51,9 @@ class GameContainer extends Component{
     let playerE = {}; let playerF = {}; let playerG = {}; let playerH = {};
 
     playerA['_id'] = "Pikachu"; //assuming _id is a unique username
-    playerB['_id'] = "Char";
+    playerB['_id'] = "Charmander";
     playerC['_id'] = "Squirtle";
-    playerD['_id'] = "Ash";
+    playerD['_id'] = "Mimikyu";
     playerE['_id'] = "Meowth"; //assuming _id is a unique username
     playerF['_id'] = "Misty";
     playerG['_id'] = "Dratini";
@@ -96,19 +94,38 @@ class GameContainer extends Component{
 
       bet: false,
       maxBet: 5,
+
     }
 
-    //Place here: functions that would communicate with server
+    //initial fetch
+
   }
+  //Place here: functions that would communicate with server
+  handlePlayCard(card, playerID){
+    //do magical talking with api/server stuff
+    console.log(playerID, 'has played', card.value, card.suit)
+    //receive new game state
+  }
+
+  handlePlaceBet(bet, playerID){
+    //some more magical talking
+    console.log(playerID, 'has bet', bet);
+    //receive new game state
+  }
+
+  //no idea how to use sockets to get new game state if someone else makes change
+
   render(){
 
     let displayGame;
     let isDealer = this.state.me._id === this.state.dealer;
     let opponents;
     let playerHand;
-    let bettingWindow;
+    let myCardPlayed;
 
-    //all
+    let bettingWindow;
+    let scoreboard;
+
     if (this.state.started){
 
       /*============= Calculating Opponent Locations =======================*/
@@ -132,22 +149,15 @@ class GameContainer extends Component{
       // rotation of location in accordance to their index.
       let count = 0;
       opponents = this.state.players.map((player)=>{
-
         if (player._id === this.state.me._id){
           count ++;
           return undefined;
         }
 
-        let location = "player-" + (((count + rotate) % numPlayers) + shift);
-        let dealer = player._id === this.state.dealer;
-        let opponentCard;
+        const location = "player-" + (((count + rotate) % numPlayers) + shift); //css style id
+        const dealer = player._id === this.state.dealer;
+        const opponentCard = (<Card card={this.state.cardsPlayed[player._id]} />);
 
-        //console.log(location, player._id);
-        if (this.state.cardsPlayed.hasOwnProperty(player._id)){ //finding card played
-          opponentCard = (<Card card={this.state.cardsPlayed[player._id]} />);
-        }else{
-          opponentCard = (<Card />);
-        }
         count ++; //increment index
 
         return (
@@ -161,17 +171,21 @@ class GameContainer extends Component{
           </div>
           );
         });
-      //console.log(opponents);
 
 
-      /*==============Player Hand================*/
+      /*============== Player ================*/
       playerHand = (
         <Player
           player={this.state.me}
           dealer={isDealer}
-          onClick={(suit, value)=>console.log(value, suit)} />
+          onClick={(card)=>this.handlePlayCard(card, this.state.me._id)}
+          disable={!(this.state.myTurn)} />
       );
 
+      myCardPlayed = (
+        <div id='card-i-played'>
+        <Card card={this.state.cardsPlayed[this.state.me._id]} />
+        </div>);
 
       /*===============TrumpCard=================*/
       let trumpCard = (
@@ -185,22 +199,36 @@ class GameContainer extends Component{
       if (this.state.bet){
         bettingWindow =(
           <Betting
-            maxBet={this.state.maxBet}
-            onSubmit={(number)=>{console.log('Player bet', number)}}
+            maxBet={this.state.maxBet} //NOTE: onSubmit's setState should be removed once we have the handler working
+            onSubmit={(number)=>{this.setState({bet: false}); this.handlePlaceBet(number, this.state.me._id); }}
             trumpCard={trumpCard}
-            disable={this.state.myTurn}
+            disable={!(this.state.myTurn)}
             dealerBet={-1}/>)
       }
+
       let testBet = (<button type='button'
         onClick={()=>{(this.state.bet) ? this.setState({bet: false}) : this.setState({bet: true})}}>Test Bet</button>);
 
+      /*=========== Place for Scoreboard ============*/
+      if (this.state.scoreboard){
+        scoreboard=(<p>Scoreboard Coming Soon</p>);
+        //<Scoreboard />
+      }
+
+      let toggleScore = (<button type='button'
+        onClick={()=>{(this.state.scoreboard) ? this.setState({scoreboard: false}) : this.setState({scoreboard: true})}}>Show Scoreboard</button>);
+
+
       displayGame=(
         <div>
+        {testBet}
+        {toggleScore}
         {opponents}
+        {myCardPlayed}
         {playerHand}
         {trumpCard}
         {bettingWindow}
-        {testBet}
+        {scoreboard}
         </div>
       );
 

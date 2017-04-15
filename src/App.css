@@ -4,6 +4,11 @@
  really know what we're doing for animation or how that works with css*/
 /* designed for desktop*/
 
+h1 {
+  float:right;
+  padding-right: 10px;
+}
+
 /* ================ Cards ===================*/
 #card-sample {
   width: 90px;
@@ -77,9 +82,16 @@
   left: 5%;
 }
 
+#card-i-played{
+  position: fixed;
+  left: 40%;
+  top: 60%;
+  transform: scale(.7);
+}
+
 #card-hand{
   float: left;
-  font-size: .8em;
+  font-size: .9em;
   width: 85px;
   height: 100%;
   margin: 0px 1px 0px 1px;
@@ -97,8 +109,8 @@
 #opponent {
   position: relative;
   text-align: center;
-  font-size: .9em;
-  transform: scale(.8);
+  font-size: 1em;
+  transform: scale(.85);
 }
 
 #dealer-token {

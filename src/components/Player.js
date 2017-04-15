@@ -34,7 +34,8 @@ class Player extends Component{
     const displayHand = playerHand.map((card)=>{
       return (
         <div id='card-hand' key={card.suit + card.value}>
-        <Card card={card} onClick={()=>{this.props.onClick(card.suit, card.value)}} />
+        <Card card={card} onClick={()=>{
+          this.props.disable ? console.log('Not your turn') : this.props.onClick(card)}} />
         </div>
       );
     });
@@ -49,7 +50,7 @@ class Player extends Component{
     //bet display text
     let bet = "Bet: ";
     if (this.props.player._bet) {
-      bet += this.props._bet;
+      bet += this.props.player._bet;
     }
 
     //displaying text in its own div
@@ -75,7 +76,7 @@ Player.propTypes= {
   dealer: PropTypes.bool,
   player: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
-
+  disable: PropTypes.bool,
 }
 
 export default Player;
