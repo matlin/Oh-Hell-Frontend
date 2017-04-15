@@ -94,13 +94,12 @@ class GameContainer extends Component{
 
       bet: false,
       maxBet: 5,
-
     }
 
-    //initial fetch
+    //TODO initial fetch
 
   }
-  //Place here: functions that would communicate with server
+  //TODO: functions that would communicate with server
   handlePlayCard(card, playerID){
     //do magical talking with api/server stuff
     console.log(playerID, 'has played', card.value, card.suit)

@@ -3,6 +3,8 @@ import GameContainer from './components/GameContainer.js';
 
 import './App.css'
 
+//TODO: Need to create lobby components.
+
 class App extends Component {
    constructor(){
      super();
