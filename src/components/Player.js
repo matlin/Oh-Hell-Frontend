@@ -24,7 +24,7 @@ class Player extends Component{
     }
 
     //sorting player hand then receiving a bunch of divs of Card component
-    let playerHand = this.props.hand;
+    let playerHand = this.props.player._hand;
 
     playerHand.sort((a,b) => { //sorting so that cards would be in some kind of order
       if ((a.suit + a.value) > (b.suit + b.value)){ return 1;}
@@ -40,18 +40,22 @@ class Player extends Component{
     });
 
     //tricksWon display text
-    const tricksWon = "Tricks Won: " + this.props.tricksWon;
-
+    let tricksWon = 'Tricks Won: ';
+    if (this.props.tricksWon){
+      tricksWon += this.props.player._tricksWon;
+    }else{
+      tricksWon += '0';
+    }
     //bet display text
     let bet = "Bet: ";
-    if (this.props.bet) {
-      bet += this.props.bet;
+    if (this.props.player._bet) {
+      bet += this.props._bet;
     }
 
     //displaying text in its own div
     const stats = (
       <div id='player-stats'>
-      {this.props.playerName}<br></br>
+      <b>{this.props.player._id}</b><br></br>
       {tricksWon}<br></br>
       {bet}<br></br>
       {dealerToken}
@@ -69,11 +73,9 @@ class Player extends Component{
 
 Player.propTypes= {
   dealer: PropTypes.bool,
-  hand: PropTypes.array.isRequired,
+  player: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
-  playerName: PropTypes.string.isRequired,
-  tricksWon: PropTypes.number.isRequired,
-  bet: PropTypes.number,
+
 }
 
 export default Player;

@@ -1,4 +1,4 @@
-/*This is all just sample stuff*/
+/*This is all just sample stuff for demo*/
 /*Sorry it's messy. I (Noel) don't really now how to properly do css stuff.
  Also, I didn't use any classes so we should change that later. I also don't
  really know what we're doing for animation or how that works with css*/
@@ -24,6 +24,21 @@
   border-radius: 10px 10px;
   text-align: center;
   font-weight: bold;
+}
+
+#empty-card {
+  background-size: contain;
+  width: 100%;
+  height: 100%;
+  padding-top: 50%;
+  padding-bottom: 50%;
+  background-color: lightgray;
+  background-size: 100% 100%;
+  border-radius: 10px 10px;
+  border: 2px dashed;
+  text-align: center;
+  font-weight: bold;
+  opacity: .5;
 }
 
 #Diamonds2 {
@@ -65,16 +80,16 @@
 #card-hand{
   float: left;
   font-size: .8em;
-  width: 70px;
+  width: 85px;
   height: 100%;
-  margin: 0px 2px 0px 2px;
-  background-color: green;
+  margin: 0px 1px 0px 1px;
   transform: scale(.9);
-
 }
 
 #player-stats{
   float: right;
+  padding-left: 5px;
+  padding-top: 5px;
 }
 
 
@@ -83,7 +98,7 @@
   position: relative;
   text-align: center;
   font-size: .9em;
-  transform: scale(.7);
+  transform: scale(.8);
 }
 
 #dealer-token {
@@ -94,12 +109,61 @@
   background-color: red;
   text-align: center;
 }
+/*================ Player locations  ======================= */
+
+#player-1 {
+  position:fixed;
+  top: 30%;
+  left: 5%;
+  width: 100px;
+  transform: rotate(-40deg);
+}
+
+#player-2 {
+  position:fixed;
+  top: 15%;
+  left: 15%;
+  width: 100px;
+  transform: rotate(-30deg);
+}
+
+#player-3 {
+  position:fixed;
+  top: 5%;
+  left: 27%;
+  width: 100px;
+  transform: rotate(-20deg);
+}
 
 #player-4 {
   position:fixed;
   top: 1%;
   left: 40%;
   width: 100px;
+}
+
+#player-5 {
+  position:fixed;
+  top: 5%;
+  left: 53%;
+  width: 100px;
+  transform: rotate(20deg);
+}
+
+#player-6 {
+  position:fixed;
+  top: 15%;
+  left: 65%;
+  width: 100px;
+  transform: rotate(30deg);
+}
+
+#player-7 {
+  position:fixed;
+  top: 30%;
+  left: 75%;
+  width: 100px;
+  transform: rotate(40deg);
 }
 
 
@@ -151,7 +215,7 @@
   background-color: yellow;
 }
 
-#bet-window{
+#popup-window{
   width: 50%;
   height: 250px;
   border: 1px solid;

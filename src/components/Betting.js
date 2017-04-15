@@ -68,7 +68,7 @@ class Betting extends Component {
     let display;
 
     if (this.props.disable){
-      display = (<div><p>Please wait your turn to bet.</p></div>);
+      display = (<div><p>Please wait your turn to bet.</p>{this.props.trumpCard}</div>);
     }else{
       display = (
         <div>
@@ -83,7 +83,7 @@ class Betting extends Component {
       );
     }
 
-    return(<div id='bet-window'>{display}</div>);
+    return(<div id='popup-window'>{display}</div>);
   }
 }
 
@@ -91,7 +91,7 @@ Betting.propTypes = {
   maxBet: PropTypes.number.isRequired,
   onSubmit: PropTypes.func.isRequired,
   trumpCard: PropTypes.element.isRequired,
-  disable: PropTypes.bool.isRequired,
+  disable: PropTypes.bool,
   dealerBet: PropTypes.number,
 }
 

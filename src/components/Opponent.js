@@ -21,7 +21,12 @@ class Opponent extends Component{
       dealerToken = (<br></br>); //space for dealer token
     }
 
-    const tricksWon = 'Tricks Won: ' + this.props.tricksWon;
+    let tricksWon = 'Tricks Won: ';
+    if (this.props.tricksWon){
+      tricksWon += this.props.tricksWon;
+    }else{
+      tricksWon += '0';
+    }
 
     let bet = 'Bet: ';
     if (this.props.bet){
@@ -45,7 +50,7 @@ class Opponent extends Component{
 
 Opponent.PropTypes = {
   dealer: PropTypes.bool,
-  tricksWon: PropTypes.number.isRequired,
+  tricksWon: PropTypes.number,
   bet: PropTypes.number,
   cardPlayed: PropTypes.object.isRequired,
   playerName: PropTypes.string.isRequired,
