@@ -88,8 +88,8 @@ class GameContainer extends Component{
       dealer: playerA._id,
       started: true,
       myTurn: true, //called this myTurn because there's already a turn var in game that isn't a bool type
-      me: playerD, //assuming we get something that tells us our player status
-      cardsPlayed: cardsPlayed,
+      me: playerD, //assuming we get something that tells us our player status. If not we can extract it from players if we have self id
+      cardsPlayed: cardsPlayed, //assuming array of objects {playerID: card}
       trump: testCardH,
 
       bet: false,
