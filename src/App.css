@@ -1,5 +1,5 @@
 /*This is all just sample stuff for demo*/
-/*Sorry it's messy. I (Noel) don't really now how to properly do css stuff.
+/*Sorry it's messy. I (Noel) don't really know how to properly do css stuff.
  Also, I didn't use any classes so we should change that later. I also don't
  really know what we're doing for animation or how that works with css*/
 /* designed for desktop*/
@@ -7,6 +7,14 @@
 h1 {
   float:right;
   padding-right: 10px;
+}
+
+#our-table {
+  width: 200px;
+  background-color: lightgrey;
+  opacity: .9;
+  border: 1px solid;
+  border-radius: 15px 15px;
 }
 
 /* ================ Cards ===================*/

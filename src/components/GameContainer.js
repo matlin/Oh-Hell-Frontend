@@ -4,7 +4,7 @@ import Card from './Card.js';
 import Betting from './Betting.js';
 import Opponent from './Opponent.js';
 import Player from './Player.js';
-//import Scoreboard from './components/Player.js';
+import Scoreboard from './Scoreboard.js';
 
 import '../App.css';
 
@@ -66,6 +66,7 @@ class GameContainer extends Component{
 
     playerA['_tricksWon'] = 2;
 
+    playerA['_hand'] = [testCardB,testCardA]
     playerD['_hand'] = [testCardA, testCardB, testCardC, testCardD, testCardE]; //Player
 
     playerA['_score'] = 40;
@@ -77,15 +78,16 @@ class GameContainer extends Component{
     playerG['_score'] = 12;
     playerH['_score'] = 36;
 
-    const testPlayers=[playerA, playerB, playerC, playerD, playerE, playerF, playerG, playerH,];
+    const testPlayers=[playerA, playerB, playerC, playerD, playerE, playerG, playerF, playerH];
     let cardsPlayed= {};
     cardsPlayed[playerA._id] = testCardF;
     cardsPlayed[playerB._id] = testCardG;
+    cardsPlayed[playerC._id] = testCardA;
 
     //for testing purposes I'm going to build my own state as if game has started
     this.state = {
       players: testPlayers,
-      dealer: playerA._id,
+      dealer: playerE._id,
       started: true,
       myTurn: true, //called this myTurn because there's already a turn var in game that isn't a bool type
       me: playerD, //assuming we get something that tells us our player status. If not we can extract it from players if we have self id
@@ -209,8 +211,13 @@ class GameContainer extends Component{
         onClick={()=>{(this.state.bet) ? this.setState({bet: false}) : this.setState({bet: true})}}>Test Bet</button>);
 
       /*=========== Place for Scoreboard ============*/
+      let scoreArray = [];
+
+      this.state.players.forEach((players)=>{scoreArray.push(players._score)});
+
+
       if (this.state.scoreboard){
-        scoreboard=(<p>Scoreboard Coming Soon</p>);
+        scoreboard=(<Scoreboard scores={scoreArray} players={this.state.players} />);
         //<Scoreboard />
       }
 
