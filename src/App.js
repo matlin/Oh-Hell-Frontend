@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import GameContainer from './components/GameContainer.js';
+import OhHellContainer from './components/OhHellContainer.js';
 
 import './App.css'
 
@@ -16,7 +16,7 @@ class App extends Component {
     return (
       <div className="App">
         <h1>Oh Hell!</h1>
-        <GameContainer />
+        <OhHellContainer />
       </div>
     );
   }
