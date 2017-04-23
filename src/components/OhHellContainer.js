@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Login from './Login.js';
+import Register from './Register.js';
 
 const SERVER = 'http://localhost:5000'
 
@@ -32,6 +33,26 @@ class OhHellContainer extends Component {
     })
   }
 
+  register(user) {
+    const userStr = JSON.stringify(user);
+    const request = new Request(
+      SERVER + '/users/register',
+      {
+        mode: 'no-cors', //????
+        method:'POST',
+        body:userStr,
+        headers: new Headers({'Content-type':'application/json'})
+      }
+    );
+    console.log(userStr);
+    fetch(request)
+    .then((response)=>{
+      console.log(response.status);
+      if (response.ok){
+        this.setState({mode:'join'})
+      }
+    })
+  }
 
   render(){
     if (this.state.mode === 'main'){
@@ -48,7 +69,11 @@ class OhHellContainer extends Component {
           </div>
         )
       } else if (this.state.mode === 'register'){
-
+        return(
+          <div>
+            <Register register={(user)=> this.register(user)}/>
+          </div>
+        )
       } else if (this.state.mode === 'join'){
         return(
           <div>

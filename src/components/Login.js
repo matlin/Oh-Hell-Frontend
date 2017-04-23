@@ -10,7 +10,7 @@ const PasswordInput = styled.input`
 `;
 
 
-
+// TODO: add functionality if invalid credientails
 
 class Login extends Component{
   constructor(){
@@ -39,7 +39,8 @@ class Login extends Component{
     size='45'
     value = {this.state.email}
     placeholder="Email"
-    onChange={(event)=> this.handleTextUpdate(event, 'email')}/>)
+    onChange={(event)=> this.handleTextUpdate(event, 'email')}
+    />)
 
     const password = (<PasswordInput
     type='password'
