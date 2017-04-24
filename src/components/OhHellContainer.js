@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Login from './Login.js';
 import Register from './Register.js';
+import GameContainer from './GameContainer.js'
 
 const SERVER = 'http://localhost:5000'
 
@@ -60,18 +61,21 @@ class OhHellContainer extends Component {
         <div>
           <input type="button" onClick={()=>{this.setState({mode:'login'})}} value="Login"/>
           <input type='button' onClick={()=>{this.setState({mode:'register'})}} value = "Register"/>
+          <input type='button' onClick={()=>{this.setState({mode:'game'})}} value = "Game"/>
         </div>
         );
       } else if (this.state.mode === 'login'){
         return(
           <div>
             <Login login={(user)=> this.login(user)}/>
+            <input type='button' onClick={()=>{this.setState({mode:'main'})}} value = "Back"/>
           </div>
         )
       } else if (this.state.mode === 'register'){
         return(
           <div>
             <Register register={(user)=> this.register(user)}/>
+            <input type='button' onClick={()=>{this.setState({mode:'main'})}} value = "Back"/>
           </div>
         )
       } else if (this.state.mode === 'join'){
@@ -81,7 +85,12 @@ class OhHellContainer extends Component {
           </div>
         )
       } else if (this.state.mode === 'game'){
-
+        return(
+          <div>
+            <GameContainer/>
+            <input type='button' onClick={()=>{this.setState({mode:'main'})}} value = "Back"/>
+          </div>
+        )
       }
     }
 }
