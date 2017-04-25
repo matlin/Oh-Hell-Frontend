@@ -42,7 +42,7 @@ class Register extends Component{
     const username = (<UsernameInput
     type="text"
     size='45'
-    value = {this.state.username}
+    value={this.state.username}
     placeholder="Username"
     onChange={(event)=> this.handleTextUpdate(event, 'username')}
     />)
@@ -50,7 +50,7 @@ class Register extends Component{
     const password = (<PasswordInput
     type='password'
     size='45'
-    value = {this.state.password}
+    value={this.state.password}
     placeholder="Password"
     onChange={(event)=> this.handleTextUpdate(event, 'password')}
     />)
@@ -58,7 +58,7 @@ class Register extends Component{
     const email = (<EmailInput
     type="text"
     size='45'
-    value = {this.state.email}
+    value={this.state.email}
     placeholder="Email"
     onChange={(event)=> this.handleTextUpdate(event, 'email')}
     />)

@@ -37,7 +37,7 @@ class Login extends Component{
     const email = (<EmailInput
     type="text"
     size='45'
-    value = {this.state.email}
+    value={this.state.email}
     placeholder="Email"
     onChange={(event)=> this.handleTextUpdate(event, 'email')}
     />)
@@ -45,7 +45,7 @@ class Login extends Component{
     const password = (<PasswordInput
     type='password'
     size='45'
-    value = {this.state.password}
+    value={this.state.password}
     placeholder="Password"
     onChange={(event)=> this.handleTextUpdate(event, 'password')}
     />)
