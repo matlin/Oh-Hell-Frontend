@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Login from './Login.js';
 import Register from './Register.js';
 import GameContainer from './GameContainer.js'
-
+import GameContainerbasic from './GameContainerbasic.js'
 const SERVER = 'http://localhost:5000'
 
 class OhHellContainer extends Component {
@@ -87,7 +87,7 @@ class OhHellContainer extends Component {
       } else if (this.state.mode === 'game'){
         return(
           <div>
-            <GameContainer/>
+            <GameContainerbasic Gamestate={"welome to oh hell! this is where the game state goes"} messages={"here are the messages"} hand={"your hand is: AH, 5S, 4D"}/>
             <input type='button' onClick={()=>{this.setState({mode:'main'})}} value = "Back"/>
           </div>
         )
