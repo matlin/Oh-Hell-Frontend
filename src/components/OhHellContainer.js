@@ -3,7 +3,7 @@ import Login from './Login.js';
 import Register from './Register.js';
 import GameContainer from './GameContainer.js'
 import GameContainerbasic from './GameContainerbasic.js'
-const SERVER = 'http://localhost:5000'
+const SERVER = 'http://localhost:4000'
 
 class OhHellContainer extends Component {
    constructor(){
@@ -18,7 +18,6 @@ class OhHellContainer extends Component {
     const request = new Request(
       SERVER + '/users/login',
       {
-        mode: 'no-cors', //????
         method:'POST',
         body:userStr,
         headers: new Headers({'Content-type':'application/json'})
@@ -39,7 +38,6 @@ class OhHellContainer extends Component {
     const request = new Request(
       SERVER + '/users/register',
       {
-        mode: 'no-cors', //????
         method:'POST',
         body:userStr,
         headers: new Headers({'Content-type':'application/json'})
