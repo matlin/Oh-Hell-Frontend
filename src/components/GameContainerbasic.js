@@ -61,6 +61,7 @@ class GameContainerbasic extends Component{
 
   render(){
     console.log(this.props)
+    console.log(this.props.Gamestate) //currently returns undefined
     let gameState = (<GameState Gamestate={this.props.Gamestate}/>)
     let messages = (<Messages messages={this.props.messages}/>)
     let hand = (<Hand hand={this.props.hand}/>)
