@@ -55,6 +55,58 @@ class OhHellContainer extends Component {
     })
   }
 
+
+////////////////////////////////
+
+//this should return the gamestate that was exported from the backend and pass it to
+//gameContainer so we can print the game state
+//TODO: fix error it produces when given SERVER + '/game/' +gameID,
+//TODO: get the request to work so it actually prints the game state in game container
+  gameState(game) {
+    const userGame = JSON.stringify(game);
+    const request = new Request(
+      SERVER + '/game/test',
+      {
+        method:'GET',
+        body:userGame,
+        headers: new Headers({'Content-type':'application/json'})
+      }
+    );
+    console.log(userGame);
+    fetch(request)
+    .then((response)=>{
+      console.log(response.status);
+      if (response.ok){
+        return response.json();
+      }
+    })
+  }
+
+//this should return the users hand so they can see their cards
+//TODO fix it so it works with SERVER +'/game/' + gameID + '/hand',
+//TODO have it return the hand and pass it to game container so we can print the users hand
+  getHand(hand) {
+    const userHand = JSON.stringify(hand);
+    const request = new Request(
+      SERVER + '/game/test/hand',
+      {
+        method:'GET',
+        body:userHand,
+        headers: new Headers({'Content-type':'application/json'})
+      }
+    );
+    console.log(userHand);
+    fetch(request)
+    .then((response)=>{
+      console.log(response.status);
+      if (response.ok){
+        return response.json();
+      }
+    })
+  }
+
+//////////////////////////////
+
   placeBet(bet) {
     const gameID = 'test'; // NEEDS REPLACING WHEN WE FIGURE OUT HOW TO GET THE GAMEID IN HERE
     const betStr = JSON.stringify(bet);
@@ -97,6 +149,8 @@ class OhHellContainer extends Component {
     })
   }
 
+
+
   render(){
     if (this.state.mode==='main'){
       return(
@@ -130,7 +184,7 @@ class OhHellContainer extends Component {
       } else if (this.state.mode==='game'){
         return(
           <div>
-            <GameContainerbasic placeBet = {(bet)=> this.placeBet(bet)} playCard = {(card)=> this.playCard(card)} Gamestate={"welome to oh hell! this is where the game state goes"} messages={"here are the messages"} hand={"your hand is: AH, 5S, 4D"} />
+            <GameContainerbasic placeBet={(bet)=> this.placeBet(bet)} playCard={(card)=> this.playCard(card)} Gamestate={(game)=> this.gameState(game)} messages={"here are the messages"} hand={(hand)=> this.getHand(hand)} />
             <input type='button' onClick={()=>{this.setState({mode:'main'})}} value="Back"/>
           </div>
         )
