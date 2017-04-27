@@ -55,6 +55,47 @@ class OhHellContainer extends Component {
     })
   }
 
+  placeBet(bet) {
+    const gameID = 'test'; // NEEDS REPLACING WHEN WE FIGURE OUT HOW TO GET THE GAMEID IN HERE
+    const betStr = JSON.stringify(bet);
+    const request = new Request(
+      SERVER + '/game/' + gameID,
+      {
+        method:'POST',
+        body:betStr,
+        headers: new Headers({'Content-type':'application/json'})
+      }
+    );
+    console.log(betStr);
+    fetch(request)
+    .then((response)=>{
+      console.log(response.status);
+      if (response.ok){
+        return response.json();
+      }
+    })
+  }
+
+  playCard(card) {
+    const gameID = 'test'; // NEEDS REPLACING WHEN WE FIGURE OUT HOW TO GET THE GAMEID IN HERE
+    const cardStr = JSON.stringify(card);
+    const request = new Request(
+      SERVER + '/game/' + gameID,
+      {
+        method:'POST',
+        body:cardStr,
+        headers: new Headers({'Content-type':'application/json'})
+      }
+    );
+    console.log(cardStr);
+    fetch(request)
+    .then((response)=>{
+      console.log(response.status);
+      if (response.ok){
+        return response.json();
+      }
+    })
+  }
 
   render(){
     if (this.state.mode==='main'){
@@ -89,7 +130,7 @@ class OhHellContainer extends Component {
       } else if (this.state.mode==='game'){
         return(
           <div>
-            <GameContainerbasic Gamestate={"welome to oh hell! this is where the game state goes"} messages={"here are the messages"} hand={"your hand is: AH, 5S, 4D"}/>
+            <GameContainerbasic placeBet = {(bet)=> this.placeBet(bet)} playCard = {(card)=> this.playCard(card)} Gamestate={"welome to oh hell! this is where the game state goes"} messages={"here are the messages"} hand={"your hand is: AH, 5S, 4D"} />
             <input type='button' onClick={()=>{this.setState({mode:'main'})}} value="Back"/>
           </div>
         )
