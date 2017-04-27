@@ -1,6 +1,16 @@
 //game container basic version
 
 import React, {Component} from 'react';
+import styled from 'styled-components'
+
+
+const BetInput = styled.input`
+  display: block;
+`;
+
+const CardInput = styled.input`
+  display: block;
+`;
 
 //returns printed string with game state info
 function GameState(props){
@@ -31,32 +41,62 @@ function Hand(props){
 class GameContainerbasic extends Component{
   constructor(){
     super();
-
-
+    this.state = {
+      bet: '',
+      card: ''
     }
+  }
 
-render(){
-  console.log(this.props)
-  let gameState = (<GameState Gamestate={this.props.Gamestate}/>)
-  let messages = (<Messages messages={this.props.messages}/>)
-  let hand = (<Hand hand={this.props.hand}/>)
-  return(
-    //overall container
-    <div>GameContainerbasic
-      <div>
-        {gameState}
-        {messages}
-      </div>
-      <div>
-        {hand}
-        <input type="text" name="bet" placeholder="bet"/>
-        <button type="button" onClick={()=>{   }} >Place Bet!</button>
-        <input type="text" name="playCard" placeholder="your card"/>
-        <button type="button" >Play Card!</button>
-      </div>
-    </div>
+  handleTextUpdate(event, field){
+    this.setState({[field]:event.target.value})
+  }
 
-  )
-}
+  placeBet(){
+    this.props.placeBet(this.state.bet);
+  }
+
+  playCard(){
+    this.props.playCard(this.state.card);
+  }
+
+  render(){
+    console.log(this.props)
+    let gameState = (<GameState Gamestate={this.props.Gamestate}/>)
+    let messages = (<Messages messages={this.props.messages}/>)
+    let hand = (<Hand hand={this.props.hand}/>)
+
+    const bet = (<BetInput
+    type="text"
+    size='45'
+    value={this.state.bet}
+    placeholder="Place bet here!"
+    onChange={(event)=> this.handleTextUpdate(event, 'bet')}
+    />)
+
+    const card = (<CardInput
+    type="text"
+    size='45'
+    value={this.state.card}
+    placeholder="Enter card here!"
+    onChange={(event)=> this.handleTextUpdate(event, 'card')}
+    />)
+
+    return(
+      //overall container
+      <div>GameContainerbasic
+        <div>
+          {gameState}
+          {messages}
+        </div>
+        <div>
+          {hand}
+          {bet}
+          <input type="button" disabled={this.state.bet === ''} onClick={()=> this.placeBet()} value="Place bet"/>
+          {card}
+          <input type="button" disabled={this.state.card === ''} onClick={()=> this.placeBet()} value="Play card"/>
+        </div>
+      </div>
+    )
+  }
 }
 export default GameContainerbasic;
