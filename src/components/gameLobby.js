@@ -35,7 +35,7 @@ class Lobby extends Component {
       .then((response)=>{
         console.log(response.status);
         if (response.ok){
-          //console.log('Joined the Game!');
+          console.log('Joined the Game!');
         }
       })
   }

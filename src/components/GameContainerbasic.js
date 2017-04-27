@@ -12,14 +12,6 @@ const CardInput = styled.input`
   display: block;
 `;
 
-//returns printed string with game state info
-function GameState(props){
-  return(
-    <div id="GameState">
-      <p>{props.Gamestate}</p>
-    </div>
-  )
-}
 
 //displays messages
 function Messages(props){
@@ -39,15 +31,31 @@ function Hand(props){
 }
 
 class GameContainerbasic extends Component{
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
+      gameState: null,
       bet: '',
       card: ''
     }
+    this.GameState();
   }
 
-  handleTextUpdate(event, field){
+  //returns printed string with game state info
+  GameState(){
+    fetch(this.props.server + '/game/' ) // + + this.props.gameID
+      .then((response)=>{
+        if (response.ok){
+          return response.json();
+        }
+      })
+      .then((game)=>{
+        this.setState({gameState: game});
+      });
+  }
+
+
+  handleInputUpdate(event, field){
     this.setState({[field]:event.target.value})
   }
 
@@ -61,10 +69,10 @@ class GameContainerbasic extends Component{
 
   render(){
     console.log(this.props)
-    console.log(this.props.Gamestate) //currently returns the functionality
+    console.log(this.props.gameState) //currently returns the functionality
     console.log(this.props.hand)
 
-    let gameState = (<GameState Gamestate={this.props.Gamestate}/>)
+    //let gameState = (<GameState Gamestate={this.props.Gamestate}/>)
     let messages = (<Messages messages={this.props.messages}/>)
     let hand = (<Hand hand={this.props.hand}/>)
 
@@ -73,7 +81,7 @@ class GameContainerbasic extends Component{
     size='45'
     value={this.state.bet}
     placeholder="Place bet here!"
-    onChange={(event)=> this.handleTextUpdate(event, 'bet')}
+    onChange={(event)=> this.handleInputUpdate(event, 'bet')}
     />)
 
     const card = (<CardInput
@@ -81,14 +89,14 @@ class GameContainerbasic extends Component{
     size='45'
     value={this.state.card}
     placeholder="Enter card here!"
-    onChange={(event)=> this.handleTextUpdate(event, 'card')}
+    onChange={(event)=> this.handleInputUpdate(event, 'card')}
     />)
 
     return(
       //overall container
       <div>GameContainerbasic
         <div>
-          {gameState}
+          <div> {this.state.gameState} </div> would display game state if we had a game ID
           {messages}
         </div>
         <div>
