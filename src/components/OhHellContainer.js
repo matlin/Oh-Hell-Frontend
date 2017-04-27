@@ -107,7 +107,6 @@ class OhHellContainer extends Component {
 
 //////////////////////////////
 
-
   placeBet(bet) {
     const gameID = 'test'; // NEEDS REPLACING WHEN WE FIGURE OUT HOW TO GET THE GAMEID IN HERE
     const betStr = JSON.stringify(bet);
