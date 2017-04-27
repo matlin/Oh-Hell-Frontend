@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import Login from './Login.js';
 import Register from './Register.js';
-import GameContainer from './GameContainer.js'
-import GameContainerbasic from './GameContainerbasic.js'
+import GameContainer from './GameContainer.js';
+import GameContainerbasic from './GameContainerbasic.js';
+import Lobby from './gameLobby.js';
+
 const SERVER = 'http://localhost:4000'
 
 class OhHellContainer extends Component {
@@ -53,13 +55,15 @@ class OhHellContainer extends Component {
     })
   }
 
+
   render(){
     if (this.state.mode==='main'){
       return(
         <div>
           <input type="button" onClick={()=>{this.setState({mode:'login'})}} value="Login"/>
           <input type='button' onClick={()=>{this.setState({mode:'register'})}} value="Register"/>
-          <input type='button' onClick={()=>{this.setState({mode:'game'})}} value="Game"/>
+          <input type='button' onClick={()=>{this.setState({mode:'join'})}} value="Lobby"/>
+          <input type='button' onClick={()=>{this.setState({mode:'game'})}} value="Current Game"/>
         </div>
         );
       } else if (this.state.mode==='login'){
@@ -79,7 +83,7 @@ class OhHellContainer extends Component {
       } else if (this.state.mode==='join'){
         return(
           <div>
-          <h1> Logged in </h1>
+          <Lobby server={SERVER}/>
           </div>
         )
       } else if (this.state.mode==='game'){
