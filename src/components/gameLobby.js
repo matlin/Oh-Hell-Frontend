@@ -71,6 +71,7 @@ class Lobby extends Component {
         <h1>Gamelobby</h1>
         <button type="button" onClick={() => this.createGame()}>Create Game</button>
         <button type="button" onClick={() => this.getGames()}>Refresh</button>
+        <button type="button" onClick={() => this.props.back()}>Back</button>
         <div>{games}</div>
       </div>
     )

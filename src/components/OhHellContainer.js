@@ -124,7 +124,7 @@ class OhHellContainer extends Component {
       } else if (this.state.mode==='join'){
         return(
           <div>
-          <Lobby server={SERVER}/>
+          <Lobby server={SERVER} back={()=>this.setState({mode:'main'})}/>
           </div>
         )
       } else if (this.state.mode==='game'){
