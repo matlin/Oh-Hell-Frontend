@@ -3,58 +3,19 @@
 // join a game, a callback to create a game, a server.
 
 import React, {Component} from 'react';
-
+import Server from '../server.js';
 
 class Lobby extends Component {
-  constructor(props){
-    super(props);
+  constructor(){
+    super();
     this.state = {
       activeGames: []
     }
-    this.getGames();
+    Server.game.getGames().then((games)=>(this.setState({activeGames: games})));
  }
 
- getGames() {
-    const request = new Request(this.props.server + '/game/', { method:'GET', mode: 'cors', credentials: 'include'})
-     fetch(request)
-       .then((response)=>{
-         if (response.ok){
-           return response.json();
-         }
-       })
-       .then((games)=>{
-         this.setState({activeGames: games});
-       });
-  }
-
-  // joinGames returns a function that lets a user join a specific game
-  joinGame(id) {
-      const request = new Request(
-        this.props.server + '/game/' + id + '/join', { method:'PUT', mode: 'cors', credentials: 'include'}
-       );
-      fetch(request)
-      .then((response)=>{
-        console.log(response.status);
-        if (response.ok){
-          console.log('Joined the Game!');
-        }
-      })
-  }
-
-  createGame() {
-    const request = new Request(
-      this.props.server + '/game/create', { method:'POST', credentials: 'include' }
-     );
-    fetch(request)
-    .then((response)=>{
-      console.log(response.status);
-      if (response.ok){
-        //console.log('Created a game!');
-        this.getGames();
-      }
-    })
-  }
   render(){
+    console.log(this.state.activeGames);
     const games = this.state.activeGames.map((game)=>{
       return (
         <div>
@@ -62,7 +23,7 @@ class Lobby extends Component {
           <span>{game.playersInGame}</span>
           <span>/</span>
           <span>{game.maxPlayers}</span>
-          <button onClick={()=>this.joinGame(game.id)}>Join</button>
+          <button onClick={()=>Server.game.joinGame(game.id)}>Join</button>
         </div>
       )
     });
@@ -70,9 +31,8 @@ class Lobby extends Component {
     return(
       <div style={{marginLeft: 3 + 'em'}} id="Lobby">
         <h1>Gamelobby</h1>
-        <button type="button" onClick={() => this.createGame()}>Create Game</button>
-        <button type="button" onClick={() => this.getGames()}>Refresh</button>
-        <button type="button" onClick={() => this.props.back()}>Back</button>
+        <button type="button" onClick={() => Server.game.createGame()}>Create Game</button>
+        <button type="button" onClick={() => {Server.game.getGames().then((games)=>{this.setState({activeGames: games})})}}>Refresh</button>
         <div>{games}</div>
       </div>
     )

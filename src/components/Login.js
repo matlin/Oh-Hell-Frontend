@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import styled from 'styled-components'
+import styled from 'styled-components';
+import Server from '../server.js';
 
 const EmailInput = styled.input`
   display: block;
@@ -30,7 +31,7 @@ class Login extends Component{
       email: this.state.email,
       password: this.state.password
     }
-    this.props.login(user);
+    Server.user.login(user);
   }
 
   render(){

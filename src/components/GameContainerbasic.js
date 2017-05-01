@@ -1,8 +1,8 @@
 //game container basic version
 
 import React, {Component} from 'react';
-import styled from 'styled-components'
-
+import styled from 'styled-components';
+import Server from '../server.js';
 
 const BetInput = styled.input`
   display: block;

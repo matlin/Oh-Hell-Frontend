@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components'
+import Server from '../server.js'
 
 const UsernameInput = styled.input`
   display: block;
@@ -35,7 +36,7 @@ class Register extends Component{
       password: this.state.password,
       email: this.state.email
     }
-    this.props.register(user);
+    Server.user.register(user);
   }
 
   render(){

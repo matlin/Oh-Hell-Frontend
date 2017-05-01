@@ -14,35 +14,35 @@ const server = {
   game: {
     playCard: function(gameID, card) {
       const cardStr = JSON.stringify(card);
-      const request = new Request(SERVER + "/game/" + gameID, Post(cardStr));
-      fetch(request).then(response => {
+      const request = new Request(server_url + "/game/" + gameID, Post(cardStr));
+      return fetch(request).then(response => {
         if (response.ok) { return response.json(); }
       });
     },
     bet: function(gameID, bet) {
       const betStr = JSON.stringify(bet);
-      const request = new Request(SERVER + '/game/' + gameID, post(betStr));
-      fetch(request).then((response)=>{
+      const request = new Request(server_url + '/game/' + gameID, Post(betStr));
+      return fetch(request).then((response)=>{
         if (response.ok){ return response.json(); }
       });
     },
     joinGame: function(id) {
         const request = new Request(
-          this.props.server + '/game/' + id + '/join', { method:'PUT', mode: 'cors', credentials: 'include'}
+          server_url + '/game/' + id + '/join', { method:'PUT', mode: 'cors', credentials: 'include'}
          );
-        fetch(request).then((response) => { return response.ok; })
+        return fetch(request).then((response) => { return response.ok; })
     },
     getGames: function() {
-       const request = new Request(this.props.server + '/game/', { method:'GET', mode: 'cors', credentials: 'include'})
-        fetch(request).then((response)=>{
+       const request = new Request(server_url + '/game/', { method:'GET', mode: 'cors', credentials: 'include'})
+       return fetch(request).then((response)=>{
           if (response.ok){ return response.json(); }
         })
      },
      createGame: function() {
        const request = new Request(
-         this.props.server + '/game/create', { method:'POST', credentials: 'include' }
+         server_url + '/game/create', { method:'POST', credentials: 'include' }
         );
-       fetch(request).then((response)=>{
+       return fetch(request).then((response)=>{
          if (response.ok){ response.json(); }
        })
      }
@@ -50,13 +50,13 @@ const server = {
    user: {
      login: function(user){
        const userStr = JSON.stringify(user);
-       const request = new Request(SERVER + '/users/login', Post(userStr));
-       fetch(request).then((response)=>{ return response.ok;})
+       const request = new Request(server_url + '/users/login', Post(userStr));
+       return fetch(request).then((response)=>{ return response.ok;})
      },
-     register: function(){
+     register: function(user){
        const userStr = JSON.stringify(user);
-       const request = new Request(SERVER + '/users/register', Post(userStr));
-       fetch(request).then((response)=>{ return response.ok;})
+       const request = new Request(server_url + '/users/register', Post(userStr));
+       return fetch(request).then((response)=>{ return response.ok;})
      }
    }
 };
