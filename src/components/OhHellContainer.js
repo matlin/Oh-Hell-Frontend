@@ -4,6 +4,12 @@ import Register from './Register.js';
 import GameContainer from './GameContainer.js';
 import GameContainerbasic from './GameContainerbasic.js';
 import Lobby from './gameLobby.js';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
+
 
 const SERVER = 'http://localhost:4000'
 
@@ -156,6 +162,24 @@ class OhHellContainer extends Component {
 
 
   render(){
+    return(
+      <Router>
+        <div>
+          <Link to='/login'><input type='button' value='Login'/></Link>
+          <Link to='/register'><input type='button' value='Register'/></Link>
+          <Link to='/lobby'><input type='button' value='Lobby'/></Link>
+          <Route path='/login' component={Login}/>
+          <Route path='/register' component={Register}/>
+          <Route path='/lobby' component={Lobby}/>
+        </div>
+
+      </Router>
+    );
+  }
+
+
+/*
+  render(){
     if (this.state.mode==='main'){
       return(
         <div>
@@ -194,6 +218,7 @@ class OhHellContainer extends Component {
         )
       }
     }
+*/
 }
 
 export default OhHellContainer
