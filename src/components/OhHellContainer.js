@@ -168,9 +168,9 @@ class OhHellContainer extends Component {
           <Link to='/login'><input type='button' value='Login'/></Link>
           <Link to='/register'><input type='button' value='Register'/></Link>
           <Link to='/lobby'><input type='button' value='Lobby'/></Link>
-          <Route path='/login' component={Login}/>
-          <Route path='/register' component={Register}/>
-          <Route path='/lobby' component={Lobby}/>
+          <Route path='/login' render={() => <Login login={(user)=> this.login(user)}/>}/>
+          <Route path='/register' render={() => <Register register={(user)=> this.register(user)}/>}/>
+          <Route path='/lobby' render={() => <Lobby server={SERVER}/>}/>
         </div>
 
       </Router>
