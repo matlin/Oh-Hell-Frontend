@@ -188,7 +188,7 @@ class OhHellContainer extends Component {
       } else if (this.state.mode==='game'){
         return(
           <div>
-            <GameContainerbasic placeBet={(bet)=> this.placeBet(bet)} playCard={(card)=> this.playCard(card)} Gamestate={(game)=> this.gameState(game)} messages={"here are the messages"} hand={(hand)=> this.getHand(hand)} />
+            <GameContainerbasic server={SERVER} placeBet={(bet)=> this.placeBet(bet)} playCard={(card)=> this.playCard(card)} Gamestate={(game)=> this.gameState(game)} messages={"here are the messages"} hand={(hand)=> this.getHand(hand)} />
             <input type='button' onClick={()=>{this.setState({mode:'main'})}} value="Back"/>
           </div>
         )
