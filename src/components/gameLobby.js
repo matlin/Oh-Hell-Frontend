@@ -15,7 +15,8 @@ class Lobby extends Component {
  }
 
  getGames() {
-     fetch(this.props.server + '/game/')
+    const request = new Request(this.props.server + '/game/', { method:'GET', mode: 'cors', credentials: 'include'})
+     fetch(request)
        .then((response)=>{
          if (response.ok){
            return response.json();
@@ -29,7 +30,7 @@ class Lobby extends Component {
   // joinGames returns a function that lets a user join a specific game
   joinGame(id) {
       const request = new Request(
-        this.props.server + '/game/' + id + '/join', { method:'PUT' }
+        this.props.server + '/game/' + id + '/join', { method:'PUT', mode: 'cors', credentials: 'include'}
        );
       fetch(request)
       .then((response)=>{
@@ -42,7 +43,7 @@ class Lobby extends Component {
 
   createGame() {
     const request = new Request(
-      this.props.server + '/game/create', { method:'POST' }
+      this.props.server + '/game/create', { method:'POST', credentials: 'include' }
      );
     fetch(request)
     .then((response)=>{

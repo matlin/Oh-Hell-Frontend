@@ -22,7 +22,8 @@ class OhHellContainer extends Component {
       {
         method:'POST',
         body:userStr,
-        headers: new Headers({'Content-type':'application/json'})
+        headers: new Headers({'Content-type':'application/json'}),
+        credentials: 'include'
       }
     );
     console.log(userStr);
@@ -42,7 +43,9 @@ class OhHellContainer extends Component {
       {
         method:'POST',
         body:userStr,
-        headers: new Headers({'Content-type':'application/json'})
+        headers: new Headers({'Content-type':'application/json'}),
+        credential: 'include'
+
       }
     );
     console.log(userStr);
@@ -56,7 +59,6 @@ class OhHellContainer extends Component {
   }
 
 
-////////////////////////////////
 
 //this should return the gamestate that was exported from the backend and pass it to
 //gameContainer so we can print the game state
@@ -92,7 +94,8 @@ class OhHellContainer extends Component {
       {
         method:'GET',
         body:userHand,
-        headers: new Headers({'Content-type':'application/json'})
+        headers: new Headers({'Content-type':'application/json'}),
+        credentials: 'include'
       }
     );
     console.log(userHand);
@@ -105,7 +108,6 @@ class OhHellContainer extends Component {
     })
   }
 
-//////////////////////////////
 
   placeBet(bet) {
     const gameID = 'test'; // NEEDS REPLACING WHEN WE FIGURE OUT HOW TO GET THE GAMEID IN HERE
@@ -115,7 +117,8 @@ class OhHellContainer extends Component {
       {
         method:'POST',
         body:betStr,
-        headers: new Headers({'Content-type':'application/json'})
+        headers: new Headers({'Content-type':'application/json'}),
+        credentials: 'include'
       }
     );
     console.log(betStr);
@@ -136,7 +139,8 @@ class OhHellContainer extends Component {
       {
         method:'POST',
         body:cardStr,
-        headers: new Headers({'Content-type':'application/json'})
+        headers: new Headers({'Content-type':'application/json'}),
+        credentials: 'include'
       }
     );
     console.log(cardStr);
