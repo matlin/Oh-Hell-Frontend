@@ -4,6 +4,11 @@
 
 import React, {Component} from 'react';
 import Server from '../server.js';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
 
 class Lobby extends Component {
   constructor(){
@@ -19,11 +24,10 @@ class Lobby extends Component {
     const games = this.state.activeGames.map((game)=>{
       return (
         <div>
-          <span>{game.id}</span>
-          <span>{game.playersInGame}</span>
-          <span>/</span>
-          <span>{game.maxPlayers}</span>
-          <button onClick={()=>Server.game.joinGame(game.id)}>Join</button>
+          <Link to={'/game/' + game.id}>
+            <span>{game.id} </span>
+            <span>{game.playersInGame}/{game.maxPlayers}</span>
+          </Link>
         </div>
       )
     });

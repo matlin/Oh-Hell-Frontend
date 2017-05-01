@@ -34,24 +34,25 @@ class GameContainerbasic extends Component{
   constructor(props){
     super(props);
     this.state = {
-      gameState: null,
-      bet: '',
-      card: ''
+      gameState: {joined: false},
+      messages: null,
+      id: props.match.params.id,
     }
-    this.GameState();
+    this.loadGame();
+    //this.GameState();
   }
 
-  //returns printed string with game state info
-  GameState(){
-    fetch(this.props.server + '/game/' ) // + + this.props.gameID
-      .then((response)=>{
-        if (response.ok){
-          return response.json();
+  loadGame(){
+    if (this.state.id){
+      Server.game.get(this.state.id).then(response => {
+        this.setState({gameState: response.state, messages:response.message});
+        if (response.messsage){
+            window.alert();
         }
       })
-      .then((game)=>{
-        this.setState({gameState: game});
-      });
+    }else{
+      console.error('No game id provided');
+    }
   }
 
 
@@ -92,12 +93,22 @@ class GameContainerbasic extends Component{
     onChange={(event)=> this.handleInputUpdate(event, 'card')}
     />)
 
+    if (!this.state.gameState.joined){
+      return (
+        <div>
+          <p>You are not in this game. Join?</p>
+          <input type="button" value="Join" onClick={Server.game.join.bind(this,this.state.id)} />
+        </div>
+      )
+    }
+
+
     return(
       //overall container
       <div>GameContainerbasic
         <div>
-          <div> {this.state.gameState} </div> would display game state if we had a game ID
-          {messages}
+          <div>State:<p>{JSON.stringify(this.state.gameState)}</p></div>
+          <div>Messages:<p>{this.state.messages}</p></div>
         </div>
         <div>
           {hand}

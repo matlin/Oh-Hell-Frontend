@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Login from './Login.js';
 import Register from './Register.js';
 import GameContainer from './GameContainer.js';
-import GameContainerbasic from './GameContainerbasic.js';
+import GameContainerBasic from './GameContainerbasic.js';
 import Lobby from './gameLobby.js';
 import {
   BrowserRouter as Router,
@@ -31,6 +31,7 @@ class OhHellContainer extends Component {
           <Route path='/login' render={() => <Login/>}/>
           <Route path='/register' render={() => <Register/>}/>
           <Route path='/lobby' render={() => <Lobby/>}/>
+          <Route path='/game/:id' component={GameContainerBasic} />
         </div>
 
       </Router>

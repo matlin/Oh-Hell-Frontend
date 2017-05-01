@@ -26,7 +26,13 @@ const server = {
         if (response.ok){ return response.json(); }
       });
     },
-    joinGame: function(id) {
+    get: function(id){
+      const request = new Request(server_url + '/game/' + id, { method:'GET', mode: 'cors', credentials: 'include'});
+      return fetch(request).then(response => {
+        if (response.ok){return response.json();}
+      });
+    },
+    join: function(id) {
         const request = new Request(
           server_url + '/game/' + id + '/join', { method:'PUT', mode: 'cors', credentials: 'include'}
          );
