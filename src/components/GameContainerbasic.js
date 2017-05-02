@@ -135,9 +135,9 @@ class GameContainerbasic extends Component{
       //overall container
       <div>GameContainerbasic
         <div>
-          <div>State:<p>{JSON.stringify(this.state.gameState)}</p></div>
+          <div>State:<pre>{JSON.stringify(this.state.gameState, null, 2)}</pre></div>
           <div>Messages:<p>{this.state.messages}</p></div>
-          <div>Your Hand:<p>{JSON.stringify(this.state.gameState.hand)}</p></div>
+          <div>Your Hand:<pre>{JSON.stringify(this.state.gameState.hand)}</pre></div>
         </div>
         <div>
         <input type="button" value="Start" onClick={()=>this.startGame()} />
