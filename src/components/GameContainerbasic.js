@@ -70,7 +70,6 @@ class GameContainerbasic extends Component{
     }
   }
 
-
   handleInputUpdate(event, field){
     this.setState({[field]:event.target.value})
   }
@@ -86,10 +85,6 @@ class GameContainerbasic extends Component{
     console.log(this.state);
   }
 
-
-    //this.props.placeBet(this.state.bet);
-
-
   playCard(){
     Server.game.playCard(this.state.id, this.state.card).then(response => {
       console.log(response);
@@ -99,14 +94,12 @@ class GameContainerbasic extends Component{
         this.loadGame();
       }
     })
-
-    //this.props.playCard(this.state.card);
   }
 
   render(){
     console.log(this.props)
     console.log(this.props.gameState) //currently returns the functionality
-    console.log(this.props.hand)
+    console.log(this.state.hand)
 
     //let gameState = (<GameState Gamestate={this.props.Gamestate}/>)
     let messages = (<Messages messages={this.state.messages}/>)
@@ -144,6 +137,7 @@ class GameContainerbasic extends Component{
         <div>
           <div>State:<p>{JSON.stringify(this.state.gameState)}</p></div>
           <div>Messages:<p>{this.state.messages}</p></div>
+          <div>Your Hand:<p>{JSON.stringify(this.state.gameState.hand)}</p></div>
         </div>
         <div>
         <input type="button" value="Start" onClick={()=>this.startGame()} />
