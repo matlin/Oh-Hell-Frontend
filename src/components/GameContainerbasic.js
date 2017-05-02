@@ -125,7 +125,7 @@ class GameContainerbasic extends Component{
       return (
         <div>
           <p>You are not in this game. Join?</p>
-          <input type="button" value="Join" onClick={Server.game.join.bind(this,this.state.id)} />
+          <input type="button" value="Join" onClick={Server.game.join.bind(this,this.state.id,this.loadGame())} />
         </div>
       )
     }

@@ -50,11 +50,13 @@ const server = {
         if (response.ok){return response.json();}
       });
     },
-    join: function(id) {
+    join: function(id,load) {
         const request = new Request(
           server_url + '/game/' + id + '/join', { method:'PUT', mode: 'cors', credentials: 'include'}
          );
-        return fetch(request).then((response) => { return response.ok; })
+        return fetch(request).then((response) => {
+           load();
+           return response.ok; })
     },
     getGames: function() {
        const request = new Request(server_url + '/game/', { method:'GET', mode: 'cors', credentials: 'include'})
