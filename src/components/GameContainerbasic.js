@@ -45,13 +45,28 @@ class GameContainerbasic extends Component{
   loadGame(){
     if (this.state.id){
       Server.game.get(this.state.id).then(response => {
-        this.setState({gameState: response.state, messages:response.message});
+        this.setState({gameState: response.state});
         if (response.messsage){
-            window.alert();
+            window.alert(response.message);
         }
       })
     }else{
       console.error('No game id provided');
+    }
+  }
+
+  startGame(){
+    if (this.state.id && this.state.gameState.players.length > 0){
+      Server.game.start(this.state.id).then(response => {
+        //console.log(response);
+        this.setState({gameState: response.state, messages:response.message});
+        if (response.message){
+          window.alert(response.message);
+          this.loadGame();
+        }
+      })
+    } else{
+      console.error('Could not start game');
     }
   }
 
@@ -61,11 +76,31 @@ class GameContainerbasic extends Component{
   }
 
   placeBet(){
-    this.props.placeBet(this.state.bet);
+    Server.game.bet(this.state.id, this.state.bet).then(response => {
+      this.setState({gameState: response.state, messages:response.message});
+      if (response.message){
+        window.alert(response.message);
+        this.loadGame();
+      }
+    })
+    console.log(this.state);
   }
 
+
+    //this.props.placeBet(this.state.bet);
+
+
   playCard(){
-    this.props.playCard(this.state.card);
+    Server.game.playCard(this.state.id, this.state.card).then(response => {
+      console.log(response);
+      this.setState({gameState: response.state, messages:response.message});
+      if (response.message){
+        window.alert(response.message);
+        this.loadGame();
+      }
+    })
+
+    //this.props.playCard(this.state.card);
   }
 
   render(){
@@ -74,8 +109,8 @@ class GameContainerbasic extends Component{
     console.log(this.props.hand)
 
     //let gameState = (<GameState Gamestate={this.props.Gamestate}/>)
-    let messages = (<Messages messages={this.props.messages}/>)
-    let hand = (<Hand hand={this.props.hand}/>)
+    let messages = (<Messages messages={this.state.messages}/>)
+    let hand = (<Hand hand={this.state.hand}/>)
 
     const bet = (<BetInput
     type="text"
@@ -111,11 +146,12 @@ class GameContainerbasic extends Component{
           <div>Messages:<p>{this.state.messages}</p></div>
         </div>
         <div>
+        <input type="button" value="Start" onClick={()=>this.startGame()} />
           {hand}
           {bet}
           <input type="button" disabled={this.state.bet === ''} onClick={()=> this.placeBet()} value="Place bet"/>
           {card}
-          <input type="button" disabled={this.state.card === ''} onClick={()=> this.placeBet()} value="Play card"/>
+          <input type="button" disabled={this.state.card === ''} onClick={()=> this.playCard()} value="Play card"/>
         </div>
       </div>
     )

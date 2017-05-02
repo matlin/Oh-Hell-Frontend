@@ -9,19 +9,37 @@ function Post(body) {
   };
 }
 
+function Put(body) {
+  return {
+    body:body,
+    method:"PUT",
+    headers: new Headers({ "Content-type": "application/json" }),
+    credentials: "include",
+    mode: 'cors'
+  };
+}
+
 const server = {
   url: server_url,
   game: {
     playCard: function(gameID, card) {
-      const cardStr = JSON.stringify(card);
-      const request = new Request(server_url + "/game/" + gameID, Post(cardStr));
+      const cardBody = {card:card};
+      const cardStr = JSON.stringify(cardBody);
+      const request = new Request(server_url + "/game/" + gameID + "/play", Put(cardStr));
       return fetch(request).then(response => {
         if (response.ok) { return response.json(); }
       });
     },
+    start: function(gameID) {
+      const request = new Request(server_url + "/game/" + gameID + "/start", Put());
+      return fetch(request).then(response => {
+        if (response.ok){return response.json();}
+      });
+    },
     bet: function(gameID, bet) {
-      const betStr = JSON.stringify(bet);
-      const request = new Request(server_url + '/game/' + gameID, Post(betStr));
+      const betBody = {bet:bet};
+      const betStr = JSON.stringify(betBody);
+      const request = new Request(server_url + '/game/' + gameID + '/bet', Put(betStr) );
       return fetch(request).then((response)=>{
         if (response.ok){ return response.json(); }
       });
