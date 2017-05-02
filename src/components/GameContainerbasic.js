@@ -79,19 +79,27 @@ class GameContainerbasic extends Component{
       this.setState({gameState: response.state, messages:response.message});
       if (response.message){
         window.alert(response.message);
-        this.loadGame();
+        //this.loadGame();
       }
     })
     console.log(this.state);
   }
 
-  playCard(){
-    Server.game.playCard(this.state.id, this.state.card).then(response => {
+  stateCallback(response){
+    console.log(response);
+    this.setState({gameState: response.state, messages:response.message});
+    if (response.message){
+      //window.alert(response.message);
+    }
+  }
+
+  playCard(card = this.state.card){
+    Server.game.playCard(this.state.id, card).then(response => {
       console.log(response);
       this.setState({gameState: response.state, messages:response.message});
       if (response.message){
         window.alert(response.message);
-        this.loadGame();
+        //this.loadGame();
       }
     })
   }
@@ -121,13 +129,31 @@ class GameContainerbasic extends Component{
     onChange={(event)=> this.handleInputUpdate(event, 'card')}
     />)
 
-    if (!this.state.gameState.joined){
+    if (this.state.gameState.joined === false){
       return (
         <div>
           <p>You are not in this game. Join?</p>
-          <input type="button" value="Join" onClick={Server.game.join.bind(this,this.state.id,this.loadGame())} />
+          <input type="button" value="Join" onClick={() => {
+              Server.game.join(this.state.id).then((response) => {this.stateCallback(response)});
+            }
+          }
+          />
         </div>
       )
+    }
+
+    const cardButtons = (cards) => {
+      return cards.map(cardObj => {
+        return (
+          <input type="button"
+            onClick={()=> {
+              this.playCard(cardObj.id);
+            }}
+            value={`${cardObj.value} of ${cardObj.suit}`}
+            //
+          />
+        );
+      });
     }
 
 
@@ -137,15 +163,16 @@ class GameContainerbasic extends Component{
         <div>
           <div>State:<pre>{JSON.stringify(this.state.gameState, null, 2)}</pre></div>
           <div>Messages:<p>{this.state.messages}</p></div>
-          <div>Your Hand:<pre>{JSON.stringify(this.state.gameState.hand)}</pre></div>
+          <div>
+          Your Hand (click card to play): {cardButtons(this.state.gameState.hand)}
+          </div>
         </div>
         <div>
         <input type="button" value="Start" onClick={()=>this.startGame()} />
           {hand}
           {bet}
           <input type="button" disabled={this.state.bet === ''} onClick={()=> this.placeBet()} value="Place bet"/>
-          {card}
-          <input type="button" disabled={this.state.card === ''} onClick={()=> this.playCard()} value="Play card"/>
+          
         </div>
       </div>
     )

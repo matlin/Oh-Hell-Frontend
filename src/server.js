@@ -1,4 +1,4 @@
-const server_url = "http://localhost:4000";
+const server_url = "http://140.233.131.54:4000";
 
 function Post(body) {
   return {
@@ -55,8 +55,8 @@ const server = {
           server_url + '/game/' + id + '/join', { method:'PUT', mode: 'cors', credentials: 'include'}
          );
         return fetch(request).then((response) => {
-           load();
-           return response.ok; })
+           if (response.ok){return response.json();}
+         });
     },
     getGames: function() {
        const request = new Request(server_url + '/game/', { method:'GET', mode: 'cors', credentials: 'include'})
