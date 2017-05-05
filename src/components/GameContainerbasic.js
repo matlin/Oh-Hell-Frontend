@@ -3,6 +3,9 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 import Server from '../server.js';
+const SERVER = 'http://localhost:4000';
+import io from 'socket.io-client';
+const socket = io(SERVER);
 
 
 const BetInput = styled.input`
@@ -41,7 +44,16 @@ class GameContainerbasic extends Component{
     }
     this.loadGame();
     //this.GameState();
+    this.socket = socket.connect(()=>{
+      console.log("i am connected");
+    });
+
+    this.socket.on("update", ()=>{
+      this.loadGame();
+    })
   }
+
+
 
   loadGame(){
     if (this.state.id){
@@ -64,6 +76,7 @@ class GameContainerbasic extends Component{
         if (response.message){
           window.alert(response.message);
           this.loadGame();
+          this.socket.emit("started");
         }
       })
     } else{

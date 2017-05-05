@@ -10,17 +10,9 @@ import {
   Link
 } from 'react-router-dom'
 
-import io from 'socket.io-client';
 const SERVER = 'http://localhost:4000'
-const socket = io(SERVER);
 
-socket.connect(()=>{
-  console.log("connected");
-});
 
-socket.emit("myEvent", 'data', (data)=>{
-  console.log(data);
-})
 
 
 /*
