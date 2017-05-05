@@ -1,24 +1,254 @@
-.App {
+/*This is all just sample stuff for demo*/
+/*Sorry it's messy. I (Noel) don't really know how to properly do css stuff.
+ Also, I didn't use any classes so we should change that later. I also don't
+ really know what we're doing for animation or how that works with css*/
+/* designed for desktop*/
+
+h1 {
+  float:right;
+  padding-right: 10px;
+}
+
+#our-table {
+  width: 200px;
+  background-color: lightgrey;
+  opacity: .9;
+  border: 1px solid;
+  border-radius: 15px 15px;
+}
+
+/* ================ Cards ===================*/
+#card-sample {
+  width: 90px;
+  height: 100%;
+  margin: 0px 2px 0px 2px;
+}
+
+/* temp cards */
+#text-card {
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  padding-top: 50%;
+  padding-bottom: 50%;
+  background-color: crimson;
+  background-size: 100% 100%;
+  border-radius: 10px 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+#empty-card {
+  background-size: contain;
+  width: 100%;
+  height: 100%;
+  padding-top: 50%;
+  padding-bottom: 50%;
+  background-color: lightgray;
+  background-size: 100% 100%;
+  border-radius: 10px 10px;
+  border: 2px dashed;
+  text-align: center;
+  font-weight: bold;
+  opacity: .5;
+}
+
+#Diamonds2 {
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 10%;
+  padding-top: 100%;
+  background-color: inherit;
+  background-size: 100% 100%;
+  background-image: url("../images/2Diamonds.png");
+}
+#back {
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 90%;
+  height: 10%;
+  padding-top: 100%;
+  background-color: inherit;
+  background-size: 100% 100%;
+  background-image: url("../images/back.png");
+}
+
+/* positioning of the trump card*/
+#trump {
+  position: fixed;
+  left: 40%;
+  top: 40%;
+  transform: scale(.7);
+}
+
+/* =============== Player =========================*/
+#player-window{
+  position:fixed;
+  top: 80%;
+  left: 5%;
+}
+
+#card-i-played{
+  position: fixed;
+  left: 40%;
+  top: 60%;
+  transform: scale(.7);
+}
+
+#card-hand{
+  float: left;
+  font-size: .9em;
+  width: 85px;
+  height: 100%;
+  margin: 0px 1px 0px 1px;
+  transform: scale(.9);
+}
+
+#player-stats{
+  float: right;
+  padding-left: 5px;
+  padding-top: 5px;
+}
+
+
+/*=============== Opponent stuff ======================*/
+#opponent {
+  position: relative;
+  text-align: center;
+  font-size: 1em;
+  transform: scale(.85);
+}
+
+#dealer-token {
+  border-radius: 10px 10px;
+  width: 100%;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  background-color: red;
+  text-align: center;
+}
+/*================ Player locations  ======================= */
+
+#player-1 {
+  position:fixed;
+  top: 30%;
+  left: 5%;
+  width: 100px;
+  transform: rotate(-40deg);
+}
+
+#player-2 {
+  position:fixed;
+  top: 15%;
+  left: 15%;
+  width: 100px;
+  transform: rotate(-30deg);
+}
+
+#player-3 {
+  position:fixed;
+  top: 5%;
+  left: 27%;
+  width: 100px;
+  transform: rotate(-20deg);
+}
+
+#player-4 {
+  position:fixed;
+  top: 1%;
+  left: 40%;
+  width: 100px;
+}
+
+#player-5 {
+  position:fixed;
+  top: 5%;
+  left: 53%;
+  width: 100px;
+  transform: rotate(20deg);
+}
+
+#player-6 {
+  position:fixed;
+  top: 15%;
+  left: 65%;
+  width: 100px;
+  transform: rotate(30deg);
+}
+
+#player-7 {
+  position:fixed;
+  top: 30%;
+  left: 75%;
+  width: 100px;
+  transform: rotate(40deg);
+}
+
+
+/* This is also just sample stuff*/
+/* ================= Betting window CSS ===========================*/
+#up-arrow{
+  position: absolute;
+  font-size: 1.3em;
+  top: 25%;
+  left: 40%;
+  height: 1em;
+  width: 1em;
+  background-color: white;
+  border-radius: 50px 50px;
+}
+
+#down-arrow{
+  position: absolute;
+  font-size: 1.3em;
+  top: 35%;
+  left: 40%;
+  height: 1em;
+  width: 1em;
+  background-color: white;
+  border-radius: 50px 50px;
+}
+
+/* the number by the arrows */
+#bet-box{
+  font-size: 1.3em;
+  padding: 1px 2px 1px 2px;
+  border: 1px solid;
+  position: absolute;
+  left: 30%;
+  top: 30%;
+}
+
+#bet-button{
+  position: absolute;
+  top: 30%;
+  left: 60%;
+}
+
+#bet-bar{
+  height: 70px;
+  padding-left: 20%;
+  padding-right: 20%;
+  margin-bottom: 5px;
+  background-color: yellow;
+}
+
+#popup-window{
+  width: 50%;
+  height: 250px;
+  border: 1px solid;
+  border-radius: 15px 50px;
+  padding: 1% 2% 1% 2%;
+  background-color: dodgerblue;
+  position: absolute;
+  top: 15%;
+  left: 20%;
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+/* random stuff */
+#float {
+  float:left;
 }
