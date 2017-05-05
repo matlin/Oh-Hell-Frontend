@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import styled from 'styled-components';
 import Server from '../server.js';
 
+
 const BetInput = styled.input`
   display: block;
 `;
@@ -172,7 +173,7 @@ class GameContainerbasic extends Component{
           {hand}
           {bet}
           <input type="button" disabled={this.state.bet === ''} onClick={()=> this.placeBet()} value="Place bet"/>
-          
+
         </div>
       </div>
     )
