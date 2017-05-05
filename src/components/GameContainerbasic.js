@@ -49,8 +49,9 @@ class GameContainerbasic extends Component{
     });
 
     this.socket.on("update", ()=>{
+      console.log('client got update');
       this.loadGame();
-    })
+    });
   }
 
 
@@ -94,13 +95,12 @@ class GameContainerbasic extends Component{
       if (response.message){
         window.alert(response.message);
         //this.loadGame();
+        this.socket.emit("bet");
       }
     })
-    console.log(this.state);
   }
 
   stateCallback(response){
-    console.log(response);
     this.setState({gameState: response.state, messages:response.message});
     if (response.message){
       //window.alert(response.message);
@@ -114,14 +114,12 @@ class GameContainerbasic extends Component{
       if (response.message){
         window.alert(response.message);
         //this.loadGame();
+        this.socket.emit("play");
       }
     })
   }
 
   render(){
-    console.log(this.props)
-    console.log(this.props.gameState) //currently returns the functionality
-    console.log(this.state.hand)
 
     //let gameState = (<GameState Gamestate={this.props.Gamestate}/>)
     let messages = (<Messages messages={this.state.messages}/>)

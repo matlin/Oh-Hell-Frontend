@@ -1,4 +1,4 @@
-const server_url = "http://140.233.131.54:4000";
+const server_url = "http://localhost:4000";
 
 function Post(body) {
   return {
