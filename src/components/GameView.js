@@ -134,7 +134,7 @@ function GameTable (props){
       </div>
       <div id="hand" className="playingCards">
         <BetMaker bet={Server.game.bet.bind(this, props.state.id)} show={props.state.betting} maxBet={props.state.hand.length} />
-        <Hand cards={props.state.hand.map(card => card.id)} />
+        <Hand state={props} cards={props.state.hand.map(card => card.id)} />
       </div>
     </div>
   );
@@ -144,7 +144,7 @@ function BetMaker(props){
   if (props.show === true){
     let betButtons = [];
     for (let i=0; i<=props.maxBet; i++){
-      betButtons.push(<input type="button" key={"bet" + i} onClick={() => {props.bet(i);}} value={i} />);
+      betButtons.push(<input type="button" key={"bet" + i} onClick={() => {props.bet(i) ;}} value={i} />);
     }
     return(
       <div>Click to bet: {betButtons}</div>
@@ -154,14 +154,34 @@ function BetMaker(props){
   }
 }
 
+function playCard(card, gameID){
+  console.log("Trying to play", card);
+  console.log(gameID);
+  Server.game.playCard(gameID, card).then(response => {
+    console.log(response);
+    this.setState({gameState: response.state, messages:response.message});
+    if (response.message){
+      window.alert(response.message);
+      //this.loadGame();
+    }
+  })
+}
+
 function Hand(props){
-  let cards = props.cards.map(card => <li><Card code={card} key={card} /></li>);
+  const gameID = (props.state.state.id);
+  let cards = props.cards.map((card)=>{
+    return (<li onClick={()=>playCard(card, gameID)}> <Card code={card} key={card}Card /> </li>);
+  });
+  console.log(cards);
   return (
     <ul className="hand">
        {cards}
      </ul>
   );
 }
+
+
+
 
 function threeDistribution(listorlength){
   let length, result, dist;
