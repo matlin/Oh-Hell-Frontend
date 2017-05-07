@@ -75,10 +75,13 @@ export default GameView;
 
 function Opponent (props){
   let name = props.name;
+  let bets = props.state.state.bets.jade; // unsure how to change jade to "name"
+  let tricks = props.state.state.tricks; // Needs work
   return (
     <div className="opponent">
       <h4>{name}</h4><hr />
-      <span>Bet: {Math.floor(Math.random() * 4)}</span><br />
+
+      <span>Bet: {bets}</span><br />
       <span>Tricks: {Math.floor(Math.random() * 4)}</span>
       <div className="playingCards inText">
        {(() => {
@@ -118,7 +121,7 @@ function GameTable (props){
     containers[i] = [];
     for (let j=0; j<dist[i]; j++){
       let player = players.shift();
-      containers[i].push(<Opponent card={props.state.cardsInPlay[player]} name={player} />);
+      containers[i].push(<Opponent state={props} card={props.state.cardsInPlay[player]} name={player} />);
     }
   }
   return (
@@ -159,7 +162,7 @@ function playCard(card, gameID){
   console.log(gameID);
   Server.game.playCard(gameID, card).then(response => {
     console.log(response);
-    this.setState({gameState: response.state, messages:response.message});
+    //this.setState({gameState: response.state, messages:response.message});  do we need this?
     if (response.message){
       window.alert(response.message);
       //this.loadGame();
