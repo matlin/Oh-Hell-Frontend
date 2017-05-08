@@ -1,5 +1,7 @@
 const server_url = "http://localhost:4000";
 
+//allow instantiating with gameID and callback
+
 function Post(body) {
   return {
     body: body,
