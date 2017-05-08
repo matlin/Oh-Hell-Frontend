@@ -11,8 +11,17 @@ import {
   Link
 } from 'react-router-dom'
 
-
 const SERVER = 'http://localhost:4000'
+
+
+
+
+/*
+  socket.on('connection', function (data) {
+    console.log(data);
+    console.log('connection')
+  });
+*/
 
 class OhHellContainer extends Component {
    constructor(){

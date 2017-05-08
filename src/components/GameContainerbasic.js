@@ -3,6 +3,10 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
 import Server from '../server.js';
+const SERVER = 'http://localhost:4000';
+import io from 'socket.io-client';
+const socket = io(SERVER);
+
 
 const BetInput = styled.input`
   display: block;
@@ -40,7 +44,17 @@ class GameContainerbasic extends Component{
     }
     this.loadGame();
     //this.GameState();
+    this.socket = socket.connect(()=>{
+      console.log("i am connected");
+    });
+
+    this.socket.on("update", ()=>{
+      console.log('client got update');
+      this.loadGame();
+    });
   }
+
+
 
   loadGame(){
     if (this.state.id){
@@ -63,6 +77,7 @@ class GameContainerbasic extends Component{
         if (response.message){
           window.alert(response.message);
           this.loadGame();
+          this.socket.emit("started");
         }
       })
     } else{
@@ -80,13 +95,12 @@ class GameContainerbasic extends Component{
       if (response.message){
         window.alert(response.message);
         //this.loadGame();
+        this.socket.emit("bet");
       }
     })
-    console.log(this.state);
   }
 
   stateCallback(response){
-    console.log(response);
     this.setState({gameState: response.state, messages:response.message});
     if (response.message){
       //window.alert(response.message);
@@ -100,14 +114,12 @@ class GameContainerbasic extends Component{
       if (response.message){
         window.alert(response.message);
         //this.loadGame();
+        this.socket.emit("play");
       }
     })
   }
 
   render(){
-    console.log(this.props)
-    console.log(this.props.gameState) //currently returns the functionality
-    console.log(this.state.hand)
 
     //let gameState = (<GameState Gamestate={this.props.Gamestate}/>)
     let messages = (<Messages messages={this.state.messages}/>)
@@ -172,7 +184,7 @@ class GameContainerbasic extends Component{
           {hand}
           {bet}
           <input type="button" disabled={this.state.bet === ''} onClick={()=> this.placeBet()} value="Place bet"/>
-          
+
         </div>
       </div>
     )
