@@ -16,7 +16,11 @@ class Lobby extends Component {
     this.state = {
       activeGames: []
     }
-    Server.game.getGames().then((games)=>(this.setState({activeGames: games})));
+    Server.Game.getGames().then(games=>{
+      if (games){
+          this.setState({activeGames: games});
+      }
+    });
  }
 
   render(){
@@ -35,8 +39,8 @@ class Lobby extends Component {
     return(
       <div style={{marginLeft: 3 + 'em'}} id="Lobby">
         <h1>Gamelobby</h1>
-        <button type="button" onClick={() => Server.game.createGame()}>Create Game</button>
-        <button type="button" onClick={() => {Server.game.getGames().then((games)=>{this.setState({activeGames: games})})}}>Refresh</button>
+        <button type="button" onClick={() => Server.Game.createGame()}>Create Game</button>
+        <button type="button" onClick={() => {Server.Game.getGames().then((games)=>{this.setState({activeGames: games})})}}>Refresh</button>
         <div>{games}</div>
       </div>
     )

@@ -11,6 +11,7 @@ class GameView extends Component{
       gameState: {joined: false},
       messages: null,
       id: props.match.params.id,
+      server: new Server.Game(props.match.params.id, this.stateCallback.bind(this))
     }
     console.log('GameView loaded');
     this.loadGame();
@@ -18,22 +19,17 @@ class GameView extends Component{
 
   loadGame(){
     if (this.state.id){
-      Server.game.get(this.state.id).then(response => {
-        this.setState({gameState: response.state});
-        if (response.messsage){
-            window.alert(response.message);
-        }
-      })
+      this.state.server.get();
     }else{
       console.error('No game id provided');
     }
   }
 
-  stateCallback(response){
+  stateCallback (response){
     console.log(response);
     this.setState({gameState: response.state, messages:response.message});
     if (response.message){
-      //window.alert(response.message);
+      window.alert(response.message);
     }
   }
 
@@ -45,7 +41,7 @@ class GameView extends Component{
         <div>
           <p>You have not joined this game. Join?</p>
           <input type="button" value="Join" onClick={() => {
-              Server.game.join(this.state.id).then((response) => {this.stateCallback(response)});
+              this.state.server.join();
             }
           }
           />
@@ -57,7 +53,7 @@ class GameView extends Component{
         <div>
           <p>This game has not started yet.</p>
           <input type="button" value="Start" onClick={() => {
-              Server.game.start(this.state.id).then((response) => {this.stateCallback(response)});
+              this.state.server.start(this.state.id);
             }
           }
           />
@@ -66,7 +62,7 @@ class GameView extends Component{
     }
     console.log('Rendering game table');
     return(
-      <GameTable state={this.state.gameState} />
+      <GameTable server={this.state.server} state={this.state.gameState} />
     );
   }
 }
@@ -136,8 +132,8 @@ function GameTable (props){
         <p>Dealer: {props.state.dealer}</p>
       </div>
       <div id="hand" className="playingCards">
-        <BetMaker bet={Server.game.bet.bind(this, props.state.id)} show={props.state.betting} maxBet={props.state.hand.length} />
-        <Hand state={props} cards={props.state.hand.map(card => card.id)} />
+        <BetMaker bet={props.server.bet} show={props.state.betting} maxBet={props.state.hand.length} />
+        <Hand play={props.server.playCard} state={props} cards={props.state.hand.map(card => card.id)} />
       </div>
     </div>
   );
@@ -147,7 +143,7 @@ function BetMaker(props){
   if (props.show === true){
     let betButtons = [];
     for (let i=0; i<=props.maxBet; i++){
-      betButtons.push(<input type="button" key={"bet" + i} onClick={() => {props.bet(i) ;}} value={i} />);
+      betButtons.push(<input type="button" key={"bet" + i} onClick={() => {props.bet(i)}} value={i} />);
     }
     return(
       <div>Click to bet: {betButtons}</div>
@@ -171,11 +167,11 @@ function playCard(card, gameID){
 }
 
 function Hand(props){
+  console.log(props);
   const gameID = (props.state.state.id);
   let cards = props.cards.map((card)=>{
-    return (<li onClick={()=>playCard(card, gameID)}> <Card code={card} key={card}Card /> </li>);
+    return (<li onClick={()=> props.play(card)}> <Card code={card} key={card}Card /> </li>);
   });
-  console.log(cards);
   return (
     <ul className="hand">
        {cards}

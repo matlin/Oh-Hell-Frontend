@@ -1,7 +1,6 @@
 const server_url = "http://localhost:4000";
 
 //allow instantiating with gameID and callback
-
 function Post(body) {
   return {
     body: body,
@@ -23,50 +22,59 @@ function Put(body) {
 
 const server = {
   url: server_url,
-  game: {
-    playCard: function(gameID, card) {
+  Game: class Game{
+    constructor(id, callback){
+      this.id = id;
+      this.callback = callback;
+    }
+    playCard = (card) => {
       const cardBody = {card:card};
       const cardStr = JSON.stringify(cardBody);
-      const request = new Request(server_url + "/game/" + gameID + "/play", Put(cardStr));
+      const request = new Request(server_url + "/game/" + this.id + "/play", Put(cardStr));
       return fetch(request).then(response => {
         if (response.ok) { return response.json(); }
-      });
-    },
-    start: function(gameID) {
-      const request = new Request(server_url + "/game/" + gameID + "/start", Put());
+      }).then(this.callback);
+    }
+    start = () => {
+      const request = new Request(server_url + "/game/" + this.id + "/start", Put());
       return fetch(request).then(response => {
         if (response.ok){return response.json();}
-      });
-    },
-    bet: function(gameID, bet) {
+      }).then(this.callback);
+    }
+    bet = (bet) => {
+      debugger;
       const betBody = {bet:bet};
       const betStr = JSON.stringify(betBody);
-      const request = new Request(server_url + '/game/' + gameID + '/bet', Put(betStr) );
+      const request = new Request(server_url + '/game/' + this.id + '/bet', Put(betStr) );
       return fetch(request).then((response)=>{
         if (response.ok){ return response.json(); }
-      });
-    },
-    get: function(id){
-      const request = new Request(server_url + '/game/' + id, { method:'GET', mode: 'cors', credentials: 'include'});
+      }).then(this.callback);
+    }
+    get = () => {
+      const request = new Request(server_url + '/game/' + this.id, { method:'GET', mode: 'cors', credentials: 'include'});
       return fetch(request).then(response => {
         if (response.ok){return response.json();}
-      });
-    },
-    join: function(id,load) {
+      }).then(this.callback);
+    }
+    join = () => {
         const request = new Request(
-          server_url + '/game/' + id + '/join', { method:'PUT', mode: 'cors', credentials: 'include'}
+          server_url + '/game/' + this.id + '/join', { method:'PUT', mode: 'cors', credentials: 'include'}
          );
         return fetch(request).then((response) => {
            if (response.ok){return response.json();}
-         });
-    },
-    getGames: function() {
+         }).then(this.callback);
+    }
+    static getGames() {
        const request = new Request(server_url + '/game/', { method:'GET', mode: 'cors', credentials: 'include'})
        return fetch(request).then((response)=>{
-          if (response.ok){ return response.json(); }
-        })
-     },
-     createGame: function() {
+          if (response.ok){
+             return response.json();
+           }else{
+             return null;
+          }
+        });
+     }
+     static createGame() {
        const request = new Request(
          server_url + '/game/create', { method:'POST', credentials: 'include' }
         );
@@ -75,7 +83,7 @@ const server = {
        })
      }
    },
-   user: {
+   User: {
      login: function(user){
        const userStr = JSON.stringify(user);
        const request = new Request(server_url + '/users/login', Post(userStr));
