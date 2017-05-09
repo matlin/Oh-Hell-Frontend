@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import Server from '../server.js';
 import '../gameview.css';
 import '../cards.css';
+const SERVER = 'http://localhost:4000';
+import io from 'socket.io-client';
+const socket = io(SERVER);
 
 class GameView extends Component{
   constructor(props){
@@ -14,6 +17,15 @@ class GameView extends Component{
     }
     console.log('GameView loaded');
     this.loadGame();
+    //this.GameState();
+    this.socket = socket.connect(()=>{
+      console.log("i am connected");
+    });
+
+    this.socket.on("update", ()=>{
+      console.log('client got update');
+      this.loadGame();
+    });
   }
 
   loadGame(){
@@ -45,7 +57,8 @@ class GameView extends Component{
         <div>
           <p>You have not joined this game. Join?</p>
           <input type="button" value="Join" onClick={() => {
-              Server.game.join(this.state.id).then((response) => {this.stateCallback(response)});
+              Server.game.join(this.state.id).then((response) => {this.stateCallback(response);
+                this.socket.emit("started");});
             }
           }
           />
@@ -75,7 +88,8 @@ export default GameView;
 
 function Opponent (props){
   let name = props.name;
-  let bets = props.state.state.bets.jade; // unsure how to change jade to "name"
+  let bets = props.state.state.bets.noel; // unsure how to change jade to "name"
+  console.log("bets for players name", props);
   let tricks = props.state.state.tricks; // Needs work
   return (
     <div className="opponent">
@@ -166,6 +180,7 @@ function playCard(card, gameID){
     if (response.message){
       window.alert(response.message);
       //this.loadGame();
+      socket.emit("play");
     }
   })
 }
