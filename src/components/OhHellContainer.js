@@ -31,7 +31,18 @@ class OhHellContainer extends Component {
      }
   }
 
+  isLoggedIn(nextState, replace){
+    console.log(nextState, replace);
+    if (document.cookie.indexOf('id') === -1){
+      replace({
+        pathname: '/login',
+        state: { nextPathname: nextState.location.pathname }
+      });
+    }
+  }
+
   render(){
+    console.log('loaded container');
     return(
       <Router>
         <div>
@@ -40,7 +51,7 @@ class OhHellContainer extends Component {
           <Link to='/lobby'><input type='button' value='Lobby'/></Link>
           <Route path='/login' render={() => <Login/>}/>
           <Route path='/register' render={() => <Register/>}/>
-          <Route path='/lobby' render={() => <Lobby/>}/>
+          <Route path='/lobby' onEnter={this.isLoggedIn} render={() => <Lobby/>}/>
           <Route path='/game/:id' component={GameView} />
         </div>
 
