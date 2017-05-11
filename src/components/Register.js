@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import styled from 'styled-components'
 import Server from '../server.js'
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
 
 const UsernameInput = styled.input`
   display: block;
@@ -13,7 +18,6 @@ const PasswordInput = styled.input`
 const EmailInput = styled.input`
   display: block;
 `;
-
 
 // TODO: add functionality if account already exists for given email
 class Register extends Component{
@@ -70,7 +74,7 @@ class Register extends Component{
       {username}
       {password}
       {email}
-      <input type="button" disabled={this.state.username === '' || this.state.email=== '' || this.state.password === ''} onClick={()=> this.register()} value="Register"/>
+      <Link to='/lobby'><input type='button' disabled={this.state.username === '' || this.state.email=== '' || this.state.password === ''} onClick={()=> this.register()} value="Register"/></Link>
       </div>
     )
   }

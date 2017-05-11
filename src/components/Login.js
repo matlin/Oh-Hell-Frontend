@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Server from '../server.js';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
 
 const EmailInput = styled.input`
   display: block;
@@ -55,7 +60,7 @@ class Login extends Component{
       <div>
       {email}
       {password}
-      <input type="button" disabled={this.state.email=== '' || this.state.password === ''} onClick={()=> this.login()} value="Login"/>
+      <Link to='/lobby'><input type='button' disabled={this.state.email=== '' || this.state.password === ''} onClick={()=> this.login()} value='Login'/></Link>
       </div>
     )
   }
