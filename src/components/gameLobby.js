@@ -14,48 +14,43 @@ class Lobby extends Component {
   constructor(){
     super();
     this.state = {
-      activeGames: []
+      joinedGames: [],
+      openGames: []
     }
-    Server.Game.getGames().then(games=>{
+    Server.Game.getGames().then( games => {
       if (games){
-          this.setState({activeGames: games});
+          this.setState({joinedGames: games.joinedGames, openGames: games.openGames});
       }
     });
- }
+  }
+
+   gameList(games) {
+     return games.map( game => {
+       return (
+         <div>
+           <Link to={'/game/' + game.id}>
+             <span>{game.id} </span>
+             <span>{game.playersInGame}/{game.maxPlayers}</span>
+           </Link>
+         </div>
+       );
+     });
+   }
 
   render(){
-    if (this.state.activeGames.openGames) {
-      let allGames = this.state.activeGames.openGames.concat(this.state.activeGames.joinedGames);
-      const games = allGames.map((game)=>{
-        return (
-          <div>
-            <Link to={'/game/' + game.id}>
-              <span>{game.id} </span>
-              <span>{game.playersInGame}/{game.maxPlayers}</span>
-            </Link>
-          </div>
-        )
-      });
-
-      return(
-        <div style={{marginLeft: 3 + 'em'}} id="Lobby">
-          <h1>Gamelobby</h1>
-          <button type="button" onClick={() => Server.Game.createGame()}>Create Game</button>
-          <button type="button" onClick={() => {Server.Game.getGames().then((games)=>{this.setState({activeGames: games})})}}>Refresh</button>
-          <div>{games}</div>
-        </div>
-      )
-    }else{
-      const games = []
-      return(
-        <div style={{marginLeft: 3 + 'em'}} id="Lobby">
-          <h1>Gamelobby</h1>
-          <button type="button" onClick={() => Server.Game.createGame()}>Create Game</button>
-          <button type="button" onClick={() => {Server.Game.getGames().then((games)=>{this.setState({activeGames: games})})}}>Refresh</button>
-          <div>{games}</div>
-        </div>
-      )
-    }
+    let joinedGames = this.gameList(this.state.joinedGames);
+    let openGames = this.gameList(this.state.openGames);
+    return(
+      <Header style={{marginLeft: 3 + 'em'}} id="Lobby">
+        <h1>Gamelobby</h1>
+        <button type="button" onClick={() => Server.Game.createGame()}>Create Game</button>
+        <button type="button" onClick={() => {Server.Game.getGames().then((games)=>{this.setState({activeGames: games})})}}>Refresh</button>
+        <h2>Your Games</h2>
+        <div>{joinedGames}</div>
+        <h2>Open Games</h2>
+        <div>{openGames}</div>
+      </Header>
+    )
   }
 }
 
