@@ -45,7 +45,7 @@ class Lobby extends Component {
     let joinedGames = this.gameList(this.state.joinedGames);
     let openGames = this.gameList(this.state.openGames);
     return(
-      <div style={{marginLeft: 3 + 'em', marginRight: 3 + 'em'}} id="Lobby">
+      <div style={{marginLeft: 1 + 'em', marginRight: 1 + 'em'}} id="Lobby">
         <Panel>
         <LobbyModal showModal={this.state.showModal} close={() => this.setState({ showModal: false })}/>
         <h1>Gamelobby</h1>
