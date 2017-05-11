@@ -41,7 +41,7 @@ class Lobby extends Component {
     let joinedGames = this.gameList(this.state.joinedGames);
     let openGames = this.gameList(this.state.openGames);
     return(
-      <Header style={{marginLeft: 3 + 'em'}} id="Lobby">
+      <div style={{marginLeft: 3 + 'em'}} id="Lobby">
         <h1>Gamelobby</h1>
         <button type="button" onClick={() => Server.Game.createGame()}>Create Game</button>
         <button type="button" onClick={() => {Server.Game.getGames().then((games)=>{this.setState({activeGames: games})})}}>Refresh</button>
@@ -49,7 +49,7 @@ class Lobby extends Component {
         <div>{joinedGames}</div>
         <h2>Open Games</h2>
         <div>{openGames}</div>
-      </Header>
+      </div>
     )
   }
 }
