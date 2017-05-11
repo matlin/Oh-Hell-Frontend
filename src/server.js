@@ -74,9 +74,10 @@ const server = {
           }
         });
      }
-     static createGame() {
+     static createGame(gameInfo) {
+       const gameInfoStr = JSON.stringify(gameInfo);
        const request = new Request(
-         server_url + '/game/create', { method:'POST', credentials: 'include' }
+         server_url + '/game/create', Post(gameInfoStr)
         );
        return fetch(request).then((response)=>{
          if (response.ok){ response.json(); }
