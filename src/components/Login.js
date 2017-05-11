@@ -31,7 +31,7 @@ class Login extends Component{
       email: this.state.email,
       password: this.state.password
     }
-    Server.user.login(user);
+    Server.User.login(user);
   }
 
   render(){
