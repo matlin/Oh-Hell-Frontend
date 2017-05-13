@@ -60,48 +60,6 @@ class OhHellContainer extends Component {
     );
   }
 
-
-/*
-  render(){
-    if (this.state.mode==='main'){
-      return(
-        <div>
-          <input type="button" onClick={()=>{this.setState({mode:'login'})}} value="Login"/>
-          <input type='button' onClick={()=>{this.setState({mode:'register'})}} value="Register"/>
-          <input type='button' onClick={()=>{this.setState({mode:'join'})}} value="Lobby"/>
-          <input type='button' onClick={()=>{this.setState({mode:'game'})}} value="Current Game"/>
-        </div>
-        );
-      } else if (this.state.mode==='login'){
-        return(
-          <div>
-            <Login login={(user)=> this.login(user)}/>
-            <input type='button' onClick={()=>{this.setState({mode:'main'})}} value="Back"/>
-          </div>
-        )
-      } else if (this.state.mode==='register'){
-        return(
-          <div>
-            <Register register={(user)=> this.register(user)}/>
-            <input type='button' onClick={()=>{this.setState({mode:'main'})}} value="Back"/>
-          </div>
-        )
-      } else if (this.state.mode==='join'){
-        return(
-          <div>
-          <Lobby server={SERVER} back={()=>this.setState({mode:'main'})}/>
-          </div>
-        )
-      } else if (this.state.mode==='game'){
-        return(
-          <div>
-            <GameContainerbasic server={SERVER} placeBet={(bet)=> this.placeBet(bet)} playCard={(card)=> this.playCard(card)} Gamestate={(game)=> this.gameState(game)} messages={"here are the messages"} hand={(hand)=> this.getHand(hand)} />
-            <input type='button' onClick={()=>{this.setState({mode:'main'})}} value="Back"/>
-          </div>
-        )
-      }
-    }
-*/
 }
 
 export default OhHellContainer

@@ -44,12 +44,12 @@ class LobbyModal extends Component {
                 placeholder=""
                 onChange={(event)=>this.handleTextUpdate(event, 'gameName')}
               />
-            <Checkbox onChange={() => this.setState({private: !this.state.private})}>Private</Checkbox>
+            <Checkbox checked={(this.state.private ? true: false)} onChange={() => this.setState({private: !this.state.private})}>Private</Checkbox>
             {passwordField}
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button bsStyle="success"
+            <Button bsStyle="success" disabled={this.state.gameName === '' || (this.state.private && this.state.password === '')}
               onClick={() => this.props.submit({gameName: this.state.gameName, password: this.state.password})
               }>Submit</Button>
             <Button onClick={this.props.close}>Cancel</Button>
