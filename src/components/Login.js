@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Server from '../server.js';
+import {
+  Redirect
+} from 'react-router-dom'
 
 const EmailInput = styled.input`
   display: block;
@@ -14,11 +17,17 @@ const PasswordInput = styled.input`
 // TODO: add functionality if invalid credientails
 
 class Login extends Component{
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
-      email: '',
-      password: ''
+      email: "",
+      password: ""
+    }
+  }
+
+  componentDidMount(){
+    if (document.cookie.indexOf('id') !== -1){
+      this.login();
     }
   }
 
@@ -27,11 +36,28 @@ class Login extends Component{
   }
 
   login(){
-    const user = {
-      email: this.state.email,
-      password: this.state.password
+    if (this.state.email && this.state.password){
+      const user = {
+        email: this.state.email,
+        password: this.state.password
+      }
+      Server.User.login(user).then(response => {
+        console.log("Login response", response);
+        if (response.user){
+          this.props.setUser(response.user);
+          this.props.redirect();
+        }else{
+          window.alert('Either password or username is incorrect');
+        }
+      });
+    }else{
+      Server.User.login().then(response => {
+        if (response.user){
+          this.props.setUser(response.user);
+          this.props.redirect();
+        }
+      });
     }
-    Server.user.login(user);
   }
 
   render(){
@@ -50,14 +76,13 @@ class Login extends Component{
     placeholder="Password"
     onChange={(event)=> this.handleTextUpdate(event, 'password')}
     />)
-
     return(
       <div>
       {email}
       {password}
       <input type="button" disabled={this.state.email=== '' || this.state.password === ''} onClick={()=> this.login()} value="Login"/>
       </div>
-    )
+    );
   }
 }
 

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Server from '../server.js';
 const SERVER = 'http://localhost:4000';
 import io from 'socket.io-client';
-const socket = io(SERVER);
+const socket = io('http://localhost:4001');
 
 
 const BetInput = styled.input`

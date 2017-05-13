@@ -7,7 +7,6 @@
   margin: 0 auto;
 }
 #grid > div{
-  border: 1px solid black;
   text-align:center;
   display:flex;
   justify-content:space-around;
@@ -23,6 +22,9 @@ div .opponent{
   min-height:100px;
   min-width:100px;
   border:1px solid red;
+  border: 3px solid red;
+  padding: 10px;
+  border-radius: 5px;
 }
 .opponent h4{
   margin:0px;
@@ -55,6 +57,8 @@ div#table{
   grid-row-start:2;
   grid-row-end:3;
   justify-content:center;
+  border: 3px solid black;
+  border-radius: 10px;
 }
 
 #hand{
@@ -62,4 +66,7 @@ div#table{
   grid-column-end:4;
   grid-row-start:3;
   grid-row-end:4;
+  border-top: 3px solid lightgrey;
+  padding-top:10px;
+  margin-top:10px;
 }

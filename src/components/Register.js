@@ -36,7 +36,7 @@ class Register extends Component{
       password: this.state.password,
       email: this.state.email
     }
-    Server.user.register(user);
+    Server.User.register(user);
   }
 
   render(){

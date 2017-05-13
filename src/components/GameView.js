@@ -3,40 +3,79 @@ import styled from 'styled-components';
 import Server from '../server.js';
 import '../gameview.css';
 import '../cards.css';
+import io from 'socket.io-client';
 
 class GameView extends Component{
   constructor(props){
     super(props);
     this.state = {
-      gameState: {joined: false},
+      gameState: {joined: false, hand: []},
       messages: null,
-      id: props.match.params.id,
-      server: new Server.Game(props.match.params.id, this.stateCallback.bind(this))
+      id: props.gameID,
+      username: props.username,
+      server: new Server.Game(props.gameID, this.stateCallback.bind(this))
     }
-    console.log('GameView loaded');
-    this.loadGame();
+    //this.loadGame();
   }
+
+  componentDidMount(){
+      console.log('Game view mounted');
+      this.loadGame();
+      const socket = io('http://localhost:4001');
+      socket.emit('join', this.state.id);
+      socket.on('update', (data) => {
+        this.socketCallback(data);
+      });
+  }
+
+  componentWillUnmount(){
+    console.log('Game view unmounting');
+  }
+
 
   loadGame(){
     if (this.state.id){
       this.state.server.get();
+      //this.state.server.getHand();
     }else{
       console.error('No game id provided');
     }
   }
 
+  socketCallback = (response) => {
+    this.loadGame();
+    // console.log("Socket response:", response);
+    // if(response.state){
+    //     this.setState({gameState: Object.assign({}, response.state, {hand: this.state.gameState.hand}), messages:response.message});
+    // }
+    // if (response.message){
+    // }
+  }
+
   stateCallback (response){
-    console.log(response);
-    this.setState({gameState: response.state, messages:response.message});
-    if (response.message){
-      window.alert(response.message);
+    console.log("Http response: ", response);
+    if (response.alert){
+      window.alert(response.alert);
     }
+    if (response.state){
+        this.setState({gameState: response.state, messages: response.message.concat(this.state.messages)});
+    }
+    // if (response.hand){
+    //   this.setState({gameState: Object.assign({},this.state.gameState, {hand:response.hand})});
+    // }else if(response.state){
+    //     console.log('Updating game state');
+    //     this.setState({gameState: Object.assign({}, response.state, {hand: this.state.gameState.hand}), messages:response.message});
+    // }
+    // if (response.message){
+    //   window.alert(response.message);
+    // }
   }
 
 
   render(){
-    console.log('Joined: ' + this.state.gameState.joined);
+    console.log('rendering from', this.state.gameState);
     if (this.state.gameState.joined === false){
+      console.log('joined?', this.state.gameState.joined);
       return (
         <div>
           <p>You have not joined this game. Join?</p>
@@ -60,9 +99,8 @@ class GameView extends Component{
         </div>
       );
     }
-    console.log('Rendering game table');
     return(
-      <GameTable server={this.state.server} state={this.state.gameState} />
+      <GameTable server={this.state.server} state={this.state.gameState} username={this.state.username} />
     );
   }
 }
@@ -93,8 +131,8 @@ function Opponent (props){
 function Card(props){
   let sizeClass = props.small ? 'inText' : 'simpleCards';
   let code = props.code;
-  let rank = code[0];
-  let suit = code[1];
+  let rank = code.substring(0, code.length == 2 ? 1 : 2);
+  let suit = code[code.length == 2 ? 1 : 2];
   const suitMap = {D: 'diams',H: 'hearts',S: 'spades',C: 'clubs'}
   const charMap = {D: '9830',H: '9829',S: '9824',C: '9827'}
   let suitClass = suitMap[suit];
@@ -109,15 +147,15 @@ function Card(props){
 }
 
 function GameTable (props){
-  console.log(props);
-  let players = props.state.players.filter(username => username !== props.state.user);
+  console.log("Rendering gametable", props);
+  let players = props.state.players.filter(username => username !== props.username);
   let dist = threeDistribution(players);
   let containers = [];
   for (let i=0; i<dist.length; i++){
     containers[i] = [];
     for (let j=0; j<dist[i]; j++){
       let player = players.shift();
-      containers[i].push(<Opponent state={props} card={props.state.cardsInPlay[player]} name={player} />);
+      containers[i].push(<Opponent key={player} state={props} card={props.state.cardsInPlay[player]} name={player} />);
     }
   }
   return (
@@ -133,7 +171,7 @@ function GameTable (props){
       </div>
       <div id="hand" className="playingCards">
         <BetMaker bet={props.server.bet} show={props.state.betting} maxBet={props.state.hand.length} />
-        <Hand play={props.server.playCard} state={props} cards={props.state.hand.map(card => card.id)} />
+        <Hand play={(cardID) => {props.server.playCard(cardID); props.server.getHand();}} state={props} cards={props.state.hand.map(card => card.id)} />
       </div>
     </div>
   );
@@ -153,24 +191,11 @@ function BetMaker(props){
   }
 }
 
-function playCard(card, gameID){
-  console.log("Trying to play", card);
-  console.log(gameID);
-  Server.game.playCard(gameID, card).then(response => {
-    console.log(response);
-    //this.setState({gameState: response.state, messages:response.message});  do we need this?
-    if (response.message){
-      window.alert(response.message);
-      //this.loadGame();
-    }
-  })
-}
-
 function Hand(props){
   console.log(props);
   const gameID = (props.state.state.id);
   let cards = props.cards.map((card)=>{
-    return (<li onClick={()=> props.play(card)}> <Card code={card} key={card}Card /> </li>);
+    return (<li key={card}  onClick={()=> props.play(card)}> <Card code={card} /> </li>);
   });
   return (
     <ul className="hand">

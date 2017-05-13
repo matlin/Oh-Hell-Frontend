@@ -42,7 +42,6 @@ const server = {
       }).then(this.callback);
     }
     bet = (bet) => {
-      debugger;
       const betBody = {bet:bet};
       const betStr = JSON.stringify(betBody);
       const request = new Request(server_url + '/game/' + this.id + '/bet', Put(betStr) );
@@ -64,6 +63,12 @@ const server = {
            if (response.ok){return response.json();}
          }).then(this.callback);
     }
+    getHand = () => {
+      const request = new Request(server_url + '/game/' + this.id + '/hand/', { method:'GET', mode: 'cors', credentials: 'include'});
+      return fetch(request).then(response => {
+        if (response.ok){return response.json();}
+      }).then(this.callback);
+    }
     static getGames() {
        const request = new Request(server_url + '/game/', { method:'GET', mode: 'cors', credentials: 'include'})
        return fetch(request).then((response)=>{
@@ -79,7 +84,7 @@ const server = {
          server_url + '/game/create', { method:'POST', credentials: 'include' }
         );
        return fetch(request).then((response)=>{
-         if (response.ok){ response.json(); }
+         if (response.ok){ return response.json(); }
        })
      }
    },
@@ -87,7 +92,9 @@ const server = {
      login: function(user){
        const userStr = JSON.stringify(user);
        const request = new Request(server_url + '/users/login', Post(userStr));
-       return fetch(request).then((response)=>{ return response.ok;})
+       return fetch(request).then((response)=>{
+         if (response.ok){ return response.json(); }
+       });
      },
      register: function(user){
        const userStr = JSON.stringify(user);
