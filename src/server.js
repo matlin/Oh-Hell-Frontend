@@ -80,7 +80,7 @@ const server = {
          server_url + '/game/create', Post(gameInfoStr)
         );
        return fetch(request).then((response)=>{
-         if (response.ok){ response.json(); }
+         if (response.ok){ return response.json(); }
        })
      }
      static deleteGame(gameID) {

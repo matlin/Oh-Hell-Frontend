@@ -5,12 +5,37 @@
 import React, {Component} from 'react';
 import Server from '../server.js';
 import LobbyModal from './LobbyModal.js';
+import styled from 'styled-components';
 import {Panel, ListGroup, ListGroupItem, Button, Clearfix, Glyphicon} from 'react-bootstrap';
 import {
   BrowserRouter as Router,
   Route,
   Link
 } from 'react-router-dom'
+
+const StyledRefreshButton = styled(Button)`
+  vertical-align: super;
+  marginLeft: 5px;
+  background-color: rgba(255,255,255,0);
+  color: white;
+  border: none;
+`;
+
+const StyledAddButton = styled(Button)`
+  vertical-align: super;
+  marginLeft: 5px;
+`;
+
+const LobbyHeader = styled.h1`
+  font-weight: 800;
+  color: white;
+`;
+
+const HeaderPanel = styled(ListGroupItem)`
+  text-align: center;
+  background-color: #34495E;
+`;
+
 
 class Lobby extends Component {
   constructor(){
@@ -36,7 +61,7 @@ class Lobby extends Component {
            () => Server.Game.deleteGame(game.id).then((games) => {
              this.setState({ joinedGames: games.joinedGames, openGames: games.openGames});
            })
-         }>Delete<Glyphicon glyph="trash"/></Button>);
+         }><Glyphicon glyph="trash"/></Button>);
        } else {
          deleteButton = (<div></div>);
        }
@@ -57,8 +82,8 @@ class Lobby extends Component {
     let joinedGames = this.gameList(this.state.joinedGames);
     let openGames = this.gameList(this.state.openGames);
     return(
-      <div style={{marginLeft: 1 + 'em', marginRight: 1 + 'em'}} id="Lobby">
-        <Panel>
+      <div style={{margin: '0 auto', maxWidth: "650px"}} id="Lobby">
+        <ListGroup>
         <LobbyModal showModal={this.state.showModal}
           submit={
             (gameInfo) => {
@@ -66,14 +91,20 @@ class Lobby extends Component {
               this.setState({ joinedGames: games.joinedGames, openGames: games.openGames, showModal: false });
             })}}
           close={() => this.setState({ showModal: false })}/>
-        <h1>Gamelobby</h1>
-        <Button bsStyle="success" type="button" onClick={() => this.setState({ showModal: true })}>Create Game</Button>
-        <Button bsStyle="primary" type="button" onClick={() => {Server.Game.getGames().then((games)=>{this.setState({joinedGames: games.joinedGames, openGames: games.openGames})})}}>Refresh</Button>
-        <h2>Your Games</h2>
+        <HeaderPanel>
+          <LobbyHeader style={{display:"inline-block"}}>Lobby</LobbyHeader>
+          <StyledRefreshButton bsStyle="primary" type="button" onClick={() => {Server.Game.getGames().then((games)=>{this.setState({joinedGames: games.joinedGames, openGames: games.openGames})})}}><Glyphicon glyph="refresh"/></StyledRefreshButton>
+        </HeaderPanel>
+        <ListGroupItem>
+        <div>
+          <h3 style={{display:"inline-block"}}>Your Games</h3>
+          <StyledAddButton bsSize="xsmall" bsStyle="success" type="button" onClick={() => this.setState({ showModal: true })}><Glyphicon glyph="plus"/></StyledAddButton>
+        </div>
         <ListGroup>{joinedGames}</ListGroup>
-        <h2>Open Games</h2>
+        <h3>Open Games</h3>
         <ListGroup>{openGames}</ListGroup>
-        </Panel>
+        </ListGroupItem>
+        </ListGroup>
       </div>
     )
   }

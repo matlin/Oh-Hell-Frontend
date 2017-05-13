@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import Server from '../server.js';
-import { Button, Modal, Form, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import { Button, Modal, Form, FormGroup, ControlLabel, FormControl, Checkbox } from 'react-bootstrap';
 class LobbyModal extends Component {
   constructor(){
     super();
     this.state = {
       gameName: '',
-      password: ''
+      password: '',
+      private: false
     }
   }
 
@@ -15,6 +16,20 @@ class LobbyModal extends Component {
   }
 
   render(){
+    let passwordField;
+    if (this.state.private) {
+      passwordField = (
+      <div>
+        <ControlLabel>Password</ControlLabel>
+        <FormControl
+          type="text"
+          value={this.state.password}
+          placeholder=""
+          onChange={(event)=>this.handleTextUpdate(event, 'password')}/>
+      </div>)
+    } else {
+      passwordField = null;
+    }
     return(
       <Modal show={this.props.showModal} onHide={this.props.close}>
           <Modal.Header closeButton>
@@ -29,17 +44,12 @@ class LobbyModal extends Component {
                 placeholder=""
                 onChange={(event)=>this.handleTextUpdate(event, 'gameName')}
               />
-              <ControlLabel>Password (Optional)</ControlLabel>
-              <FormControl
-                type="text"
-                value={this.state.password}
-                placeholder=""
-                onChange={(event)=>this.handleTextUpdate(event, 'password')}
-              />
+            <Checkbox onChange={() => this.setState({private: !this.state.private})}>Private</Checkbox>
+            {passwordField}
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button
+            <Button bsStyle="success"
               onClick={() => this.props.submit({gameName: this.state.gameName, password: this.state.password})
               }>Submit</Button>
             <Button onClick={this.props.close}>Cancel</Button>
