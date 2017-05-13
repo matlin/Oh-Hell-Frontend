@@ -40,10 +40,8 @@ class LobbyModal extends Component {
           </Modal.Body>
           <Modal.Footer>
             <Button
-              onClick={() => {
-                Server.Game.createGame({gameName: this.state.gameName, password: this.state.password});
-                this.props.close();
-              }}>Submit</Button>
+              onClick={() => this.props.submit({gameName: this.state.gameName, password: this.state.password})
+              }>Submit</Button>
             <Button onClick={this.props.close}>Cancel</Button>
           </Modal.Footer>
         </Modal>

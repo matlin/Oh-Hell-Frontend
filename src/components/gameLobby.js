@@ -5,7 +5,7 @@
 import React, {Component} from 'react';
 import Server from '../server.js';
 import LobbyModal from './LobbyModal.js';
-import {Panel, ListGroup, ListGroupItem, Button} from 'react-bootstrap';
+import {Panel, ListGroup, ListGroupItem, Button, Clearfix, Glyphicon} from 'react-bootstrap';
 import {
   BrowserRouter as Router,
   Route,
@@ -30,12 +30,24 @@ class Lobby extends Component {
    gameList(games) {
      return games.map( game => {
        console.log(game);
+       let deleteButton;
+       if (game.isOwner) {
+         deleteButton = (<Button bsStyle="danger" style={{float: "right", display: "inline"}} onClick={
+           () => Server.Game.deleteGame(game.id).then((games) => {
+             this.setState({ joinedGames: games.joinedGames, openGames: games.openGames});
+           })
+         }>Delete<Glyphicon glyph="trash"/></Button>);
+       } else {
+         deleteButton = (<div></div>);
+       }
        return (
          <ListGroupItem>
+           <Clearfix>
            <Link to={'/game/' + game.id}>
              <span>{game.gameName+' '}</span>
              <span>{game.playersInGame}/{game.maxPlayers}</span>
            </Link>
+          {deleteButton}</Clearfix>
          </ListGroupItem>
        );
      });
@@ -47,7 +59,13 @@ class Lobby extends Component {
     return(
       <div style={{marginLeft: 1 + 'em', marginRight: 1 + 'em'}} id="Lobby">
         <Panel>
-        <LobbyModal showModal={this.state.showModal} close={() => this.setState({ showModal: false })}/>
+        <LobbyModal showModal={this.state.showModal}
+          submit={
+            (gameInfo) => {
+              Server.Game.createGame(gameInfo).then((games) => {
+              this.setState({ joinedGames: games.joinedGames, openGames: games.openGames, showModal: false });
+            })}}
+          close={() => this.setState({ showModal: false })}/>
         <h1>Gamelobby</h1>
         <Button bsStyle="success" type="button" onClick={() => this.setState({ showModal: true })}>Create Game</Button>
         <Button bsStyle="primary" type="button" onClick={() => {Server.Game.getGames().then((games)=>{this.setState({joinedGames: games.joinedGames, openGames: games.openGames})})}}>Refresh</Button>

@@ -83,6 +83,18 @@ const server = {
          if (response.ok){ response.json(); }
        })
      }
+     static deleteGame(gameID) {
+       const request = new Request(
+         server_url + '/game/' + gameID + '/delete', { method: 'DELETE', mode: 'cors', credentials: 'include'}
+       );
+       return fetch(request).then((response) => {
+         if (response.ok){
+            return response.json();
+          }else{
+            return null;
+         }
+       });
+     }
    },
    User: {
      login: function(user){
