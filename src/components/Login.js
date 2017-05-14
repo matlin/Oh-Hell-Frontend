@@ -10,7 +10,8 @@ import {
   ControlLabel,
   FormControl
 } from "react-bootstrap";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect, Link } from "react-router-dom";
+
 
 const LobbyHeader = styled.h1`
   color: white;
@@ -33,26 +34,48 @@ const StyledLink = styled(Link)`
 `;
 
 // TODO: add functionality if invalid credientails
-
-class Login extends Component {
-  constructor() {
-    super();
+class Login extends Component{
+  constructor(props){
+    super(props);
     this.state = {
       email: "",
       password: ""
-    };
+    }
+  }
+
+  componentDidMount(){
+    if (document.cookie.indexOf('id') !== -1){
+      this.login();
+    }
   }
 
   handleTextUpdate(event, field) {
     this.setState({ [field]: event.target.value });
   }
 
-  login() {
-    const user = {
-      email: this.state.email,
-      password: this.state.password
-    };
-    Server.User.login(user);
+  login(){
+    if (this.state.email && this.state.password){
+      const user = {
+        email: this.state.email,
+        password: this.state.password
+      }
+      Server.User.login(user).then(response => {
+        console.log("Login response", response);
+        if (response.user){
+          this.props.setUser(response.user);
+          this.props.redirect();
+        }else{
+          window.alert('Either password or username is incorrect');
+        }
+      });
+    }else{
+      Server.User.login().then(response => {
+        if (response.user){
+          this.props.setUser(response.user);
+          this.props.redirect();
+        }
+      });
+    }
   }
 
   render() {
