@@ -49,7 +49,7 @@ class LobbyModal extends Component {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button bsStyle="success" disabled={this.state.gameName === '' || (this.state.private && this.state.password === '')}
+            <Button bsStyle="success" disabled={this.state.gameName.trim() === '' || (this.state.private && this.state.password.trim() === '')}
               onClick={() => this.props.submit({gameName: this.state.gameName, password: this.state.private ? this.state.password : ''})
               }>Submit</Button>
             <Button onClick={this.props.close}>Cancel</Button>
