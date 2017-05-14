@@ -5,40 +5,32 @@ import GameContainer from './GameContainer.js';
 import GameContainerBasic from './GameContainerbasic.js';
 import GameView from './GameView.js'
 import Lobby from './gameLobby.js';
+import Server from '../server.js'
 import {
   BrowserRouter as Router,
   Route,
-  Link
+  Link,
+  Redirect
 } from 'react-router-dom'
 
-const SERVER = 'http://localhost:4000'
+const SERVER = 'http://localhost:4000';
 
 
-
-
-/*
-  socket.on('connection', function (data) {
-    console.log(data);
-    console.log('connection')
-  });
-*/
 
 class OhHellContainer extends Component {
    constructor(){
      super();
      this.state = {
-       mode: 'main'
+       username: null
      }
   }
 
-  isLoggedIn(nextState, replace){
-    console.log(nextState, replace);
-    if (document.cookie.indexOf('id') === -1){
-      replace({
-        pathname: '/login',
-        state: { nextPathname: nextState.location.pathname }
-      });
-    }
+  setUser = username => {
+    this.setState({username: username});
+  }
+
+  isLoggedIn(){
+    return document.cookie.indexOf('id') !== -1 && this.state.username != null;
   }
 
   render(){
@@ -46,61 +38,37 @@ class OhHellContainer extends Component {
     return(
       <Router>
         <div>
+          <Route path='/' render={() => <Redirect to="/lobby" />} />
           <Link to='/login'><input type='button' value='Login'/></Link>
           <Link to='/register'><input type='button' value='Register'/></Link>
           <Link to='/lobby'><input type='button' value='Lobby'/></Link>
-          <Route path='/login' render={() => <Login/>}/>
+          <Route path='/login/' render={({match, history}) => <Login redirect={history.goBack} setUser={this.setUser}/>}/>
           <Route path='/register' render={() => <Register/>}/>
-          <Route path='/lobby' onEnter={this.isLoggedIn} render={() => <Lobby/>}/>
-          <Route path='/game/:id' component={GameView} />
+          <Route path='/lobby' render={ ({history}) => {
+            if (this.isLoggedIn()){
+              return <Lobby/>
+            }else{
+              history.push('/lobby');
+              return <Redirect to="/login" />
+            }
+           }
+          }
+         />
+          <Route path='/game/:id' render={ ({match, history}) => {
+            console.log('Accessing game route');
+            if (this.isLoggedIn()){
+              console.log('Rendering game view for ' + this.state.username);
+              return <GameView username={this.state.username} gameID={match.params.id} />;
+            }else{
+              history.push('/game/' + match.params.id);
+              return <Redirect to={'/login'}/>
+            }
+          }}
+          />
         </div>
-
       </Router>
     );
   }
-
-
-/*
-  render(){
-    if (this.state.mode==='main'){
-      return(
-        <div>
-          <input type="button" onClick={()=>{this.setState({mode:'login'})}} value="Login"/>
-          <input type='button' onClick={()=>{this.setState({mode:'register'})}} value="Register"/>
-          <input type='button' onClick={()=>{this.setState({mode:'join'})}} value="Lobby"/>
-          <input type='button' onClick={()=>{this.setState({mode:'game'})}} value="Current Game"/>
-        </div>
-        );
-      } else if (this.state.mode==='login'){
-        return(
-          <div>
-            <Login login={(user)=> this.login(user)}/>
-            <input type='button' onClick={()=>{this.setState({mode:'main'})}} value="Back"/>
-          </div>
-        )
-      } else if (this.state.mode==='register'){
-        return(
-          <div>
-            <Register register={(user)=> this.register(user)}/>
-            <input type='button' onClick={()=>{this.setState({mode:'main'})}} value="Back"/>
-          </div>
-        )
-      } else if (this.state.mode==='join'){
-        return(
-          <div>
-          <Lobby server={SERVER} back={()=>this.setState({mode:'main'})}/>
-          </div>
-        )
-      } else if (this.state.mode==='game'){
-        return(
-          <div>
-            <GameContainerbasic server={SERVER} placeBet={(bet)=> this.placeBet(bet)} playCard={(card)=> this.playCard(card)} Gamestate={(game)=> this.gameState(game)} messages={"here are the messages"} hand={(hand)=> this.getHand(hand)} />
-            <input type='button' onClick={()=>{this.setState({mode:'main'})}} value="Back"/>
-          </div>
-        )
-      }
-    }
-*/
 }
 
 export default OhHellContainer

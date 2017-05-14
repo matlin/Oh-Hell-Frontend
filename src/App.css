@@ -5,8 +5,12 @@
 /* designed for desktop*/
 
 h1 {
-  float:right;
   padding-right: 10px;
+  font-family: 'Lobster', cursive;
+}
+
+html body div{
+  font-family: 'Cabin', sans-serif;
 }
 
 #our-table {
