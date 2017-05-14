@@ -58,7 +58,10 @@ class GameView extends Component{
       window.alert(response.alert);
     }
     if (response.state){
-        this.setState({gameState: response.state, messages: response.message.concat(this.state.messages)});
+        this.setState({gameState: response.state});
+    }
+    if (response.message){
+      this.setState({messages: response.message.concat(this.state.messages)});
     }
     // if (response.hand){
     //   this.setState({gameState: Object.assign({},this.state.gameState, {hand:response.hand})});
@@ -171,7 +174,7 @@ function GameTable (props){
       </div>
       <div id="hand" className="playingCards">
         <BetMaker bet={props.server.bet} show={props.state.betting} maxBet={props.state.hand.length} />
-        <Hand play={(cardID) => {props.server.playCard(cardID); props.server.getHand();}} state={props} cards={props.state.hand.map(card => card.id)} />
+        <Hand play={(cardID) => {props.server.playCard(cardID)}} state={props} cards={props.state.hand.map(card => card.id)} />
       </div>
     </div>
   );
