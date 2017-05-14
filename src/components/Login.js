@@ -108,7 +108,7 @@ class Login extends Component{
 
           <Link to="/lobby">
             <StyledButton
-              disabled={this.state.email === "" || this.state.password === ""}
+              disabled={this.state.email.trim() === "" || this.state.password.trim() === ""}
               onClick={() => this.login()}>
               Login
             </StyledButton>

@@ -95,9 +95,9 @@ class Register extends Component {
           <Link to="/lobby">
             <StyledButton
               disabled={
-                this.state.username === "" ||
-                  this.state.email === "" ||
-                  this.state.password === ""
+                this.state.username.trim() === "" ||
+                  this.state.email.trim() === "" ||
+                  this.state.password.trim() === ""
               }
               onClick={() => this.register()}
             >
