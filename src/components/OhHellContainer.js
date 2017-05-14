@@ -13,7 +13,8 @@ import {
   Redirect
 } from 'react-router-dom'
 
-const SERVER = 'http://localhost:4000'
+const SERVER = 'http://localhost:4000';
+
 
 
 class OhHellContainer extends Component {

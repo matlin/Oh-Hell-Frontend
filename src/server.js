@@ -1,4 +1,4 @@
-const server_url = "http://localhost:4000";
+const server_url = 'http://localhost:4000';
 
 //allow instantiating with gameID and callback
 function Post(body) {
@@ -79,13 +79,26 @@ const server = {
           }
         });
      }
-     static createGame() {
+     static createGame(gameInfo) {
+       const gameInfoStr = JSON.stringify(gameInfo);
        const request = new Request(
-         server_url + '/game/create', { method:'POST', credentials: 'include' }
+         server_url + '/game/create', Post(gameInfoStr)
         );
        return fetch(request).then((response)=>{
          if (response.ok){ return response.json(); }
        })
+     }
+     static deleteGame(gameID) {
+       const request = new Request(
+         server_url + '/game/' + gameID + '/delete', { method: 'DELETE', mode: 'cors', credentials: 'include'}
+       );
+       return fetch(request).then((response) => {
+         if (response.ok){
+            return response.json();
+          }else{
+            return null;
+         }
+       });
      }
    },
    User: {
