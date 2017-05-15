@@ -171,6 +171,8 @@ function GameTable (props){
         <div className="playingCards inText">Trump: <Card code={props.state.trumpCard.id} /></div>
         <p>Turn: {props.state.turn}</p>
         <p>Dealer: {props.state.dealer}</p>
+        <p>Messages: {props.state.messages.slice(-1)}</p>
+        <p> {props.state.messages.slice(-2,-1)}</p>
       </div>
       <div id="hand" style={{"backgroundColor": "white"}} className="playingCards">
         <h3>{props.username}</h3>
