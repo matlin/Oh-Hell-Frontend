@@ -4,6 +4,9 @@ import Server from '../server.js';
 import '../gameview.css';
 import '../cards.css';
 import io from 'socket.io-client';
+import {
+  Button,
+} from 'react-bootstrap';
 
 class GameView extends Component{
   constructor(props){
@@ -15,7 +18,6 @@ class GameView extends Component{
       username: props.username,
       server: new Server.Game(props.gameID, this.stateCallback.bind(this))
     }
-    //this.loadGame();
   }
 
   componentDidMount(){
@@ -36,20 +38,14 @@ class GameView extends Component{
   loadGame(){
     if (this.state.id){
       this.state.server.get();
-      //this.state.server.getHand();
     }else{
       console.error('No game id provided');
     }
   }
 
   socketCallback = (response) => {
+    //TODO add check for game id
     this.loadGame();
-    // console.log("Socket response:", response);
-    // if(response.state){
-    //     this.setState({gameState: Object.assign({}, response.state, {hand: this.state.gameState.hand}), messages:response.message});
-    // }
-    // if (response.message){
-    // }
   }
 
   stateCallback (response){
@@ -63,15 +59,6 @@ class GameView extends Component{
     if (response.message){
       this.setState({messages: response.message.concat(this.state.messages)});
     }
-    // if (response.hand){
-    //   this.setState({gameState: Object.assign({},this.state.gameState, {hand:response.hand})});
-    // }else if(response.state){
-    //     console.log('Updating game state');
-    //     this.setState({gameState: Object.assign({}, response.state, {hand: this.state.gameState.hand}), messages:response.message});
-    // }
-    // if (response.message){
-    //   window.alert(response.message);
-    // }
   }
 
 
@@ -114,51 +101,29 @@ function Opponent (props){
   let name = props.name;
   let bets = props.state.state.bets[name];
   let tricks = props.state.state.tricks[name] || 0;
-  let scoreSum = 0;
-  for(let i = 0; i < Object.keys(props.state.state.scores.round).length; i++){
-    scoreSum += Object.values(props.state.state.scores.round)[i][name];
-  }
+  let color = (props.turn ? 'red' : 'white');
+  let PlayerInfo = styled.div`
+    display:inline-block;
+    float:left;
+    margin-right:10px;
+    text-align:left;
+  `;
   return (
-    <div className="opponent">
+    <div style={{"backgroundColor": color}} className="opponent">
       <h4>{name}</h4><hr />
-
-      <span>Bet: {bets}</span><br />
-      <span>Tricks: {tricks}</span><br />
-      <span>Score: {scoreSum}</span>
-      <div className="playingCards inText">
+      <PlayerInfo>
+        <span>Bet: {bets}</span><br />
+        <span>Tricks: {tricks}</span>
+      </PlayerInfo>
        {(() => {
           if (props.card){
-            //console.log(name, " played ", props.card)
-            return <Card code={props.card} />;
+            return (
+              <div style={{"float":"right"}} className="playingCards">
+                <Card code={props.card.id} />
+              </div>
+            );
           }
         })()}
-      </div>
-    </div>
-  );
-}
-
-function Selfview (props){
-  let name = props.name;
-  let bets = props.state.state.bets[name];
-  let tricks = props.state.state.tricks[name] || 0;
-  let scoreSum = 0;
-  for(let i = 0; i < Object.keys(props.state.state.scores.round).length; i++){
-    scoreSum += Object.values(props.state.state.scores.round)[i][name];
-  }
-  return (
-    <div className="opponent">
-      <h4>{name}</h4><hr />
-
-      <span>Bet: {bets}</span><br />
-      <span>Tricks: {tricks}</span><br />
-      <span>Score: {scoreSum}</span>
-      <div className="playingCards inText">
-       {(() => {
-          if (props.card){
-            return <Card code={props.card} />;
-          }
-        })()}
-      </div>
     </div>
   );
 }
@@ -183,16 +148,19 @@ function Card(props){
 
 function GameTable (props){
   console.log("Rendering gametable", props);
-  let players = props.state.players.filter(username => username !== props.username);
+  //let players = props.state.players.filter(username => username !== props.username);
+  let players = [1,2,3,4,5,6];
   let dist = threeDistribution(players);
   let containers = [];
   for (let i=0; i<dist.length; i++){
     containers[i] = [];
     for (let j=0; j<dist[i]; j++){
       let player = players.shift();
-      containers[i].push(<Opponent key={player} state={props} card={props.state.cardsInPlay[player]} name={player} />);
+      const turn = props.state.turn === player;
+      containers[i].push(<Opponent key={player} turn={turn} state={props} card={props.state.cardsInPlay[player]} name={player} />);
     }
   }
+  let color = (props.state.turn === props.username ? 'red' : 'none');
   return (
     <div id="grid">
       <div id="left-table">{containers[0]}</div>
@@ -204,10 +172,10 @@ function GameTable (props){
         <p>Turn: {props.state.turn}</p>
         <p>Dealer: {props.state.dealer}</p>
       </div>
-      <div id="hand" className="playingCards">
-        <BetMaker bet={props.server.bet} show={props.state.betting} maxBet={props.state.hand.length} />
+      <div id="hand" style={{"backgroundColor": "white"}} className="playingCards">
+        <h3>{props.username}</h3>
+        <BetMaker betFunc={props.server.bet} bet={props.state.bets[props.username]} show={props.state.betting} maxBet={props.state.hand.length} />
         <Hand play={(cardID) => {props.server.playCard(cardID)}} state={props} cards={props.state.hand.map(card => card.id)} />
-        <Selfview key={props.username} state={props} card={props.state.cardsInPlay[props.username]} name={props.username} />
       </div>
     </div>
   );
@@ -217,7 +185,12 @@ function BetMaker(props){
   if (props.show === true){
     let betButtons = [];
     for (let i=0; i<=props.maxBet; i++){
-      betButtons.push(<input type="button" key={"bet" + i} onClick={() => {props.bet(i)}} value={i} />);
+      const haveBet = props.bet != null;
+      const style = props.bet === i ? "success" : "default";
+      betButtons.push(
+        //<Button type="button" key={"bet" + i} disabled={haveBet} style={{"backgroundColor": color}} onClick={() => {props.betFunc(i)}} value={i} />
+        <Button bsSize="xs" bsStyle={style} onClick={() => {props.betFunc(i)}} disabled={haveBet} key={"bet" + i}>{i}</Button>
+      );
     }
     return(
       <div>Click to bet: {betButtons}</div>
@@ -239,6 +212,8 @@ function Hand(props){
      </ul>
   );
 }
+
+
 
 
 function threeDistribution(listorlength){
@@ -266,11 +241,3 @@ function threeDistribution(listorlength){
   }
   return result;
 }
-
-
-
-
-/*ReactDOM.render(
-  <GameView left={containers[0]} top={containers[1]} right={containers[2]} />,
-  document.getElementById('root')
-);*/
