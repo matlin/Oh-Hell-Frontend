@@ -129,7 +129,7 @@ function Opponent (props){
        {(() => {
           if (props.card){
             //console.log(name, " played ", props.card)
-            return <Card code={props.card} />;
+            return <Card code={props.card.id} />;
           }
         })()}
       </div>
@@ -155,7 +155,7 @@ function Selfview (props){
       <div className="playingCards inText">
        {(() => {
           if (props.card){
-            return <Card code={props.card} />;
+            return <Card code={props.card.id} />;
           }
         })()}
       </div>
@@ -166,7 +166,13 @@ function Selfview (props){
 function Card(props){
   let sizeClass = props.small ? 'inText' : 'simpleCards';
   let code = props.code;
-  let rank = code.substring(0, code.length == 2 ? 1 : 2);
+  let rank;
+  if(props.code.id){
+    rank = props.code.id.slice(0,props.code.length-1);
+  } else{
+    rank = code.substring(0, code.length == 2 ? 1 : 2);
+  }
+  console.log(rank);
   let suit = code[code.length == 2 ? 1 : 2];
   const suitMap = {D: 'diams',H: 'hearts',S: 'spades',C: 'clubs'}
   const charMap = {D: '9830',H: '9829',S: '9824',C: '9827'}
