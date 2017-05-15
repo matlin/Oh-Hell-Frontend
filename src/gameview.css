@@ -25,9 +25,10 @@ div .opponent{
   border: 3px solid red;
   padding: 10px;
   border-radius: 5px;
+  margin: 20px 0px;
 }
-.opponent h4{
-  margin:0px;
+.opponent h4, .opponent hr{
+  margin:5px;
 }
 
 #left-table {
@@ -38,8 +39,8 @@ div .opponent{
 }
 
 #top-table{
-  grid-column-start:1;
-  grid-column-end:4;
+  grid-column-start:2;
+  grid-column-end:3;
   grid-row-start:1;
   grid-row-end:2;
 }

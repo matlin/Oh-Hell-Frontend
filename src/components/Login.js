@@ -41,12 +41,15 @@ class Login extends Component{
       email: "",
       password: ""
     }
-  }
-
-  componentDidMount(){
     if (document.cookie.indexOf('id') !== -1){
       this.login();
     }
+  }
+
+  componentDidMount(){
+    // if (document.cookie.indexOf('id') !== -1){
+    //   this.login();
+    // }
   }
 
   handleTextUpdate(event, field) {
