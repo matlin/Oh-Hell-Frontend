@@ -42,6 +42,7 @@ class OhHellContainer extends Component {
           <Link to='/login'><input type='button' value='Login'/></Link>
           <Link to='/register'><input type='button' value='Register'/></Link>
           <Link to='/lobby'><input type='button' value='Lobby'/></Link>
+          <Link to='/logout'><input type='button' value='Logout'/></Link>
           <Route path='/login/' render={({match, history}) => <Login redirect={history.goBack} setUser={this.setUser}/>}/>
           <Route path='/register' render={() => <Register/>}/>
           <Route path='/lobby' render={ ({history}) => {
@@ -53,7 +54,25 @@ class OhHellContainer extends Component {
             }
            }
           }
-         />
+          />
+          <Route path='/logout' render={ ({history}) => {
+            if (this.isLoggedIn()){
+              Server.User.logout().then(response => {
+                console.log("Logout response", response);
+                if (response.ok){
+                  this.props.setUser(response.user);
+                  this.props.redirect();
+                }else{
+                  window.alert('No user to logout');
+                }
+              });
+              return <Login/>
+            }else{
+              history.push('/logout');
+              return <Redirect to="/login" />
+            }
+          }}
+          />
           <Route path='/game/:id' render={ ({match, history}) => {
             console.log('Accessing game route');
             if (this.isLoggedIn()){

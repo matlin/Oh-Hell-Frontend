@@ -113,6 +113,12 @@ const server = {
        const userStr = JSON.stringify(user);
        const request = new Request(server_url + '/users/register', Post(userStr));
        return fetch(request).then((response)=>{ return response.ok;})
+     },
+     logout: function(){
+       const request = new Request(
+         server_url + '/users/logout', { method: 'GET', mode: 'cors', credentials: 'include'}
+       );
+       return fetch(request).then((response)=>{ return response.ok;})
      }
    }
 };
