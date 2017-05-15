@@ -22,8 +22,8 @@ const HeaderPanel = styled(ListGroupItem)`
 `;
 
 const StyledButton = styled(Button)`
-  margin-top: 5px;
-  margin-right: 5px;
+  marginTop: 5px;
+  marginRight: 5px;
   background-color: #34495E;
   color: white;
 `;
@@ -73,7 +73,7 @@ class Register extends Component {
                 onChange={event => this.handleTextUpdate(event, "email")}
               />
             </div>
-            <div style={{ "margin-top": "10px" }}>
+            <div style={{ "marginTop": "10px" }}>
               <ControlLabel>Username</ControlLabel>
               <FormControl
                 type="text"
@@ -82,7 +82,7 @@ class Register extends Component {
                 onChange={event => this.handleTextUpdate(event, "username")}
               />
             </div>
-            <div style={{ "margin-top": "10px", "margin-bottom": "5px" }}>
+            <div style={{ "marginTop": "10px", "marginBottom": "5px" }}>
               <ControlLabel>Password</ControlLabel>
               <FormControl
                 type="text"

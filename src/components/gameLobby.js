@@ -58,7 +58,6 @@ class Lobby extends Component {
 
   gameList(games) {
     return games.map(game => {
-      console.log(game);
       let deleteButton;
       if (game.isOwner) {
         deleteButton = (
