@@ -203,6 +203,8 @@ function GameTable (props){
         <div className="playingCards inText">Trump: <Card code={props.state.trumpCard.id} /></div>
         <p>Turn: {props.state.turn}</p>
         <p>Dealer: {props.state.dealer}</p>
+        <p>Messages: {props.state.messages.slice(-1)}</p>
+        <p> {props.state.messages.slice(-2,-1)}</p>
       </div>
       <div id="hand" className="playingCards">
         <BetMaker bet={props.server.bet} show={props.state.betting} maxBet={props.state.hand.length} />
