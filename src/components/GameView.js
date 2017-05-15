@@ -112,14 +112,46 @@ export default GameView;
 
 function Opponent (props){
   let name = props.name;
-  let bets = props.state.state.bets.jade; // unsure how to change jade to "name"
-  let tricks = props.state.state.tricks; // Needs work
+  let bets = props.state.state.bets[name];
+  let tricks = props.state.state.tricks[name] || 0;
+  let scoreSum = 0;
+  for(let i = 0; i < Object.keys(props.state.state.scores.round).length; i++){
+    scoreSum += Object.values(props.state.state.scores.round)[i][name];
+  }
   return (
     <div className="opponent">
       <h4>{name}</h4><hr />
 
       <span>Bet: {bets}</span><br />
-      <span>Tricks: {Math.floor(Math.random() * 4)}</span>
+      <span>Tricks: {tricks}</span><br />
+      <span>Score: {scoreSum}</span>
+      <div className="playingCards inText">
+       {(() => {
+          if (props.card){
+            //console.log(name, " played ", props.card)
+            return <Card code={props.card} />;
+          }
+        })()}
+      </div>
+    </div>
+  );
+}
+
+function Selfview (props){
+  let name = props.name;
+  let bets = props.state.state.bets[name];
+  let tricks = props.state.state.tricks[name] || 0;
+  let scoreSum = 0;
+  for(let i = 0; i < Object.keys(props.state.state.scores.round).length; i++){
+    scoreSum += Object.values(props.state.state.scores.round)[i][name];
+  }
+  return (
+    <div className="opponent">
+      <h4>{name}</h4><hr />
+
+      <span>Bet: {bets}</span><br />
+      <span>Tricks: {tricks}</span><br />
+      <span>Score: {scoreSum}</span>
       <div className="playingCards inText">
        {(() => {
           if (props.card){
@@ -175,6 +207,7 @@ function GameTable (props){
       <div id="hand" className="playingCards">
         <BetMaker bet={props.server.bet} show={props.state.betting} maxBet={props.state.hand.length} />
         <Hand play={(cardID) => {props.server.playCard(cardID)}} state={props} cards={props.state.hand.map(card => card.id)} />
+        <Selfview key={props.username} state={props} card={props.state.cardsInPlay[props.username]} name={props.username} />
       </div>
     </div>
   );
@@ -206,8 +239,6 @@ function Hand(props){
      </ul>
   );
 }
-
-
 
 
 function threeDistribution(listorlength){
