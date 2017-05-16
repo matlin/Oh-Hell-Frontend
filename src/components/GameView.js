@@ -117,20 +117,19 @@ function Opponent(props) {
   let name = props.name;
   let bets = props.state.state.bets[name];
   let tricks = props.state.state.tricks[name] || 0;
-  let borderColor = (props.turn ? '3px solid yellow;' : '2px solid #751010');
+  let borderColor = (props.turn ? '3px solid yellow' : '2px solid #751010');
   let PlayerInfo = styled.div`
     display:inline-block;
     float:left;
     margin-right:10px;
     text-align:left;
-    border: ${borderColor}
   `;
   let scoreSum = 0;
   for (let i = 0; i < Object.keys(props.state.state.scores.round).length; i++) {
     scoreSum += Object.values(props.state.state.scores.round)[i][name];
   }
   return (
-    <div className="opponent">
+    <div style={{"border": borderColor}} className="opponent">
       <PlayerInfo>
         <h4 style={{"font-family":"Lobster"}}>{name}</h4><hr />
         <span>Bet: {bets}</span><br />
