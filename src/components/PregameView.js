@@ -76,7 +76,7 @@ class PregameView extends Component {
     let passwordField;
     if (this.props.hasPassword && !this.props.joined) {
       passwordField = (
-        <Form style={{ "margin-top": "10px", "margin-bottom": "5px" }}>
+        <Form style={{ "margin-top": "2px", "margin-bottom": "5px", "text-align":"left" }}>
           <ControlLabel>Password</ControlLabel>
           <FormControl
             type="password"
