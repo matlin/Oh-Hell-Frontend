@@ -20,6 +20,7 @@ const LobbyHeader = styled.h1`
 const HeaderPanel = styled(ListGroupItem)`
   text-align: center;
   background-color: #751010;
+  border:none;
 `;
 
 const StyledButton = styled(Button)`
@@ -41,12 +42,15 @@ class Login extends Component{
       email: "",
       password: ""
     }
-  }
-
-  componentDidMount(){
     if (document.cookie.indexOf('id') !== -1){
       this.login();
     }
+  }
+
+  componentDidMount(){
+    // if (document.cookie.indexOf('id') !== -1){
+    //   this.login();
+    // }
   }
 
   handleTextUpdate(event, field) {
@@ -80,11 +84,11 @@ class Login extends Component{
 
   render() {
     return (
-      <div style={{ margin: "0 auto", maxWidth: "650px" }}>
+      <div className="overlay" style={{ margin: "0 auto", maxWidth: "650px" }}>
         <HeaderPanel>
           <LobbyHeader>Oh Hell!</LobbyHeader>
         </HeaderPanel>
-        <ListGroupItem>
+        <ListGroupItem className="overlay">
           <Form>
             <div>
               <ControlLabel>Email</ControlLabel>

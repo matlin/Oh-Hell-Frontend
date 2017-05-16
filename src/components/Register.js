@@ -19,6 +19,7 @@ const LobbyHeader = styled.h1`
 const HeaderPanel = styled(ListGroupItem)`
   text-align: center;
   background-color: #751010;
+  border:none;
 `;
 
 const StyledButton = styled(Button)`
@@ -58,11 +59,11 @@ class Register extends Component {
 
   render() {
     return (
-      <div style={{ margin: "0 auto", maxWidth: "650px" }}>
+      <div className="overlay" style={{ margin: "0 auto", maxWidth: "650px" }}>
         <HeaderPanel>
           <LobbyHeader>Oh Hell!</LobbyHeader>
         </HeaderPanel>
-        <ListGroupItem>
+        <ListGroupItem className="overlay">
           <Form>
             <div>
               <ControlLabel>Email</ControlLabel>
