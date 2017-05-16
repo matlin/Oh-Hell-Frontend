@@ -35,7 +35,8 @@ const LobbyHeader = styled.h1`
 
 const HeaderPanel = styled(ListGroupItem)`
   text-align: center;
-  background-color: #34495E;
+  background-color: #751010;
+  border:none;
 `;
 
 class Lobby extends Component {
@@ -81,7 +82,7 @@ class Lobby extends Component {
       }
       let lockGlyph = game.hasPassword ? <Glyphicon glyph="lock" /> : null;
       return (
-        <ListGroupItem>
+        <ListGroupItem className="overlay">
           <Clearfix>
             <div style={{ display: "inline-block" }}>
               <div>
@@ -106,7 +107,7 @@ class Lobby extends Component {
     let joinedGames = this.gameList(this.state.joinedGames);
     let openGames = this.gameList(this.state.openGames);
     return (
-      <div style={{ margin: "0 auto", maxWidth: "650px" }} id="Lobby">
+      <div className="overlay" style={{ margin: "0 auto", maxWidth: "650px" }} id="Lobby">
         <ListGroup>
           <LobbyModal
             showModal={this.state.showModal}

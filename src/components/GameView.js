@@ -161,6 +161,18 @@ function GameTable (props){
     }
   }
   let color = (props.state.turn === props.username ? 'red' : 'none');
+  const MessageWindow = styled.div`
+    overflow-y:scroll;
+    width:100%;
+    max-height:60px;
+    box-shadow: inset 0 7px 20px -7px rgba(0,0,0,0.4);
+    color:white;
+    opacity: 0.7;
+    position: absolute;
+    bottom: 0px;
+    border-top: 1px solid black;
+  `;
+  let messages = props.state.messages.map(message => <p>{message}</p>);
   return (
     <div id="grid">
       <div id="left-table">{containers[0]}</div>
@@ -169,10 +181,11 @@ function GameTable (props){
       <div id="table">
         <h3>Oh Hell</h3>
         <div className="playingCards inText">Trump: <Card code={props.state.trumpCard.id} /></div>
-        <p>Turn: {props.state.turn}</p>
-        <p>Dealer: {props.state.dealer}</p>
-        <p>Messages: {props.state.messages.slice(-1)}</p>
-        <p> {props.state.messages.slice(-2,-1)}</p>
+          <p>Turn: {props.state.turn}</p>
+          <p>Dealer: {props.state.dealer}</p>
+          <MessageWindow>
+            {messages}
+          </MessageWindow>
       </div>
       <div id="hand" style={{"backgroundColor": "white"}} className="playingCards">
         <h3>{props.username}</h3>
