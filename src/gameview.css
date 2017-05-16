@@ -27,11 +27,12 @@ div.overlay{
 div .opponent{
   min-height:100px;
   min-width:100px;
-  border:1px solid red;
-  border: 3px solid red;
+  border: 2px solid #751010;
   padding: 10px;
   border-radius: 5px;
   margin: 20px 0px;
+  color: white;
+  background-color: rgba(0,0,0,0.5);
 }
 .opponent h4, .opponent hr{
   margin:5px;
@@ -64,9 +65,9 @@ div#table{
   grid-row-start:2;
   grid-row-end:3;
   justify-content: flex-start;
-  background: darkred;
   color: white;
   box-shadow: inset 1px 1px 40px 1px black;
+  background-color:#751010;
   border-radius: 10px;
   position:relative;
 }
@@ -79,4 +80,6 @@ div#table{
   border-top: 3px solid lightgrey;
   padding-top:10px;
   margin-top:10px;
+  color: white;
+  background-color: rgba(0,0,0,0.5);
 }

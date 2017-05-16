@@ -57,7 +57,8 @@ class GameView extends Component{
         this.setState({gameState: response.state});
     }
     if (response.message){
-      this.setState({messages: response.message.concat(this.state.messages)});
+      //this.setState({messages: response.message.concat(this.state.messages)});
+      this.setState({messages:response.message})
     }
   }
 
@@ -156,8 +157,44 @@ function Card(props){
   );
 }
 
+class MessageTicker extends Component {
+  constructor(props){
+    super(props);
+  }
+  componentDidUpdate(){
+    console.log("message window", this.scrollWindow);
+    this.scrollWindow.scrollTop = this.scrollWindow.scrollHeight;
+  }
+  render(){
+    const MessageDiv = styled.div`
+      position: absolute;
+      bottom: 0px;
+      width:100%;
+      max-height:90px;
+      overflow:hidden;
+    `;
+    const MessageWindow = styled.div`
+      overflow-y:scroll;
+      box-shadow: inset 0 7px 10px 0px rgba(0,0,0,0.4);
+      color:white;
+      opacity: 0.7;
+      max-height:65px;
+      padding: 15px;
+    `;
+    let messages = this.props.messages.map(message => <p>{message}</p>);
+    return (
+      <MessageDiv>
+        <h5>Messages</h5>
+        <MessageWindow innerRef={(scrollWindow) => { this.scrollWindow = scrollWindow;}}>
+          {messages}
+        </MessageWindow>
+      </MessageDiv>
+    );
+  }
+}
+
 function GameTable (props){
-  console.log("Rendering gametable", props);
+  console.log("Rendering gametable", this);
   //let players = props.state.players.filter(username => username !== props.username);
   let players = [1,2,3,4,5,6];
   let dist = threeDistribution(players);
@@ -171,18 +208,6 @@ function GameTable (props){
     }
   }
   let color = (props.state.turn === props.username ? 'red' : 'none');
-  const MessageWindow = styled.div`
-    overflow-y:scroll;
-    width:100%;
-    max-height:60px;
-    box-shadow: inset 0 7px 20px -7px rgba(0,0,0,0.4);
-    color:white;
-    opacity: 0.7;
-    position: absolute;
-    bottom: 0px;
-    border-top: 1px solid black;
-  `;
-  let messages = props.state.messages.map(message => <p>{message}</p>);
   return (
     <div id="grid">
       <div id="left-table">{containers[0]}</div>
@@ -193,11 +218,9 @@ function GameTable (props){
         <div className="playingCards inText">Trump: <Card code={props.state.trumpCard.id} /></div>
           <p>Turn: {props.state.turn}</p>
           <p>Dealer: {props.state.dealer}</p>
-          <MessageWindow>
-            {messages}
-          </MessageWindow>
+          <MessageTicker messages={props.state.messages} />
       </div>
-      <div id="hand" style={{"backgroundColor": "white"}} className="playingCards">
+      <div id="hand" className="playingCards">
         <h3>{props.username}</h3>
         <BetMaker betFunc={props.server.bet} bet={props.state.bets[props.username]} show={props.state.betting} maxBet={props.state.hand.length} />
         <Hand play={(cardID) => {props.server.playCard(cardID)}} state={props} cards={props.state.hand.map(card => card.id)} />
