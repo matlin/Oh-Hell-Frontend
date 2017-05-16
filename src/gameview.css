@@ -70,6 +70,7 @@ div#table{
   background-color:#751010;
   border-radius: 10px;
   position:relative;
+  min-height: 250px;
 }
 
 #hand{
