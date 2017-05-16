@@ -79,7 +79,7 @@ class PregameView extends Component {
         <Form style={{ "margin-top": "10px", "margin-bottom": "5px" }}>
           <ControlLabel>Password</ControlLabel>
           <FormControl
-            type="text"
+            type="password"
             value={this.state.password}
             placeholder=""
             onChange={event => this.handleTextUpdate(event, "password")}

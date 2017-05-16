@@ -85,7 +85,7 @@ class Register extends Component {
             <div style={{ "marginTop": "10px", "marginBottom": "5px" }}>
               <ControlLabel>Password</ControlLabel>
               <FormControl
-                type="text"
+                type="password"
                 value={this.state.password}
                 placeholder=""
                 onChange={event => this.handleTextUpdate(event, "password")}

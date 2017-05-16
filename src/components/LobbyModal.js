@@ -32,7 +32,7 @@ class LobbyModal extends Component {
       <div>
         <ControlLabel>Password</ControlLabel>
         <FormControl
-          type="text"
+          type="password"
           value={this.state.password}
           placeholder=""
           onChange={(event)=>this.handleTextUpdate(event, 'password')}/>
