@@ -71,7 +71,7 @@ class Login extends Component{
         }else{
           window.alert('Either password or username is incorrect');
         }
-      });
+      }, error =>  {window.alert('Either password or username is incorrect');});
     }else{
       Server.User.login().then(response => {
         if (response.user){

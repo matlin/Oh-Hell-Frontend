@@ -113,12 +113,13 @@ function Opponent(props) {
   let name = props.name;
   let bets = props.state.state.bets[name];
   let tricks = props.state.state.tricks[name] || 0;
-  let color = (props.turn ? 'red' : 'white');
+  let borderColor = (props.turn ? '3px solid yellow;' : '2px solid #751010');
   let PlayerInfo = styled.div`
     display:inline-block;
     float:left;
     margin-right:10px;
     text-align:left;
+    border: ${borderColor}
   `;
   let scoreSum = 0;
   for (let i = 0; i < Object.keys(props.state.state.scores.round).length; i++) {
@@ -217,6 +218,7 @@ function GameTable(props) {
     for (let j = 0; j < dist[i]; j++) {
       let player = players.shift();
       const turn = props.state.turn === player;
+      console.log(`${player}'s turn? ${turn} `);
       containers[i].push(<Opponent key={player} turn={turn} state={props} card={props.state.cardsInPlay[player]} name={player} />);
     }
   }
@@ -227,8 +229,7 @@ function GameTable(props) {
   }
   let bets = props.state.bets[props.username];
   let tricks = props.state.tricks[props.username] || 0;
-
-  let color = (props.state.turn === props.username ? 'red' : 'none');
+  let borderColor = (props.state.turn === props.username ? '3px solid yellow' : '2px solid #751010');
   return (
     <div id="grid">
       <div id="left-table">{containers[0]}</div>
@@ -241,7 +242,7 @@ function GameTable(props) {
           <p>Dealer: {props.state.dealer}</p>
           <MessageTicker messages={props.state.messages} />
       </div>
-      <div id="hand" className="playingCards">
+      <div id="hand" style={{"border": borderColor}} className="playingCards">
         <h3>{props.username}</h3>
         <div>
           <p>Bet: {bets}</p>

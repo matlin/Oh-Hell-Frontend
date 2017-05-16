@@ -113,7 +113,7 @@ const server = {
      register: function(user){
        const userStr = JSON.stringify(user);
        const request = new Request(server_url + '/users/register', Post(userStr));
-       return fetch(request).then((response)=>{ return response.ok;})
+       return fetch(request).then(response => response.ok);
      }
    }
 };
