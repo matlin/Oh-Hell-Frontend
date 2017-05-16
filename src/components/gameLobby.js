@@ -5,6 +5,7 @@
 import React, { Component } from "react";
 import Server from "../server.js";
 import LobbyModal from "./LobbyModal.js";
+import NavButton from "./NavButton.js";
 import styled from "styled-components";
 import {
   Panel,
@@ -30,12 +31,12 @@ const StyledAddButton = styled(Button)`
 `;
 
 const LobbyHeader = styled.h1`
-  color: white;
+  color: lightgrey;
 `;
 
 const HeaderPanel = styled(ListGroupItem)`
   text-align: center;
-  background-color: #34495E;
+  background-color: #751010;
 `;
 
 class Lobby extends Component {

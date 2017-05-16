@@ -14,27 +14,40 @@ import {
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 const EmptyUser = styled(Glyphicon)`
-  color: lightgrey;
-  font-size: 30px;
+  color: #CA5F5F;
+  font-size: 20px;
   marginRight: 2px;
 `;
 
 const FullUser = styled(Glyphicon)`
-  font-size: 30px;
+  font-size: 20px;
   marginRight: 2px;
+  color: #2B0000;
 `;
 
 const LobbyHeader = styled.h1`
-  color: white;
+  color: lightgrey;
 `;
 
 const HeaderPanel = styled(ListGroupItem)`
   text-align: center;
-  background-color: #34495E;
+  background-color: #751010;
+`;
+
+const BodyPanel = styled(ListGroupItem)`
+  text-align: center;
 `;
 
 const StyledButton = styled(Button)`
   margin-right: 5px;
+`;
+const PlayerName = styled.p`
+  margin: 2px;
+`;
+
+const PlayerHeader = styled.h4`
+  marginTop: 5px;
+  marginBottom: 5px;
 `;
 
 class PregameView extends Component {
@@ -50,6 +63,7 @@ class PregameView extends Component {
   }
 
   render() {
+    let joinedList = this.props.players.map( username => <PlayerName>{username}</PlayerName> );
     console.log("Did we join the game?", this.props.joined);
     let userBar = [];
     for (let i = 0; i < this.props.maxPlayers; i++) {
@@ -110,16 +124,20 @@ class PregameView extends Component {
       );
     }
     return (
-      <div style={{ margin: "0 auto", maxWidth: "450px" }}>
+      <div style={{ margin: "0 auto", maxWidth: "300px" }}>
         <HeaderPanel>
           <LobbyHeader>{this.props.gameName}</LobbyHeader>
+          {userBar}
         </HeaderPanel>
-        <ListGroupItem>{userBar}</ListGroupItem>
-        <ListGroupItem>
+        <BodyPanel>
+          <PlayerHeader>Players:</PlayerHeader>
+          {joinedList}
+        </BodyPanel>
+        <BodyPanel>
           {passwordField}
           {joinButton}
           <Link to="/lobby"><Button>Cancel</Button></Link>
-        </ListGroupItem>
+        </BodyPanel>
       </div>
     );
   }

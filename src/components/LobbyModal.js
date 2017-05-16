@@ -1,6 +1,16 @@
 import React, {Component} from 'react';
 import Server from '../server.js';
+import styled from "styled-components";
 import { Button, Modal, Form, FormGroup, ControlLabel, FormControl, Checkbox } from 'react-bootstrap';
+
+const StyledHeader = styled(Modal.Header)`
+  background-color: #751010;
+`;
+
+const StyledTitle = styled(Modal.Title)`
+  color: lightgrey;
+`;
+
 class LobbyModal extends Component {
   constructor(){
     super();
@@ -32,9 +42,9 @@ class LobbyModal extends Component {
     }
     return(
       <Modal show={this.props.showModal} onHide={this.props.close}>
-          <Modal.Header closeButton>
-            <Modal.Title>Create a Game</Modal.Title>
-          </Modal.Header>
+          <StyledHeader closeButton>
+            <StyledTitle>Create a Game</StyledTitle>
+          </StyledHeader>
           <Modal.Body>
             <Form>
               <ControlLabel>Game Name</ControlLabel>

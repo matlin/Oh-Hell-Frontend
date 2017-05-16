@@ -14,19 +14,19 @@ import { BrowserRouter as Router, Route, Redirect, Link } from "react-router-dom
 
 
 const LobbyHeader = styled.h1`
-  color: white;
+  color: lightgrey;
 `;
 
 const HeaderPanel = styled(ListGroupItem)`
   text-align: center;
-  background-color: #34495E;
+  background-color: #751010;
 `;
 
 const StyledButton = styled(Button)`
   margin-top: 5px;
   margin-right: 5px;
-  background-color: #34495E;
-  color: white;
+  background-color: #751010;
+  color: lightgrey;
 `;
 
 const StyledLink = styled(Link)`
