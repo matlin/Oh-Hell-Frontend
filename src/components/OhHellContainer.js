@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import Login from './Login.js';
 import Register from './Register.js';
-import GameContainer from './GameContainer.js';
-import GameContainerBasic from './GameContainerbasic.js';
 import GameView from './GameView.js'
 import Lobby from './gameLobby.js';
-import Server from '../server.js'
+import Server from '../server.js';
+import NavButton from './NavButton.js';
 import {
   BrowserRouter as Router,
   Route,

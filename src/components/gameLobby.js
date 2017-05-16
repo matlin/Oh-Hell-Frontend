@@ -5,6 +5,7 @@
 import React, { Component } from "react";
 import Server from "../server.js";
 import LobbyModal from "./LobbyModal.js";
+import NavButton from "./NavButton.js";
 import styled from "styled-components";
 import {
   Panel,
@@ -19,7 +20,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 const StyledRefreshButton = styled(Button)`
   line-height: 70px;
   background-color: rgba(255,255,255,0);
-  color: white;
+  color: lightgrey;
   border: none;
   float: right;
 `;
@@ -30,12 +31,13 @@ const StyledAddButton = styled(Button)`
 `;
 
 const LobbyHeader = styled.h1`
-  color: white;
+  color: lightgrey;
 `;
 
 const HeaderPanel = styled(ListGroupItem)`
   text-align: center;
-  background-color: #34495E;
+  background-color: #751010;
+  border:none;
 `;
 
 class Lobby extends Component {
@@ -58,7 +60,6 @@ class Lobby extends Component {
 
   gameList(games) {
     return games.map(game => {
-      console.log(game);
       let deleteButton;
       if (game.isOwner) {
         deleteButton = (
@@ -81,7 +82,7 @@ class Lobby extends Component {
       }
       let lockGlyph = game.hasPassword ? <Glyphicon glyph="lock" /> : null;
       return (
-        <ListGroupItem>
+        <ListGroupItem className="overlay">
           <Clearfix>
             <div style={{ display: "inline-block" }}>
               <div>
@@ -106,7 +107,7 @@ class Lobby extends Component {
     let joinedGames = this.gameList(this.state.joinedGames);
     let openGames = this.gameList(this.state.openGames);
     return (
-      <div style={{ margin: "0 auto", maxWidth: "650px" }} id="Lobby">
+      <div className="overlay" style={{ margin: "0 auto", maxWidth: "650px" }} id="Lobby">
         <ListGroup>
           <LobbyModal
             showModal={this.state.showModal}
