@@ -180,6 +180,7 @@ class MessageTicker extends Component {
     const MessageDiv = styled.div`
       position: absolute;
       bottom: 0px;
+      right: 0px;
       width:100%;
       max-height:90px;
       overflow:hidden;
