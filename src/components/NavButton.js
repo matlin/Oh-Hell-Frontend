@@ -10,9 +10,9 @@ function NavButton(props) {
         <Glyphicon glyph="th-list" />
       </Dropdown.Toggle>
       <Dropdown.Menu>
-        <Link to="/login"><MenuItem eventKey="1" active>Login</MenuItem></Link>
-        <Link to="/logout"><MenuItem eventKey="2" active>Logout</MenuItem></Link>
-        <Link to="/lobby"><MenuItem eventKey="3" active>Lobby</MenuItem></Link>
+      <MenuItem href="/login" eventKey="1" >Login</MenuItem>
+      <MenuItem href="/logout" eventKey="2" >Logout</MenuItem>
+      <MenuItem href="/lobby" eventKey="3" >Lobby</MenuItem>
       </Dropdown.Menu>
     </Dropdown>
   );
