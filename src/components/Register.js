@@ -13,7 +13,7 @@ import {
 } from "react-bootstrap";
 
 const LobbyHeader = styled.h1`
-  color: white;
+  color: lightgrey;
 `;
 
 const HeaderPanel = styled(ListGroupItem)`
@@ -23,10 +23,10 @@ const HeaderPanel = styled(ListGroupItem)`
 `;
 
 const StyledButton = styled(Button)`
-  margin-top: 5px;
-  margin-right: 5px;
-  background-color: #34495E;
-  color: white;
+  marginTop: 5px;
+  marginRight: 5px;
+  background-color: #751010;
+  color: lightgrey;
 `;
 
 const StyledLink = styled(Link)`
@@ -74,7 +74,7 @@ class Register extends Component {
                 onChange={event => this.handleTextUpdate(event, "email")}
               />
             </div>
-            <div style={{ "margin-top": "10px" }}>
+            <div style={{ "marginTop": "10px" }}>
               <ControlLabel>Username</ControlLabel>
               <FormControl
                 type="text"
@@ -83,10 +83,10 @@ class Register extends Component {
                 onChange={event => this.handleTextUpdate(event, "username")}
               />
             </div>
-            <div style={{ "margin-top": "10px", "margin-bottom": "5px" }}>
+            <div style={{ "marginTop": "10px", "marginBottom": "5px" }}>
               <ControlLabel>Password</ControlLabel>
               <FormControl
-                type="text"
+                type="password"
                 value={this.state.password}
                 placeholder=""
                 onChange={event => this.handleTextUpdate(event, "password")}

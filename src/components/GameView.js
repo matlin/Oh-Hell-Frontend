@@ -1,42 +1,43 @@
-import React, {Component} from 'react';
-import styled from 'styled-components';
-import Server from '../server.js';
-import '../gameview.css';
-import '../cards.css';
-import io from 'socket.io-client';
+import React, { Component } from "react";
+import styled from "styled-components";
+import Server from "../server.js";
+import "../gameview.css";
+import "../cards.css";
+import PregameView from "./PregameView.js";
 import {
   Button,
 } from 'react-bootstrap';
 
-class GameView extends Component{
-  constructor(props){
+
+class GameView extends Component {
+  constructor(props) {
     super(props);
     this.state = {
-      gameState: {joined: false, hand: []},
+      gameState: {},
       messages: null,
       id: props.gameID,
       username: props.username,
-      server: new Server.Game(props.gameID, this.stateCallback.bind(this))
-    }
+      server: new Server.Game(props.gameID, this.stateCallback.bind(this)),
+      loading: true
+    };
+
+
+  componentDidMount() {
+    console.log("Game view mounted");
+    this.loadGame();
+    const socket = io("http://localhost:4001");
+    socket.emit("join", this.state.id);
+    socket.on("update", data => {
+      this.socketCallback(data);
+    });
   }
 
-  componentDidMount(){
-      console.log('Game view mounted');
-      this.loadGame();
-      const socket = io('http://localhost:4001');
-      socket.emit('join', this.state.id);
-      socket.on('update', (data) => {
-        this.socketCallback(data);
-      });
+  componentWillUnmount() {
+    console.log("Game view unmounting");
   }
 
-  componentWillUnmount(){
-    console.log('Game view unmounting');
-  }
-
-
-  loadGame(){
-    if (this.state.id){
+  loadGame() {
+    if (this.state.id) {
       this.state.server.get();
     }else{
       console.error('No game id provided');
@@ -48,56 +49,65 @@ class GameView extends Component{
     this.loadGame();
   }
 
-  stateCallback (response){
+
+  stateCallback(response) {
     console.log("Http response: ", response);
-    if (response.alert){
+    if (response.alert) {
       window.alert(response.alert);
     }
-    if (response.state){
-        this.setState({gameState: response.state});
+    if (response.state && response.message) {
+      this.setState({
+        gameState: response.state,
+        messages: response.message.concat(this.state.messages),
+        loading: false
+      });
+      return;
     }
-    if (response.message){
-      this.setState({messages: response.message.concat(this.state.messages)});
+    if (response.state) {
+      this.setState({ gameState: response.state, loading: false });
+      return;
     }
   }
 
-
-  render(){
-    console.log('rendering from', this.state.gameState);
-    if (this.state.gameState.joined === false){
-      console.log('joined?', this.state.gameState.joined);
+  render() {
+    console.log("rendering from", this.state.gameState);
+    if (this.state.loading === true) {
+      return <p>Loading game...</p>;
+    }
+    if (
+      this.state.gameState.joined === false ||
+      this.state.gameState.started === false
+    ) {
+      console.log("joined?", this.state.gameState.joined);
       return (
-        <div>
-          <p>You have not joined this game. Join?</p>
-          <input type="button" value="Join" onClick={() => {
-              this.state.server.join();
-            }
-          }
-          />
-        </div>
+        <PregameView
+          maxPlayers={this.state.gameState.maxPlayers}
+          minPlayers={this.state.gameState.minPlayers}
+          players={this.state.gameState.players}
+          gameName={this.state.gameState.gameName}
+          hasPassword={this.state.gameState.hasPassword}
+          joined={this.state.gameState.joined}
+          isOwner={this.state.gameState.isOwner}
+          join={password => {
+            this.state.server.join(password);
+          }}
+          start={() => this.state.server.start(this.state.id)}
+        />
       );
     }
-    if (this.state.gameState.started === false){
-      return (
-        <div>
-          <p>This game has not started yet.</p>
-          <input type="button" value="Start" onClick={() => {
-              this.state.server.start(this.state.id);
-            }
-          }
-          />
-        </div>
-      );
-    }
-    return(
-      <GameTable server={this.state.server} state={this.state.gameState} username={this.state.username} />
+    return (
+      <GameTable
+        server={this.state.server}
+        state={this.state.gameState}
+        username={this.state.username}
+      />
     );
   }
 }
 
 export default GameView;
 
-function Opponent (props){
+function Opponent(props) {
   let name = props.name;
   let bets = props.state.state.bets[name];
   let tricks = props.state.state.tricks[name] || 0;
@@ -109,7 +119,7 @@ function Opponent (props){
     text-align:left;
   `;
   let scoreSum = 0;
-  for(let i = 0; i < Object.keys(props.state.state.scores.round).length; i++){
+  for (let i = 0; i < Object.keys(props.state.state.scores.round).length; i++) {
     scoreSum += Object.values(props.state.state.scores.round)[i][name];
   }
   return (
@@ -120,8 +130,8 @@ function Opponent (props){
       <span>Tricks: {tricks}</span><br />
       <span>Score: {scoreSum}</span>
       <div className="playingCards inText">
-       {(() => {
-          if (props.card){
+        {(() => {
+          if (props.card) {
             //console.log(name, " played ", props.card)
             return <Card code={props.card.id} />;
           }
@@ -131,9 +141,8 @@ function Opponent (props){
   );
 }
 
-
-function Card(props){
-  let sizeClass = props.small ? 'inText' : 'simpleCards';
+function Card(props) {
+  let sizeClass = props.small ? "inText" : "simpleCards";
   let code = props.code;
   let rank;
   if(props.code.id){
@@ -143,28 +152,32 @@ function Card(props){
   }
   console.log(rank);
   let suit = code[code.length == 2 ? 1 : 2];
-  const suitMap = {D: 'diams',H: 'hearts',S: 'spades',C: 'clubs'}
-  const charMap = {D: '9830',H: '9829',S: '9824',C: '9827'}
+  const suitMap = { D: "diams", H: "hearts", S: "spades", C: "clubs" };
+  const charMap = { D: "9830", H: "9829", S: "9824", C: "9827" };
   let suitClass = suitMap[suit];
   return (
     //<div className={"playingCards " + sizeClass}>
+    (
       <div className={`card rank-${rank} ${suitClass}`}>
-          <span className="rank">{rank}</span>
-          <span className="suit">{String.fromCharCode(charMap[suit])}</span>
+        <span className="rank">{rank}</span>
+        <span className="suit">{String.fromCharCode(charMap[suit])}</span>
       </div>
+    )
     //</div>
   );
 }
 
-function GameTable (props){
+function GameTable(props) {
   console.log("Rendering gametable", props);
-  //let players = props.state.players.filter(username => username !== props.username);
-  let players = [1,2,3,4,5,6];
+  let players = props.state.players.filter(
+    username => username !== props.username
+  );
+
   let dist = threeDistribution(players);
   let containers = [];
-  for (let i=0; i<dist.length; i++){
+  for (let i = 0; i < dist.length; i++) {
     containers[i] = [];
-    for (let j=0; j<dist[i]; j++){
+    for (let j = 0; j < dist[i]; j++) {
       let player = players.shift();
       const turn = props.state.turn === player;
       containers[i].push(<Opponent key={player} turn={turn} state={props} card={props.state.cardsInPlay[player]} name={player} />);
@@ -206,8 +219,8 @@ function GameTable (props){
   );
 }
 
-function BetMaker(props){
-  if (props.show === true){
+function BetMaker(props) {
+  if (props.show === true) {
     let betButtons = [];
     for (let i=0; i<=props.maxBet; i++){
       const haveBet = props.bet != null;
@@ -217,52 +230,52 @@ function BetMaker(props){
         <Button bsSize="xs" bsStyle={style} onClick={() => {props.betFunc(i)}} disabled={haveBet} key={"bet" + i}>{i}</Button>
       );
     }
-    return(
-      <div>Click to bet: {betButtons}</div>
-    );
-  }else{
+    return <div>Click to bet: {betButtons}</div>;
+  } else {
     return null;
   }
 }
 
-function Hand(props){
+function Hand(props) {
   console.log(props);
-  const gameID = (props.state.state.id);
-  let cards = props.cards.map((card)=>{
-    return (<li key={card}  onClick={()=> props.play(card)}> <Card code={card} /> </li>);
+  const gameID = props.state.state.id;
+  let cards = props.cards.map(card => {
+    return (
+      <li key={card} onClick={() => props.play(card)}>
+        {" "}<Card code={card} />{" "}
+      </li>
+    );
   });
   return (
     <ul className="hand">
-       {cards}
-     </ul>
+      {cards}
+    </ul>
   );
 }
 
 
-
-
 function threeDistribution(listorlength){
   let length, result, dist;
-  if (Array.isArray(listorlength)){
+  if (Array.isArray(listorlength)) {
     length = listorlength.length;
-  }else{
+  } else {
     length = listorlength;
   }
-  switch((length % 3)){
+  switch (length % 3) {
     case 0:
       dist = length / 3;
       result = [dist, dist, dist];
       break;
     case 1:
       dist = (length - 1) / 3;
-      result = [dist, dist+1, dist];
+      result = [dist, dist + 1, dist];
       break;
     case 2:
       dist = (length - 2) / 3;
-      result = [dist+1, dist, dist+1];
+      result = [dist + 1, dist, dist + 1];
       break;
     default:
-      console.error('Uh oh');
+      console.error("Uh oh");
   }
   return result;
 }
