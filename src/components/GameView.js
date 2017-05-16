@@ -220,6 +220,14 @@ function GameTable(props) {
       containers[i].push(<Opponent key={player} turn={turn} state={props} card={props.state.cardsInPlay[player]} name={player} />);
     }
   }
+  // self view components
+  let scoreSum = 0;
+  for (let i = 0; i < Object.keys(props.state.scores.round).length; i++) {
+    scoreSum += Object.values(props.state.scores.round)[i][props.username];
+  }
+  let bets = props.state.bets[props.username];
+  let tricks = props.state.tricks[props.username] || 0;
+
   let color = (props.state.turn === props.username ? 'red' : 'none');
   return (
     <div id="grid">
@@ -235,6 +243,11 @@ function GameTable(props) {
       </div>
       <div id="hand" className="playingCards">
         <h3>{props.username}</h3>
+        <div>
+          <p>Bet: {bets}</p>
+          <p>Tricks: {tricks}</p>
+          <p>Score: {scoreSum}</p>
+        </div>
         <BetMaker betFunc={props.server.bet} bet={props.state.bets[props.username]} show={props.state.betting} maxBet={props.state.hand.length} />
         <Hand play={(cardID) => {props.server.playCard(cardID)}} state={props} cards={props.state.hand.map(card => card.id)} />
       </div>
