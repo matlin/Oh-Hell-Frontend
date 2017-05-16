@@ -39,9 +39,7 @@ class OhHellContainer extends Component {
         <div>
           <Route path='/' render={() => <Redirect to="/lobby" />} />
           <div>
-            <Link to='/login'><input type='button' value='Login'/></Link>
-            <Link to='/register'><input type='button' value='Register'/></Link>
-            <Link to='/lobby'><input type='button' value='Lobby'/></Link>
+            <NavButton/>
           </div>
           <Route path='/login' render={({match, history}) => <Login redirect={history.goBack} setUser={this.setUser}/>}/>
           <Route path='/register' render={() => <Register/>}/>
