@@ -9,6 +9,10 @@ import {
   Button,
 } from 'react-bootstrap';
 
+const PersonalStats = styled.p`
+  display: inline-block;
+  marginLeft: 5px;
+`;
 
 class GameView extends Component {
   constructor(props) {
@@ -127,12 +131,13 @@ function Opponent(props) {
   }
   return (
     <div className="opponent">
-      <h4>{name}</h4><hr />
-
-      <span>Bet: {bets}</span><br />
-      <span>Tricks: {tricks}</span><br />
-      <span>Score: {scoreSum}</span>
-      <div className="playingCards inText">
+      <PlayerInfo>
+        <h4 style={{"font-family":"Lobster"}}>{name}</h4><hr />
+        <span>Bet: {bets}</span><br />
+        <span>Tricks: {tricks}</span><br />
+        <span>Score: {scoreSum}</span>
+      </PlayerInfo>
+      <div style={{"float":"right", "padding-top": "10%"}} className="playingCards">
         {(() => {
           if (props.card) {
             //console.log(name, " played ", props.card)
@@ -191,7 +196,7 @@ class MessageTicker extends Component {
       box-shadow: inset 0 7px 10px 0px rgba(0,0,0,0.4);
       color:white;
       opacity: 0.7;
-      max-height:65px;
+      max-height:80px;
       padding: 15px;
     `;
     let messages = this.props.messages.map(message => <p>{message}</p>);
@@ -236,18 +241,18 @@ function GameTable(props) {
       <div id="top-table">{containers[1]}</div>
       <div id="right-table">{containers[2]}</div>
       <div id="table">
-        <h3>Oh Hell</h3>
+        <h3 style={{"font-family":"Lobster"}}>Oh Hell</h3>
         <div className="playingCards inText">Trump: <Card code={props.state.trumpCard.id} /></div>
           <p>Turn: {props.state.turn}</p>
           <p>Dealer: {props.state.dealer}</p>
           <MessageTicker messages={props.state.messages} />
       </div>
       <div id="hand" style={{"border": borderColor}} className="playingCards">
-        <h3>{props.username}</h3>
+        <h3 style={{"font-family":"Lobster"}}>{props.username}</h3>
         <div>
-          <p>Bet: {bets}</p>
-          <p>Tricks: {tricks}</p>
-          <p>Score: {scoreSum}</p>
+          <PersonalStats>Bet: {bets}</PersonalStats>
+          <PersonalStats>Tricks: {tricks}</PersonalStats>
+          <PersonalStats>Score: {scoreSum}</PersonalStats>
         </div>
         <BetMaker betFunc={props.server.bet} bet={props.state.bets[props.username]} show={props.state.betting} maxBet={props.state.hand.length} />
         <Hand play={(cardID) => {props.server.playCard(cardID)}} state={props} cards={props.state.hand.map(card => card.id)} />

@@ -20,7 +20,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 const StyledRefreshButton = styled(Button)`
   line-height: 70px;
   background-color: rgba(255,255,255,0);
-  color: white;
+  color: lightgrey;
   border: none;
   float: right;
 `;

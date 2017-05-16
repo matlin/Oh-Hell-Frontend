@@ -32,6 +32,7 @@ const LobbyHeader = styled.h1`
 const HeaderPanel = styled(ListGroupItem)`
   text-align: center;
   background-color: #751010;
+  border: none;
 `;
 
 const BodyPanel = styled(ListGroupItem)`
@@ -124,7 +125,7 @@ class PregameView extends Component {
       );
     }
     return (
-      <div style={{ margin: "0 auto", maxWidth: "300px" }}>
+      <div className="overlay" style={{ margin: "0 auto", maxWidth: "300px" }}>
         <HeaderPanel>
           <LobbyHeader>{this.props.gameName}</LobbyHeader>
           {userBar}

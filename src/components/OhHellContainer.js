@@ -3,7 +3,8 @@ import Login from './Login.js';
 import Register from './Register.js';
 import GameView from './GameView.js'
 import Lobby from './gameLobby.js';
-import Server from '../server.js'
+import Server from '../server.js';
+import NavButton from './NavButton.js';
 import {
   BrowserRouter as Router,
   Route,
@@ -37,9 +38,9 @@ class OhHellContainer extends Component {
       <Router>
         <div>
           <Route path='/' render={() => <Redirect to="/lobby" />} />
-          <Link to='/login'><input type='button' value='Login'/></Link>
-          <Link to='/register'><input type='button' value='Register'/></Link>
-          <Link to='/lobby'><input type='button' value='Lobby'/></Link>
+          <div>
+            <NavButton/>
+          </div>
           <Route path='/login' render={({match, history}) => <Login redirect={history.goBack} setUser={this.setUser}/>}/>
           <Route path='/register' render={() => <Register/>}/>
           <Route path='/lobby' render={ ({history}) => {
