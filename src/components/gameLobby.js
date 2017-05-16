@@ -5,6 +5,7 @@
 import React, { Component } from "react";
 import Server from "../server.js";
 import LobbyModal from "./LobbyModal.js";
+import NavButton from "./NavButton.js";
 import styled from "styled-components";
 import {
   Panel,
@@ -30,7 +31,7 @@ const StyledAddButton = styled(Button)`
 `;
 
 const LobbyHeader = styled.h1`
-  color: white;
+  color: lightgrey;
 `;
 
 const HeaderPanel = styled(ListGroupItem)`
@@ -59,7 +60,6 @@ class Lobby extends Component {
 
   gameList(games) {
     return games.map(game => {
-      console.log(game);
       let deleteButton;
       if (game.isOwner) {
         deleteButton = (

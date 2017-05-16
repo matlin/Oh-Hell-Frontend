@@ -55,9 +55,10 @@ const server = {
         if (response.ok){return response.json();}
       }).then(this.callback);
     }
-    join = () => {
+    join = (password) => {
+        const passBody = JSON.stringify({password});
         const request = new Request(
-          server_url + '/game/' + this.id + '/join', { method:'PUT', mode: 'cors', credentials: 'include'}
+          server_url + '/game/' + this.id + '/join', Put(passBody)
          );
         return fetch(request).then((response) => {
            if (response.ok){return response.json();}

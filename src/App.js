@@ -3,8 +3,6 @@ import OhHellContainer from './components/OhHellContainer.js';
 
 import './App.css'
 
-//TODO: Need to create lobby components.
-
 class App extends Component {
    constructor(){
      super();
