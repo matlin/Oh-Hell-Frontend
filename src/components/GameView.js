@@ -108,30 +108,40 @@ function Opponent (props){
     margin-right:10px;
     text-align:left;
   `;
+  let scoreSum = 0;
+  for(let i = 0; i < Object.keys(props.state.state.scores.round).length; i++){
+    scoreSum += Object.values(props.state.state.scores.round)[i][name];
+  }
   return (
-    <div style={{"backgroundColor": color}} className="opponent">
+    <div className="opponent">
       <h4>{name}</h4><hr />
-      <PlayerInfo>
-        <span>Bet: {bets}</span><br />
-        <span>Tricks: {tricks}</span>
-      </PlayerInfo>
+
+      <span>Bet: {bets}</span><br />
+      <span>Tricks: {tricks}</span><br />
+      <span>Score: {scoreSum}</span>
+      <div className="playingCards inText">
        {(() => {
           if (props.card){
-            return (
-              <div style={{"float":"right"}} className="playingCards">
-                <Card code={props.card.id} />
-              </div>
-            );
+            //console.log(name, " played ", props.card)
+            return <Card code={props.card.id} />;
           }
         })()}
+      </div>
     </div>
   );
 }
 
+
 function Card(props){
   let sizeClass = props.small ? 'inText' : 'simpleCards';
   let code = props.code;
-  let rank = code.substring(0, code.length == 2 ? 1 : 2);
+  let rank;
+  if(props.code.id){
+    rank = props.code.id.slice(0,props.code.length-1);
+  } else{
+    rank = code.substring(0, code.length == 2 ? 1 : 2);
+  }
+  console.log(rank);
   let suit = code[code.length == 2 ? 1 : 2];
   const suitMap = {D: 'diams',H: 'hearts',S: 'spades',C: 'clubs'}
   const charMap = {D: '9830',H: '9829',S: '9824',C: '9827'}
