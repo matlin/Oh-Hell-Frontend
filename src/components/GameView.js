@@ -4,6 +4,7 @@ import Server from "../server.js";
 import "../gameview.css";
 import "../cards.css";
 import PregameView from "./PregameView.js";
+import io from "socket.io-client";
 import {
   Button,
 } from 'react-bootstrap';
@@ -20,6 +21,7 @@ class GameView extends Component {
       server: new Server.Game(props.gameID, this.stateCallback.bind(this)),
       loading: true
     };
+  }
 
 
   componentDidMount() {
