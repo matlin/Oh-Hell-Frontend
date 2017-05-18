@@ -1,4 +1,5 @@
-const server_url = 'http://localhost:4000';
+const server_url = 'https://oh-hell.herokuapp.com/';
+//const server_url = 'https://oh-hell.herokuapp.com';
 
 //allow instantiating with gameID and callback
 function Post(body) {

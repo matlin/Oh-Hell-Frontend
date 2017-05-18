@@ -31,7 +31,8 @@ class GameView extends Component {
   componentDidMount() {
     console.log("Game view mounted");
     this.loadGame();
-    const socket = io("http://localhost:4001");
+    console.log('socket link', Server.url);
+    const socket = io(Server.url);
     socket.emit("join", this.state.id);
     socket.on("update", data => {
       this.socketCallback(data);
