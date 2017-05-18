@@ -1,4 +1,4 @@
-const server_url = 'https://oh-hell.herokuapp.com/';
+const server_url = 'https://oh-hell.herokuapp.com';
 //const server_url = 'https://oh-hell.herokuapp.com';
 
 //allow instantiating with gameID and callback
