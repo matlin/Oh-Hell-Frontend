@@ -107,7 +107,11 @@ class Lobby extends Component {
     let joinedGames = this.gameList(this.state.joinedGames);
     let openGames = this.gameList(this.state.openGames);
     return (
-      <div className="overlay" style={{ margin: "0 auto", maxWidth: "650px" }} id="Lobby">
+      <div
+        className="overlay"
+        style={{ margin: "0 auto", maxWidth: "650px" }}
+        id="Lobby"
+      >
         <ListGroup>
           <LobbyModal
             showModal={this.state.showModal}

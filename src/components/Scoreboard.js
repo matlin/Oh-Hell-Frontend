@@ -1,37 +1,37 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import '../App.css'
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import "../App.css";
 
 //TODO sorting by score
 
-class Scoreboard extends Component{
-  constructor(props){
-    super()
+class Scoreboard extends Component {
+  constructor(props) {
+    super();
   }
 
-  render(){
-
+  render() {
     let i = -1;
-    const mytable = this.props.players.map((player)=>{
-      i ++;
+    const mytable = this.props.players.map(player => {
+      i++;
       return (
         <tr key={player._id}>
           <td>{player._id}</td>
           <td>{this.props.scores[i]}</td>
-        </tr>);
+        </tr>
+      );
     });
 
-    return(
-      <div id='our-table'>
-      <table>
-      <tbody>
-      <tr>
-      <th>Players</th>
-      <th>Scores</th>
-      </tr>
-      {mytable}
-      </tbody>
-      </table>
+    return (
+      <div id="our-table">
+        <table>
+          <tbody>
+            <tr>
+              <th>Players</th>
+              <th>Scores</th>
+            </tr>
+            {mytable}
+          </tbody>
+        </table>
       </div>
     );
   }
@@ -39,7 +39,7 @@ class Scoreboard extends Component{
 
 Scoreboard.propTypes = {
   players: PropTypes.array.isRequired,
-  scores: PropTypes.array.isRequired,
-}
+  scores: PropTypes.array.isRequired
+};
 
 export default Scoreboard;

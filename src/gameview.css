@@ -1,6 +1,14 @@
 body{
   background: url(http://www.customtablefelt.com/images/suited-poker-felt/suited-poker-table-felt-400x300.jpg);
 }
+h1 {
+  padding-right: 10px;
+  font-family: 'Lobster', cursive;
+}
+
+html body div{
+  font-family: 'Cabin', sans-serif;
+}
 div.overlay{
   box-shadow:0px 0px 15px 6px rgba(0,0,0,0.6)
 }

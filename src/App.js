@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import OhHellContainer from './components/OhHellContainer.js';
 
-import './App.css'
+//import './App.css'
 
 class App extends Component {
    constructor(){

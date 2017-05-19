@@ -64,7 +64,9 @@ class PregameView extends Component {
   }
 
   render() {
-    let joinedList = this.props.players.map( username => <PlayerName>{username}</PlayerName> );
+    let joinedList = this.props.players.map(username => (
+      <PlayerName>{username}</PlayerName>
+    ));
     console.log("Did we join the game?", this.props.joined);
     let userBar = [];
     for (let i = 0; i < this.props.maxPlayers; i++) {
@@ -77,7 +79,13 @@ class PregameView extends Component {
     let passwordField;
     if (this.props.hasPassword && !this.props.joined) {
       passwordField = (
-        <Form style={{ "margin-top": "2px", "margin-bottom": "5px", "text-align":"left" }}>
+        <Form
+          style={{
+            "margin-top": "2px",
+            "margin-bottom": "5px",
+            "text-align": "left"
+          }}
+        >
           <ControlLabel>Password</ControlLabel>
           <FormControl
             type="password"
@@ -114,8 +122,8 @@ class PregameView extends Component {
     } else {
       //joinButton becomes a start button for the owner
       console.log(this.props.players.length < this.props.minPlayers);
-      joinButton =
-        (<StyledButton
+      joinButton = (
+        <StyledButton
           onClick={this.props.start}
           bsStyle="danger"
           disabled={this.props.players.length < this.props.minPlayers}

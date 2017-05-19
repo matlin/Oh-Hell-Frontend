@@ -10,8 +10,12 @@ import {
   ControlLabel,
   FormControl
 } from "react-bootstrap";
-import { BrowserRouter as Router, Route, Redirect, Link } from "react-router-dom";
-
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Link
+} from "react-router-dom";
 
 const LobbyHeader = styled.h1`
   color: lightgrey;
@@ -35,19 +39,19 @@ const StyledLink = styled(Link)`
 `;
 
 // TODO: add functionality if invalid credientails
-class Login extends Component{
-  constructor(props){
+class Login extends Component {
+  constructor(props) {
     super(props);
     this.state = {
       email: "",
       password: ""
-    }
-    if (document.cookie.indexOf('id') !== -1){
+    };
+    if (document.cookie.indexOf("id") !== -1) {
       this.login();
     }
   }
 
-  componentDidMount(){
+  componentDidMount() {
     // if (document.cookie.indexOf('id') !== -1){
     //   this.login();
     // }
@@ -57,24 +61,29 @@ class Login extends Component{
     this.setState({ [field]: event.target.value });
   }
 
-  login(){
-    if (this.state.email && this.state.password){
+  login() {
+    if (this.state.email && this.state.password) {
       const user = {
         email: this.state.email,
         password: this.state.password
-      }
-      Server.User.login(user).then(response => {
-        console.log("Login response", response);
-        if (response.user){
-          this.props.setUser(response.user);
-          this.props.redirect();
-        }else{
-          window.alert('Either password or username is incorrect');
+      };
+      Server.User.login(user).then(
+        response => {
+          console.log("Login response", response);
+          if (response.user) {
+            this.props.setUser(response.user);
+            this.props.redirect();
+          } else {
+            window.alert("Either password or username is incorrect");
+          }
+        },
+        error => {
+          window.alert("Either password or username is incorrect");
         }
-      }, error =>  {window.alert('Either password or username is incorrect');});
-    }else{
+      );
+    } else {
       Server.User.login().then(response => {
-        if (response.user){
+        if (response.user) {
           this.props.setUser(response.user);
           this.props.redirect();
         }
@@ -99,7 +108,7 @@ class Login extends Component{
                 onChange={event => this.handleTextUpdate(event, "email")}
               />
             </div>
-            <div style={{"margin-top": "10px","margin-bottom": "5px" }}>
+            <div style={{ "margin-top": "10px", "margin-bottom": "5px" }}>
               <ControlLabel>Password</ControlLabel>
               <FormControl
                 type="password"
@@ -112,13 +121,17 @@ class Login extends Component{
 
           <Link to="/lobby">
             <StyledButton
-              disabled={this.state.email.trim() === "" || this.state.password.trim() === ""}
-              onClick={() => this.login()}>
+              disabled={
+                this.state.email.trim() === "" ||
+                  this.state.password.trim() === ""
+              }
+              onClick={() => this.login()}
+            >
               Login
             </StyledButton>
           </Link>
           <StyledLink to="/register">
-              Not Registered?
+            Not Registered?
           </StyledLink>
         </ListGroupItem>
       </div>

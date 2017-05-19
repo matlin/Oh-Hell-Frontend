@@ -76,7 +76,7 @@ class Register extends Component {
                 onChange={event => this.handleTextUpdate(event, "email")}
               />
             </div>
-            <div style={{ "marginTop": "10px" }}>
+            <div style={{ marginTop: "10px" }}>
               <ControlLabel>Username</ControlLabel>
               <FormControl
                 type="text"
@@ -85,7 +85,7 @@ class Register extends Component {
                 onChange={event => this.handleTextUpdate(event, "username")}
               />
             </div>
-            <div style={{ "marginTop": "10px", "marginBottom": "5px" }}>
+            <div style={{ marginTop: "10px", marginBottom: "5px" }}>
               <ControlLabel>Password</ControlLabel>
               <FormControl
                 type="password"

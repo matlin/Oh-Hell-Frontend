@@ -5,9 +5,7 @@ import "../gameview.css";
 import "../cards.css";
 import PregameView from "./PregameView.js";
 import io from "socket.io-client";
-import {
-  Button,
-} from 'react-bootstrap';
+import { Button } from "react-bootstrap";
 
 const PersonalStats = styled.p`
   display: inline-block;
@@ -27,11 +25,10 @@ class GameView extends Component {
     };
   }
 
-
   componentDidMount() {
     console.log("Game view mounted");
     this.loadGame();
-    console.log('socket link', Server.url);
+    console.log("socket link", Server.url);
     const socket = io(Server.url);
     socket.emit("join", this.state.id);
     socket.on("update", data => {
@@ -46,16 +43,15 @@ class GameView extends Component {
   loadGame() {
     if (this.state.id) {
       this.state.server.get();
-    }else{
-      console.error('No game id provided');
+    } else {
+      console.error("No game id provided");
     }
   }
 
-  socketCallback = (response) => {
+  socketCallback = response => {
     //TODO add check for game id
     this.loadGame();
-  }
-
+  };
 
   stateCallback(response) {
     console.log("Http response: ", response);
@@ -118,7 +114,7 @@ function Opponent(props) {
   let name = props.name;
   let bets = props.state.state.bets[name];
   let tricks = props.state.state.tricks[name] || 0;
-  let borderColor = (props.turn ? '3px solid yellow' : '2px solid #751010');
+  let borderColor = props.turn ? "3px solid yellow" : "2px solid #751010";
   let PlayerInfo = styled.div`
     display:inline-block;
     float:left;
@@ -130,14 +126,17 @@ function Opponent(props) {
     scoreSum += Object.values(props.state.state.scores.round)[i][name];
   }
   return (
-    <div style={{"border": borderColor}} className="opponent">
+    <div style={{ border: borderColor }} className="opponent">
       <PlayerInfo>
-        <h4 style={{"font-family":"Lobster"}}>{name}</h4><hr />
+        <h4 style={{ "font-family": "Lobster" }}>{name}</h4><hr />
         <span>Bet: {bets}</span><br />
         <span>Tricks: {tricks}</span><br />
         <span>Score: {scoreSum}</span>
       </PlayerInfo>
-      <div style={{"float":"right", "padding-top": "10%"}} className="playingCards">
+      <div
+        style={{ float: "right", "padding-top": "10%" }}
+        className="playingCards"
+      >
         {(() => {
           if (props.card) {
             //console.log(name, " played ", props.card)
@@ -153,9 +152,9 @@ function Card(props) {
   let sizeClass = props.small ? "inText" : "simpleCards";
   let code = props.code;
   let rank;
-  if(props.code.id){
-    rank = props.code.id.slice(0,props.code.length-1);
-  } else{
+  if (props.code.id) {
+    rank = props.code.id.slice(0, props.code.length - 1);
+  } else {
     rank = code.substring(0, code.length == 2 ? 1 : 2);
   }
   console.log(rank);
@@ -175,14 +174,14 @@ function Card(props) {
   );
 }
 class MessageTicker extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
   }
-  componentDidUpdate(){
+  componentDidUpdate() {
     console.log("message window", this.scrollWindow);
     this.scrollWindow.scrollTop = this.scrollWindow.scrollHeight;
   }
-  render(){
+  render() {
     const MessageDiv = styled.div`
       position: absolute;
       bottom: 0px;
@@ -203,7 +202,11 @@ class MessageTicker extends Component {
     return (
       <MessageDiv>
         <h5>Messages</h5>
-        <MessageWindow innerRef={(scrollWindow) => { this.scrollWindow = scrollWindow;}}>
+        <MessageWindow
+          innerRef={scrollWindow => {
+            this.scrollWindow = scrollWindow;
+          }}
+        >
           {messages}
         </MessageWindow>
       </MessageDiv>
@@ -224,7 +227,15 @@ function GameTable(props) {
       let player = players.shift();
       const turn = props.state.turn === player;
       console.log(`${player}'s turn? ${turn} `);
-      containers[i].push(<Opponent key={player} turn={turn} state={props} card={props.state.cardsInPlay[player]} name={player} />);
+      containers[i].push(
+        <Opponent
+          key={player}
+          turn={turn}
+          state={props}
+          card={props.state.cardsInPlay[player]}
+          name={player}
+        />
+      );
     }
   }
   // self view components
@@ -234,28 +245,43 @@ function GameTable(props) {
   }
   let bets = props.state.bets[props.username];
   let tricks = props.state.tricks[props.username] || 0;
-  let borderColor = (props.state.turn === props.username ? '3px solid yellow' : '2px solid #751010');
+  let borderColor = props.state.turn === props.username
+    ? "3px solid yellow"
+    : "2px solid #751010";
   return (
     <div id="grid">
       <div id="left-table">{containers[0]}</div>
       <div id="top-table">{containers[1]}</div>
       <div id="right-table">{containers[2]}</div>
       <div id="table">
-        <h3 style={{"font-family":"Lobster"}}>Oh Hell</h3>
-        <div className="playingCards inText">Trump: <Card code={props.state.trumpCard.id} /></div>
-          <p>Turn: {props.state.turn}</p>
-          <p>Dealer: {props.state.dealer}</p>
-          <MessageTicker messages={props.state.messages} />
+        <h3 style={{ "font-family": "Lobster" }}>Oh Hell</h3>
+        <div className="playingCards inText">
+          Trump: <Card code={props.state.trumpCard.id} />
+        </div>
+        <p>Turn: {props.state.turn}</p>
+        <p>Dealer: {props.state.dealer}</p>
+        <MessageTicker messages={props.state.messages} />
       </div>
-      <div id="hand" style={{"border": borderColor}} className="playingCards">
-        <h3 style={{"font-family":"Lobster"}}>{props.username}</h3>
+      <div id="hand" style={{ border: borderColor }} className="playingCards">
+        <h3 style={{ "font-family": "Lobster" }}>{props.username}</h3>
         <div>
           <PersonalStats>Bet: {bets}</PersonalStats>
           <PersonalStats>Tricks: {tricks}</PersonalStats>
           <PersonalStats>Score: {scoreSum}</PersonalStats>
         </div>
-        <BetMaker betFunc={props.server.bet} bet={props.state.bets[props.username]} show={props.state.betting} maxBet={props.state.hand.length} />
-        <Hand play={(cardID) => {props.server.playCard(cardID)}} state={props} cards={props.state.hand.map(card => card.id)} />
+        <BetMaker
+          betFunc={props.server.bet}
+          bet={props.state.bets[props.username]}
+          show={props.state.betting}
+          maxBet={props.state.hand.length}
+        />
+        <Hand
+          play={cardID => {
+            props.server.playCard(cardID);
+          }}
+          state={props}
+          cards={props.state.hand.map(card => card.id)}
+        />
       </div>
     </div>
   );
@@ -264,12 +290,22 @@ function GameTable(props) {
 function BetMaker(props) {
   if (props.show === true) {
     let betButtons = [];
-    for (let i=0; i<=props.maxBet; i++){
+    for (let i = 0; i <= props.maxBet; i++) {
       const haveBet = props.bet != null;
       const style = props.bet === i ? "success" : "default";
       betButtons.push(
         //<Button type="button" key={"bet" + i} disabled={haveBet} style={{"backgroundColor": color}} onClick={() => {props.betFunc(i)}} value={i} />
-        <Button bsSize="xs" bsStyle={style} onClick={() => {props.betFunc(i)}} disabled={haveBet} key={"bet" + i}>{i}</Button>
+        <Button
+          bsSize="xs"
+          bsStyle={style}
+          onClick={() => {
+            props.betFunc(i);
+          }}
+          disabled={haveBet}
+          key={"bet" + i}
+        >
+          {i}
+        </Button>
       );
     }
     return <div>Click to bet: {betButtons}</div>;
@@ -295,8 +331,7 @@ function Hand(props) {
   );
 }
 
-
-function threeDistribution(listorlength){
+function threeDistribution(listorlength) {
   let length, result, dist;
   if (Array.isArray(listorlength)) {
     length = listorlength.length;
