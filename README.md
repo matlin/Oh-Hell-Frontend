@@ -1,15 +1,16 @@
 Oh Hell Frontend is an open source web client to connect the [Oh Hell Backend](https://github.com/matlin/Oh-Hell-Backend)
 
+A live version is available at **https://oh-hell.netlify.com**
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to run the frontend on your own system.<br>
- [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
-## Deployment
+## Deployment 
 
 Edit `server.js` and change `server_url` to the server running an instance of oh-hell-backend. Most likely should be "http://localhost:4000".
 Then start the server with `npm install` then `npm start`. By default the website will be available at "http://localhost:3000".
--
+
 ## Folder Structure
 
 After creation, your project should look like this:
