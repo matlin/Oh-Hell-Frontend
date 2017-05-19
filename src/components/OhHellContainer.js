@@ -29,7 +29,8 @@ class OhHellContainer extends Component {
   }
 
   isLoggedIn(){
-    return document.cookie.indexOf('id') !== -1 && this.state.username != null;
+    //need to make this more robust
+    return this.state.username != null;
   }
 
   render(){
