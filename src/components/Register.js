@@ -54,7 +54,9 @@ class Register extends Component {
       password: this.state.password,
       email: this.state.email
     };
-    Server.User.register(user);
+    Server.User.register(user).then(res => {
+      this.props.setUser(res.user);
+    });
   }
 
   render() {

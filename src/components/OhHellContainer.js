@@ -42,7 +42,7 @@ class OhHellContainer extends Component {
             <NavButton/>
           </div>
           <Route path='/login' render={({match, history}) => <Login redirect={history.goBack} setUser={this.setUser}/>}/>
-          <Route path='/register' render={() => <Register/>}/>
+          <Route path='/register' render={() => <Register setUser={this.setUser} />}/>
           <Route path='/lobby' render={ ({history}) => {
             if (this.isLoggedIn()){
               return <Lobby/>
