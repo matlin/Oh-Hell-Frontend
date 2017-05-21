@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import Server from "../server.js";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import {
   Button,
   Modal,
   Form,
-  FormGroup,
   ControlLabel,
   FormControl,
   Checkbox
@@ -94,5 +93,12 @@ class LobbyModal extends Component {
     );
   }
 }
+
+LobbyModal.propTypes = {
+  close: PropTypes.func.isRequired,
+  showModal: PropTypes.bool.isRequired,
+  submit: PropTypes.func.isRequired
+};
+
 
 export default LobbyModal;

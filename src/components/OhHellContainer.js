@@ -3,16 +3,12 @@ import Login from "./Login.js";
 import Register from "./Register.js";
 import GameView from "./GameView.js";
 import Lobby from "./gameLobby.js";
-import Server from "../server.js";
 import NavButton from "./NavButton.js";
 import {
   BrowserRouter as Router,
   Route,
-  Link,
   Redirect
 } from "react-router-dom";
-
-const SERVER = "http://localhost:4000";
 
 class OhHellContainer extends Component {
   constructor() {
@@ -32,7 +28,6 @@ class OhHellContainer extends Component {
   }
 
   render() {
-    console.log("loaded container");
     return (
       <Router>
         <div>
@@ -64,9 +59,7 @@ class OhHellContainer extends Component {
           <Route
             path="/game/:id"
             render={({ match, history }) => {
-              console.log("Accessing game route");
               if (this.isLoggedIn()) {
-                console.log("Rendering game view for " + this.state.username);
                 return (
                   <GameView
                     username={this.state.username}

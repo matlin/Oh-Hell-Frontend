@@ -1,7 +1,5 @@
-import styled from "styled-components";
-import React, { Component } from "react";
+import React from "react";
 import { Dropdown, MenuItem, Glyphicon } from "react-bootstrap";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 
 function NavButton(props) {

@@ -5,17 +5,15 @@
 import React, { Component } from "react";
 import Server from "../server.js";
 import LobbyModal from "./LobbyModal.js";
-import NavButton from "./NavButton.js";
 import styled from "styled-components";
 import {
-  Panel,
   ListGroup,
   ListGroupItem,
   Button,
   Clearfix,
   Glyphicon
 } from "react-bootstrap";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const StyledRefreshButton = styled(Button)`
   line-height: 70px;

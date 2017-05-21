@@ -1,17 +1,15 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import {
-  Panel,
-  ListGroup,
   ListGroupItem,
   Form,
   FormControl,
   ControlLabel,
   Button,
-  Clearfix,
   Glyphicon
 } from "react-bootstrap";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const EmptyUser = styled(Glyphicon)`
   color: #CA5F5F;
@@ -99,7 +97,6 @@ class PregameView extends Component {
       passwordField = null;
     }
     let joinButton;
-    let cancel;
     if (!this.props.joined) {
       joinButton = (
         <StyledButton
@@ -121,7 +118,6 @@ class PregameView extends Component {
       );
     } else {
       //joinButton becomes a start button for the owner
-      console.log(this.props.players.length < this.props.minPlayers);
       joinButton = (
         <StyledButton
           onClick={this.props.start}
@@ -151,5 +147,17 @@ class PregameView extends Component {
     );
   }
 }
+
+PregameView.propTypes = {
+  maxPlayers: PropTypes.number.isRequired,
+  minPlayers: PropTypes.number.isRequired,
+  players: PropTypes.array.isRequired,
+  gameName: PropTypes.string.isRequired,
+  hasPassword: PropTypes.bool.isRequired,
+  joined: PropTypes.bool.isRequired,
+  isOwner: PropTypes.bool.isRequired,
+  join: PropTypes.func.isRequired,
+  start: PropTypes.func.isRequired
+};
 
 export default PregameView;

@@ -1,19 +1,15 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import Server from "../server.js";
+import PropTypes from "prop-types";
 import {
-  ListGroup,
   ListGroupItem,
   Button,
   Form,
-  FormGroup,
   ControlLabel,
   FormControl
 } from "react-bootstrap";
 import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
   Link
 } from "react-router-dom";
 
@@ -108,7 +104,7 @@ class Login extends Component {
                 onChange={event => this.handleTextUpdate(event, "email")}
               />
             </div>
-            <div style={{ "margin-top": "10px", "margin-bottom": "5px" }}>
+            <div style={{ "marginTop": "10px", "marginBottom": "5px" }}>
               <ControlLabel>Password</ControlLabel>
               <FormControl
                 type="password"
@@ -138,5 +134,11 @@ class Login extends Component {
     );
   }
 }
+
+Login.propTypes = {
+  setUser: PropTypes.func.isRequired,
+  redirect: PropTypes.func.isRequired
+};
+
 
 export default Login;

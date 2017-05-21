@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import Server from "../server.js";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import {
-  ListGroup,
   ListGroupItem,
   Button,
   Form,
-  FormGroup,
   ControlLabel,
   FormControl
 } from "react-bootstrap";
@@ -44,10 +43,12 @@ class Register extends Component {
     };
   }
 
+  // helper function for easy state updating
   handleTextUpdate(event, field) {
     this.setState({ [field]: event.target.value });
   }
 
+  //pulls information from state and makes request to API
   register() {
     const user = {
       username: this.state.username,
@@ -115,5 +116,9 @@ class Register extends Component {
     );
   }
 }
+
+Register.propTypes = {
+  setUser: PropTypes.func.isRequired
+};
 
 export default Register;
