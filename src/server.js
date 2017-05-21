@@ -1,3 +1,7 @@
+/* This is the server class. In contains every request that the front end makes.
+ * Any component that makes a request should import class.
+ */
+
 const server_url = "https://oh-hell.herokuapp.com";
 //const server_url = 'https://oh-hell.herokuapp.com';
 

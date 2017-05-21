@@ -1,3 +1,7 @@
+/* This is the lobby modal component. It has functionality to let a user make
+ * a public or a private game, and name it. It's form fields have state.
+ */
+
 import React, { Component } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";

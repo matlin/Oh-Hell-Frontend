@@ -1,3 +1,8 @@
+/* This is the login-form component. It can make requests to the server to log
+ * a user in. It is displayed by default if a user does not have a valid cookie.
+ */
+
+
 import React, { Component } from "react";
 import styled from "styled-components";
 import Server from "../server.js";

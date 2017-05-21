@@ -1,6 +1,7 @@
-// This file contains a functional component to render a game lobby
-// Props: an array of games, a callback to set view state, a callback to
-// join a game, a callback to create a game, a server.
+/* This is the lobby component. It will display all of a users games
+ * from the server, and the games that they can join. It has a child component,
+ * lobby modal, which handles game creation. It's state is a list of games.
+ */
 
 import React, { Component } from "react";
 import Server from "../server.js";
@@ -80,7 +81,7 @@ class Lobby extends Component {
       }
       let lockGlyph = game.hasPassword ? <Glyphicon glyph="lock" /> : null;
       return (
-        <ListGroupItem className="overlay">
+        <ListGroupItem key={game.id} className="overlay">
           <Clearfix>
             <div style={{ display: "inline-block" }}>
               <div>

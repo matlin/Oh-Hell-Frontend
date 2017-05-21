@@ -1,3 +1,9 @@
+/* This is the container component for most of the app. It handles the
+ * react-routing rendering. It also handles redirecting users who aren't logged
+ * in.
+ */
+
+
 import React, { Component } from "react";
 import Login from "./Login.js";
 import Register from "./Register.js";

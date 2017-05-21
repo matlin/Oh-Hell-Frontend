@@ -1,3 +1,8 @@
+/* This is the nav-button component. It lets a user navigate between the login
+ * and lobby screens. It is especially useful when redirecting doesn't work on
+ * the login page.
+ */
+
 import React from "react";
 import { Dropdown, MenuItem, Glyphicon } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";

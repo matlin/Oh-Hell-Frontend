@@ -1,3 +1,9 @@
+/* This file contains the GameView component in which users interact with the
+ * game. It has a PregameView child component that is displayed before the game
+ * starts. It has state, and that state should also be consistent with the
+ * gamestate stored on the server.
+ */
+
 import React, { Component } from "react";
 import styled from "styled-components";
 import Server from "../server.js";
@@ -26,9 +32,7 @@ class GameView extends Component {
   }
 
   componentDidMount() {
-    console.log("Game view mounted");
     this.loadGame();
-    console.log("socket link", Server.url);
     const socket = io(Server.url);
     socket.emit("join", this.state.id);
     socket.on("update", data => {
@@ -54,7 +58,6 @@ class GameView extends Component {
   };
 
   stateCallback(response) {
-    console.log("Http response: ", response);
     if (response.alert) {
       window.alert(response.alert);
     }
@@ -73,7 +76,6 @@ class GameView extends Component {
   }
 
   render() {
-    console.log("rendering from", this.state.gameState);
     if (this.state.loading === true) {
       return <p>Loading game...</p>;
     }
@@ -81,7 +83,6 @@ class GameView extends Component {
       this.state.gameState.joined === false ||
       this.state.gameState.started === false
     ) {
-      console.log("joined?", this.state.gameState.joined);
       return (
         <PregameView
           maxPlayers={this.state.gameState.maxPlayers}

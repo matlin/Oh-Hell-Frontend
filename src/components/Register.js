@@ -1,3 +1,8 @@
+/* This is the register-form component. It can make requests to the server to
+ * register a user. It is accesible from the login component or with the
+ * '/register' react-router url. 
+ */
+
 import React, { Component } from "react";
 import styled from "styled-components";
 import Server from "../server.js";

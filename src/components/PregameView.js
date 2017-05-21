@@ -1,3 +1,8 @@
+/* This is the PregameView component. It should be displayed when a game is
+ * waiting to be filled up with players and started. It displays how many
+ * players are in the game and their usernames.
+ */
+ 
 import React, { Component } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
@@ -63,15 +68,14 @@ class PregameView extends Component {
 
   render() {
     let joinedList = this.props.players.map(username => (
-      <PlayerName>{username}</PlayerName>
+      <PlayerName key={username}>{username}</PlayerName>
     ));
-    console.log("Did we join the game?", this.props.joined);
     let userBar = [];
     for (let i = 0; i < this.props.maxPlayers; i++) {
       if (i < this.props.players.length) {
-        userBar.push(<FullUser glyph="user" />);
+        userBar.push(<FullUser key={i} glyph="user" />);
       } else {
-        userBar.push(<EmptyUser glyph="user" />);
+        userBar.push(<EmptyUser key={i} glyph="user" />);
       }
     }
     let passwordField;
