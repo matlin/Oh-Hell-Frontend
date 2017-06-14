@@ -1,6 +1,6 @@
 Oh Hell Frontend is an open source web client to connect the [Oh Hell Backend](https://github.com/matlin/Oh-Hell-Backend)
 
-A live version is available at **https://oh-hell.netlify.com**
+A live version is available at **https://oh-hell.netlify.com** **[DO NOT USE REAL EMAIL OR PW]**
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
